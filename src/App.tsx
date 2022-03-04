@@ -9,7 +9,10 @@ function App() {
       </h1>
      
       <Route path="/login">
-        <div>login</div>
+        <div>
+        
+        </div>
+        
       </Route>
     </div>
     

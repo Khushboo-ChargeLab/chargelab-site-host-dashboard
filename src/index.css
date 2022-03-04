@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: Avenir Next LT Pro;
+    src        : url('../src/assets/fonts/AvenirNextLTPro-Regular.otf');
+}
+
+@font-face {
+    font-family: Avenir Next LT Pro B;
+    src        : url('../src/assets/fonts/AvenirNextLTPro-Demi.otf');
+}
