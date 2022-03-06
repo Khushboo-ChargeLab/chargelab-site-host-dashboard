@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import store from './stores/store';
 import "./index.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import "./i18n"
 
 ReactDOM.render(
     <Provider store={store}>
