@@ -11,7 +11,7 @@ const LANGUAGES = [
     'fr'
 ]
 const JSON_PATH = path.join(path.resolve('./'),'public/locales/')
-const CSV_PATH = path.join(path.resolve('./'), 'scripts/translations/translation.csv')
+const CSV_PATH = path.join(path.resolve('./'), 'scripts/translations/translations.csv')
 
 translationMain()
 
