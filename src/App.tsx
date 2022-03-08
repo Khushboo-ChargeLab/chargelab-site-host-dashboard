@@ -17,21 +17,26 @@ function App() {
   };
   const { setExport } = useExport();
   const a = 12389.12
-  console.log(a.toLocaleCurrency('EUR'))
   return (
     <div className="App">
       <h1 className="text-3xl font-bold underline">
-      {t('hello_world')} {new Date().toMMDDhhmma()} {a.toLocaleCurrency('EUR')}
+      {t('hello_world')}
       </h1>
-      <div>
-        <button onClick={() => changeLanguage("en-US")}>English</button>
-        <button onClick={() => changeLanguage("es")}>Español</button>
-        <button onClick={() => changeLanguage("fr")}>Français</button>
-      </div>
-        <div>
-        <button onClick={() => setExport(data,'csv','testcsv')}>{t('export_csv')}</button>
-        <button onClick={() => setExport(data,'pdf','testpdf')}>{t('export_pdf')}</button>
-        </div>
+      <button onClick={() => changeLanguage("en-US")}>English</button>
+      <button onClick={() => changeLanguage("es")}>Español</button>
+      <button onClick={() => changeLanguage("fr")}>Français</button>
+      <br/><br/>
+      <h1 className="text-3xl font-bold underline">
+      {new Date().toMMDDhhmma()}
+      </h1>
+      <br/><br/>
+      <h1 className="text-3xl font-bold underline">
+      {a.toLocaleCurrency('EUR')}
+      </h1>
+      <br/><br/>
+      <button onClick={() => setExport(data,'csv','testcsv')}>{t('export_csv')}</button>
+      <br/>
+      <button onClick={() => setExport(data,'pdf','testpdf')}>{t('export_pdf')}</button>
       <Route path="/login">
         <div>
         
