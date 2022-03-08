@@ -1,3 +1,5 @@
 key,en-US,es,fr
 hello_world,hello world,Hola Mundo,Bonjour le monde
 dashboard_title,ChargeLab Dashboard,ChargeLab Dashboard,ChargeLab Dashboard
+export_csv,Export CSV,,
+export_pdf,Export PDF,,

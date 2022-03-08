@@ -9,7 +9,7 @@ const i18n = i18next
   .use(initReactI18next)
   .init(
     {
-      lng:'en-US',
+      lng: navigator.language,
       fallbackLng: 'en-US',
       backend: {
         loadPath: "/locales/{{lng}}/{{ns}}.json",

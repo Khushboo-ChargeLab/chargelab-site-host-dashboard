@@ -7,6 +7,7 @@ import store from './stores/store';
 import "./index.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./i18n"
+import "./extensions"
 
 ReactDOM.render(
     <Provider store={store}>
