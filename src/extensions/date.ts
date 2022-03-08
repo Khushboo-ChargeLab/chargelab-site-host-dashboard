@@ -1,4 +1,8 @@
 /* eslint-disable no-extend-native */
+
+// Check more details here:
+// https://chargelab.atlassian.net/wiki/spaces/PE/pages/1531609089/Built-in+type+extensions
+
 /**
  * Mask	Description	
  * YYYY	4-digits year	1984
@@ -15,6 +19,7 @@
  * mm	2-digit minute	13
  * ss	2-digit second	37
  */
+
 declare global {  
     interface Date {    
       toMMYYYY(): string;    

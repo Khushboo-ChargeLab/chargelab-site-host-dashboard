@@ -1,4 +1,7 @@
 /* eslint-disable no-extend-native */
+
+// Check more details here:
+// https://chargelab.atlassian.net/wiki/spaces/PE/pages/1531609089/Built-in+type+extensions 
 declare global {  
   interface Number {    
     toThousandSeperator(): string;    
@@ -10,8 +13,6 @@ declare global {
 Number.prototype.toThousandSeperator = function(): string {  
   return Intl.NumberFormat().format(Number(this))
 }   
-
-// check locals code and currency code list on confluence
 
 // 12389.12 -> $12,389.12
 Number.prototype.toLocaleCurrency = function(currency='USD'): string {  
