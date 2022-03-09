@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-
+import { convertToLocaleCurrency } from './utils'
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -9,7 +9,6 @@ function App() {
     i18n.changeLanguage(lng);
   };
 
-  const a = 12389.12
   return (
     <div className="App">
       <h1 className="text-3xl font-bold underline">
@@ -20,7 +19,7 @@ function App() {
       <button onClick={() => changeLanguage("fr")}>Français</button>
       <br/><br/>
       <h1 className="text-3xl font-bold underline">
-      {a.toLocaleCurrency('EUR')}
+      {convertToLocaleCurrency(12389.12,'EUR')}
       </h1>
       <Route path="/login">
         <div>
