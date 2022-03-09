@@ -20,10 +20,6 @@ function App() {
       <button onClick={() => changeLanguage("fr")}>Français</button>
       <br/><br/>
       <h1 className="text-3xl font-bold underline">
-      {new Date().toMMDDhhmma()}
-      </h1>
-      <br/><br/>
-      <h1 className="text-3xl font-bold underline">
       {a.toLocaleCurrency('EUR')}
       </h1>
       <Route path="/login">
