@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { convertToLocaleCurrency } from './utils/Currency.utility';
-import { formatDate,formatTime } from './utils/Date.utility';
+import { convertToLocaleCurrency } from './utils/Currency.Util';
+import { formatDate,formatTime } from './utils/Date.Util';
 
 function App() {
   const { t, i18n } = useTranslation();
