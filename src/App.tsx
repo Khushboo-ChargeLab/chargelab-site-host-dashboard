@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { convertToLocaleCurrency } from './utils'
+import { convertToLocaleCurrency } from './utils/Currency.utility';
+import { formatDate,formatTime } from './utils/Date.utility';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -20,6 +21,8 @@ function App() {
       <br/><br/>
       <h1 className="text-3xl font-bold underline">
       {convertToLocaleCurrency(12389.12,'EUR')}
+      <br/>{formatDate(new Date())}
+      <br/>{formatTime(new Date())}
       </h1>
       <Route path="/login">
         <div>
