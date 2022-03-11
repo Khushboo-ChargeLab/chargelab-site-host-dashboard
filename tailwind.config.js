@@ -9,7 +9,10 @@ module.exports = {
     },
     colors:{
       'black':'#202223',
-      'silver':'#F5F6F8',
+      'silver':'#F2F4F6',
+      'red':'#E11900',
+      'grey':'#4E5968',
+      'grey5':'#6B7684',
     },
     extend: {},
   },

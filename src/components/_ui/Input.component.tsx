@@ -1,18 +1,23 @@
-interface InputProps {
-    onChange? :()=>void;
-    label?:string;
-}
+import { Label, LabelType } from "./Label.component"
+
 export const FormInput = 
-    ({ onChange, label }: InputProps)=> {
+    ({ label = "", error = "", ...props })=> {
 
     return  (
         <div className="block">
             <div className="block pb-2">
-                <span className="text-lg font-semibold font-sans text-black">{label}</span>
+                <Label type={LabelType.LABEL_M} text={label} />
             </div>
+
             <div className="block">
-                <input className="py-3 pl-4 rounded text-base font-sans text-black bg-silver" type="text" onChange={onChange} />
+                <input 
+                    className="pl-3 pr-3 pt-2.5 pb-2.5 rounded text-sm font-sans text-black bg-silver" 
+                    {...props}/>
             </div>
+
+            {error && (
+                <Label type={LabelType.ERROR} text={error} />
+            )}
         </div>
     )
 }
