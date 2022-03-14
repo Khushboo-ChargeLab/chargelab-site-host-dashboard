@@ -10,6 +10,7 @@ export enum LabelType {
     BODY2 = 'text-base text-grey font-normal',
     BODY3 = 'text-sm text-black font-normal',
     LABEL_S = 'text-sm text-grey5 font-semibold',
+    PILL = 'text-base text-white font-semibold font-sans',
 }
 
 interface InputProps {

@@ -1,5 +1,12 @@
 key,en-US,es,fr
 hello_world,hello world,Hola Mundo,Bonjour le monde
 dashboard_title,ChargeLab Dashboard,ChargeLab Dashboard,ChargeLab Dashboard
-export_csv,Export CSV,,
-export_pdf,Export PDF,,
+export_csv,Export CSV,Export CSV,Export CSV
+export_pdf,Export PDF,Export PDF,Export PDF
+coming_soon,Coming Soon,Coming Soon,Coming Soon
+available,Available,Available,Available
+preparing,Preparing,Preparing,Preparing
+charging,Charging,Charging,Charging
+scheduled,Scheduled,Scheduled,Scheduled
+offline,Offline,Offline,Offline
+out_of_order,Out of order,Out of order,Out of order

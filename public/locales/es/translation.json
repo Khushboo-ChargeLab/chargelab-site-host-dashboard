@@ -1,6 +1,13 @@
 {
   "hello_world": "Hola Mundo",
   "dashboard_title": "ChargeLab Dashboard",
-  "export_csv": "",
-  "export_pdf": ""
+  "export_csv": "Export CSV",
+  "export_pdf": "Export PDF",
+  "coming_soon": "Coming Soon",
+  "available": "Available",
+  "preparing": "Preparing",
+  "charging": "Charging",
+  "scheduled": "Scheduled",
+  "offline": "Offline",
+  "out_of_order": "Out of order"
 }
