@@ -18,23 +18,23 @@ interface InputProps {
   bgColor?: PILL_BG_COLOR;
   isButton?: boolean;
   onClick?: () => void;
+  width?: number;
 }
 
 export const Pill = memo(
   ({
     label = "",
     bgColor = PILL_BG_COLOR.DEFAULT,
-    labelType = LabelType.LABEL_M,
+    labelType = LabelType.PILL,
     isButton = false,
     onClick,
+    width,
   }: InputProps) => {
-    const classes = `inline-block px-2.5 py-0.5 rounded-full ${bgColor}`;
+    const classes = `flex items-center justify-center rounded-3xl ${bgColor}`;
     if (isButton) {
       return (
-        <div className={classes}>
-          <span>
-            <Label type={labelType} text={label} />
-          </span>
+        <div className={classes} style={{width:(width || 120)}}>
+          <Label type={labelType} text={label} />
           <button type="button" className="pl-2" onClick={onClick!}>
             <Label type={labelType} text={"x"} />
           </button>
@@ -42,9 +42,9 @@ export const Pill = memo(
       );
     } else {
       return (
-        <span className={classes}>
+        <div className={classes} style={{width:(width || 120)}}>
           <Label type={labelType} text={label} />
-        </span>
+        </div>
       );
     }
   }

@@ -54,5 +54,5 @@ export const ChargerStatus = memo(({ status }: InputProps) => {
       color = PILL_BG_COLOR.DEFAULT;
       break;
   }
-  return <Pill label={label} bgColor={color} labelType={LabelType.PILL}></Pill>;
+  return <Pill label={label} bgColor={color} labelType={LabelType.PILL} width={120}></Pill>;
 });

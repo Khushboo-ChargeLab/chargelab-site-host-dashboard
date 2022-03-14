@@ -1,0 +1,36 @@
+.table {
+    display: table;
+    width: 100%;
+}
+
+.row {
+    display: table-row;
+}
+
+.header {
+    display: table-header-group;
+    box-shadow: inset 0px 1px 0px #E5E8EB, inset 0px -1px 0px #E5E8EB;
+}
+
+.th {
+    display: table-cell;
+    min-width: 120px;
+}
+
+.tbody{
+    display: table-row-group;
+}
+.footer {
+    box-shadow: inset 0px 1px 0px #E5E8EB;
+}
+
+.pager-span {
+    min-width: 32px !important;
+    height: 32px;
+}
+
+.current-page {
+    border-radius: 43px;
+    background-color: black;
+    color: white;
+}

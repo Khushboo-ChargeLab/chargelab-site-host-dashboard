@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { Pill, FormInput } from "./components/_ui";
+import { Pill } from "./components/_ui";
 import {
   ChargerStatus,
   CHARGE_STATUS,
@@ -11,12 +11,6 @@ function App() {
     <div className="App">
       <Route path="/login">
         <div>
-          <FormInput
-            value="sample"
-            error={"invalid email !"}
-            placeholder="Enter your email"
-            label="Email"
-          />
           <Pill label="Peter G."></Pill>
           <Pill
             label="Peter G."

@@ -10,7 +10,7 @@ export enum LabelType {
     BODY2 = 'text-base text-grey font-normal',
     BODY3 = 'text-sm text-black font-normal',
     LABEL_S = 'text-sm text-grey5 font-semibold',
-    PILL = 'text-base text-white font-semibold font-sans',
+    PILL = 'text-sm text-white font-medium font-sans pt-0.5 pb-0.5 pl-2 pr-2',
 }
 
 interface InputProps {
@@ -20,7 +20,7 @@ interface InputProps {
 
 export const Label = memo((
     {text , type}:InputProps) =>{
-
+        
     return (
         <span 
             className={type || LabelType.LABEL_M}
