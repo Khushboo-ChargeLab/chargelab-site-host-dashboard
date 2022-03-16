@@ -7,7 +7,7 @@ export enum CHARGE_STATUS {
   COMING_SOON,
   AVAILABLE,
   PREPARING,
-  CHARING,
+  CHARGING,
   SCHEDULED,
   OFFLINE,
   OUT_OF_ORDER,
@@ -33,7 +33,7 @@ export const ChargerStatus = memo(({ status }: InputProps) => {
       label = t("preparing");
       color = PILL_BG_COLOR.GREEN;
       break;
-    case CHARGE_STATUS.CHARING:
+    case CHARGE_STATUS.CHARGING:
       label = t("charging");
       color = PILL_BG_COLOR.BLUE;
       break;
@@ -54,5 +54,12 @@ export const ChargerStatus = memo(({ status }: InputProps) => {
       color = PILL_BG_COLOR.DEFAULT;
       break;
   }
-  return <Pill label={label} bgColor={color} labelType={LabelType.PILL} width={120}></Pill>;
+  return (
+    <Pill
+      label={label}
+      bgColor={color}
+      labelType={LabelType.PILL}
+      width={120}
+    ></Pill>
+  );
 });
