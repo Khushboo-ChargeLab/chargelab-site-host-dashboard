@@ -33,16 +33,16 @@ export const Pill = memo(
     const classes = `flex items-center justify-center rounded-3xl ${bgColor}`;
     if (isButton) {
       return (
-        <div className={classes} style={{width:(width || 120)}}>
+        <div className={classes} style={{width:(width || 95)}}>
           <Label type={labelType} text={label} />
-          <button type="button" className="pl-2" onClick={onClick!}>
+          <button type="button" className="flex" onClick={onClick!}>
             <Label type={labelType} text={"x"} />
           </button>
         </div>
       );
     } else {
       return (
-        <div className={classes} style={{width:(width || 120)}}>
+        <div className={classes} style={{width:(width || 95)}}>
           <Label type={labelType} text={label} />
         </div>
       );

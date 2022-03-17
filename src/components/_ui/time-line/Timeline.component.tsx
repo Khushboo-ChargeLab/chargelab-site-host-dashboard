@@ -1,6 +1,6 @@
 import { memo } from "react";
+import { Label, LabelType } from "..";
 import { formatDate } from "../../../utils/Date.Util";
-import { Label, LabelType } from "../Label.component";
 import { TimelineData } from "./types/Timeline.interface";
 
 interface InputProps {
