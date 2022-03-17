@@ -1,13 +1,14 @@
 import { memo } from "react";
-import { format, parseISO } from "date-fns";
 import {
   ChargerStatus,
   CHARGE_STATUS,
 } from "../Charger/ChargerStatus.component";
 import { Label, LabelType, Timeline } from "../_ui";
+import { TimelineData } from "../_ui/time-line/types/Timeline.interface";
+import { formatDate } from "../../utils/Date.Util";
 
 interface InputProps {
-  data: Array<Array<string>>;
+  data: TimelineData[];
 }
 
 export const SessionStatusHistory = memo(({ data }: InputProps) => {
@@ -25,7 +26,7 @@ const renderTitle = (title: string) => {
   return <ChargerStatus status={status} />;
 };
 
-const renderContent = (date: string) => {
-  const formattedString = format(parseISO(date), "MMM dd, hh:mm b");
+const renderContent = (date: Date) => {
+  const formattedString = formatDate(date, "MMM dd, hh:mm b");
   return <Label text={formattedString} type={LabelType.LABEL_M} />;
 };

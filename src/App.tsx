@@ -3,10 +3,10 @@ import { Route } from "react-router-dom";
 import { SessionStatusHistory } from "./components/Session/SessionStatusHistory.component";
 
 const history = [
-  ["COMING_SOON", "2022-03-08T14:00:00"],
-  ["AVAILABLE", "2022-03-09T14:00:00"],
-  ["PREPARING", "2022-03-10T14:00:00"],
-  ["CHARGING", "2022-03-11T14:00:00"],
+  {title:"COMING_SOON", date:new Date()},
+  {title:"AVAILABLE", date:new Date()},
+  {title:"PREPARING", date:new Date()},
+  {title:"CHARGING", date:new Date()},
 ];
 function App() {
   return (
