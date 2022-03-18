@@ -6,7 +6,18 @@ import { AppHeader } from "./App-Header.component";
 import { Grid } from "./grid/Grid.component";
 import { Wiki } from "./Wiki.component";
 import { Timeline } from "./time-line/Timeline.component";
+import { Switch } from "./Switch.component";
 
-
-export { AppSideBar, AppHeader, Grid, Pill, Wiki, FormInput, Label, LabelType, PILL_BG_COLOR, Timeline };
-
+export {
+  AppSideBar,
+  AppHeader,
+  Grid,
+  Pill,
+  Wiki,
+  FormInput,
+  Label,
+  LabelType,
+  PILL_BG_COLOR,
+  Timeline,
+  Switch,
+};
