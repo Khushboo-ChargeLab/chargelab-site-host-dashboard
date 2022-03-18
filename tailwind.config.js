@@ -11,6 +11,8 @@ module.exports = {
       silver: "#F2F4F6",
       red: "#E11900",
       grey5: "#6B7684",
+      grey6:'#4E5968',
+      blue2:'#18A0D7',
       green: {
         light4: "#4BD865",
         DEFAULT: "#05944F",
