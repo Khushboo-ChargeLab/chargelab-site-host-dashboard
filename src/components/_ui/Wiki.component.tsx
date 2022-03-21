@@ -1,5 +1,15 @@
-import { Pill, Grid, Label, PILL_BG_COLOR, LabelType, Switch } from ".";
+import {
+  Pill,
+  Grid,
+  Label,
+  PILL_BG_COLOR,
+  LabelType,
+  Switch,
+  Button,
+  ButtonType,
+} from ".";
 import { SessionStatusHistory } from "../Session/SessionStatusHistory.component";
+import { ButtonSize } from "./Button.component";
 
 export const Wiki = () => {
   const history = [
@@ -94,6 +104,19 @@ export const Wiki = () => {
           onChange={(checked: boolean) => console.log("Switch:", checked)}
         />
       </div>
+      <div className="flex felx-row">
+        <Button label="Save" onClick={() => console.log("Save clicked")} />
+        <Button label="Cancel" type={ButtonType.Cancel} />
+        <Button label="Disabled" type={ButtonType.Disabled} />
+        <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} />
+        <Button label="Alert" type={ButtonType.Alert} />
+      </div>
+      <Button
+        size={ButtonSize.FULL}
+        label="Click Me! full"
+        onClick={() => console.log("full clicked")}
+        type={ButtonType.Primary}
+      />
     </>
   );
 };

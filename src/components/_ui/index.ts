@@ -6,6 +6,7 @@ import { AppHeader } from "./App-Header.component";
 import { Grid } from "./grid/Grid.component";
 import { Wiki } from "./Wiki.component";
 import { Timeline } from "./time-line/Timeline.component";
+import { Button, ButtonType } from "./Button.component";
 import { Switch } from "./Switch.component";
 
 export {
@@ -20,4 +21,6 @@ export {
   PILL_BG_COLOR,
   Timeline,
   Switch,
+  Button,
+  ButtonType,
 };

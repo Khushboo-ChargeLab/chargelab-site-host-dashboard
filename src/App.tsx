@@ -14,7 +14,11 @@ function App() {
           <Wiki />
         </Route>
 
-        <div className="fixed right-5 bottom-2"><Link to={'/wiki'}><Label text="wiki" /></Link></div>
+        <div className="fixed right-5 bottom-2">
+          <Link to={"/wiki"}>
+            <Label text="wiki" />
+          </Link>
+        </div>
       </div>
     </div>
   );
