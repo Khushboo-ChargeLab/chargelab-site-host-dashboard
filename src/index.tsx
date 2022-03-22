@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux'
 import store from './stores/store';
-import "./index.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "./services/translation/i18n"
+import './index.css';
+import './services/translation/i18n';
 import { ModalForm, Snackbar } from './components/_ui';
 
 ReactDOM.render(
-    <Provider store={store}>
+  <Provider store={store}>
     <React.StrictMode>
       <Router>
         <Switch>
-          <Route path='/'>
+          <Route path="/">
             <App />
           </Route>
         </Switch>
@@ -23,7 +23,7 @@ ReactDOM.render(
     <ModalForm />
     <Snackbar />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
