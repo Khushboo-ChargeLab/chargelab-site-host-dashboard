@@ -7,7 +7,7 @@ import store from './stores/store';
 import "./index.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./services/translation/i18n"
-import { ModalForm } from './components/_ui';
+import { ModalForm, Snackbar } from './components/_ui';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -21,6 +21,7 @@ ReactDOM.render(
       </Router>
     </React.StrictMode>
     <ModalForm />
+    <Snackbar />
   </Provider>,
   document.getElementById('root')
 );

@@ -8,9 +8,11 @@ import {
   Button,
   ButtonType,
   ModalForm,
+  Snackbar,
 } from ".";
 import { SessionStatusHistory } from "../Session/SessionStatusHistory.component";
 import { ButtonSize } from "./Button.component";
+import { AlertPosition } from "./snack-bar/Snack-Bar.component";
 
 export const Wiki = () => {
   const history = [
@@ -19,6 +21,14 @@ export const Wiki = () => {
     { title: "PREPARING", date: new Date() },
     { title: "CHARGING", date: new Date() },
   ];
+
+  const showSnackbar = ()=>{
+    Snackbar.show({
+      message:'Snackbar successfully shown up with close button at right pls make sure you have all the details',
+      position:AlertPosition.TOP,
+      duration: 3000,
+    })
+  };
 
   const showConfirmModal = ()=>{
     ModalForm.confirm({
@@ -126,20 +136,22 @@ export const Wiki = () => {
       </div>
       <hr/>
 
-      <div className="flex felx-row mt-6">
+      <div className="flex felx-row mt-6 mb-4">
         <Button label="Save" onClick={() => console.log("Save clicked")} />
         <Button label="Cancel" type={ButtonType.Cancel} />
         <Button label="Disabled" type={ButtonType.Disabled} />
         <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} />
         <Button label="Alert" type={ButtonType.Alert} />
       </div>
-      <br/>
-      <Button
-        size={ButtonSize.FULL}
-        label="Click Me! full"
-        onClick={() => console.log("full clicked")}
-        type={ButtonType.Primary}
-      />
+      <hr/>
+      <div className="flex felx-row mt-6">
+        <Button
+          size={ButtonSize.FULL}
+          label="Snackbar"
+          onClick={showSnackbar}
+          type={ButtonType.Primary}
+        />
+      </div>
     </>
   );
 };
