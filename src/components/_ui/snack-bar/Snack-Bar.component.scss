@@ -10,19 +10,19 @@
     position: fixed;
     z-index: 1;
     left: 50%;
-    bottom: 30px;
     font-size: 1rem;
   }
   
-  .snackbar.show {
+  .snackbar.show-bottom {
     visibility: visible; /* Show the snackbar */
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
    However, delay the fade out process for 2.5 seconds */
    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   bottom:30px;
   }
 
-  .snackbar.show.always {
+  .snackbar.show-bottom.always {
     visibility: visible; /* Show the snackbar */
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
    However, delay the fade out process for 2.5 seconds */
@@ -30,7 +30,7 @@
    animation: fadein 0.5s;
   }
 
-  .snackbar.show.top {
+  .snackbar.show-top {
     visibility: visible; /* Show the snackbar */
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
    However, delay the fade out process for 2.5 seconds */
@@ -40,7 +40,7 @@
    bottom: unset;
   }
 
-  .snackbar.show.top.always {
+  .snackbar.show-top.always {
     visibility: visible; /* Show the snackbar */
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
    However, delay the fade out process for 2.5 seconds */

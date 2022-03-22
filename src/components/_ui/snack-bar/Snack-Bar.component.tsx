@@ -37,14 +37,12 @@ export class Snackbar extends React.Component {
                 position,
                 alertType,
                 always : duration === 0 ? 'always':'',
-            },()=>{
-
+            },()=> {
                 if(duration!==0){
                     setTimeout(() => {
                         Snackbar.Instance.setState({ open: false });
                       }, duration); 
                 }
-               
             });
         } else {
             console.warn('No Snackbar found');
@@ -69,7 +67,7 @@ export class Snackbar extends React.Component {
         const { open, message, position, alertType, always} = this.state as any;
 
         return (
-            <div className = {'text-left pr-8 pt-8 rounded ' +(open ? ['snackbar', 'show', position , alertType, always].join(" ") : 'snackbar')}>
+            <div className = {'text-left pr-8 pt-8 rounded ' +(open ? ['snackbar', `show-${position}`, alertType, always].join(" ") : 'snackbar')}>
                 <div className="absolute right-0 pr-3 top-1 text-sm cursor-pointer  underline" onClick={this.handleClose}>Close</div>
                 {message}
             </div>

@@ -26,9 +26,16 @@ export const Wiki = () => {
     Snackbar.show({
       message:'Snackbar successfully shown up with close button at right pls make sure you have all the details',
       position:AlertPosition.TOP,
-      duration: 3000,
     })
   };
+
+  const showSnackbarBottom = ()=>{
+    Snackbar.show({
+      message:'Snackbar successfully shown up with close button at right pls make sure you have all the details',
+      position:AlertPosition.BOTTOM,
+    })
+  };
+
 
   const showConfirmModal = ()=>{
     ModalForm.confirm({
@@ -138,18 +145,24 @@ export const Wiki = () => {
 
       <div className="flex felx-row mt-6 mb-4">
         <Button label="Save" onClick={() => console.log("Save clicked")} />
-        <Button label="Cancel" type={ButtonType.Cancel} />
-        <Button label="Disabled" type={ButtonType.Disabled} />
-        <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} />
-        <Button label="Alert" type={ButtonType.Alert} />
+        <Button label="Cancel" type={ButtonType.Cancel}  className="ml-2"/>
+        <Button label="Disabled" type={ButtonType.Disabled}  className="ml-2"/>
+        <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL}  className="ml-2"/>
+        <Button label="Alert" type={ButtonType.Alert}  className="ml-2"/>
       </div>
       <hr/>
       <div className="flex felx-row mt-6">
         <Button
-          size={ButtonSize.FULL}
-          label="Snackbar"
+          label="Snackbar Top"
           onClick={showSnackbar}
           type={ButtonType.Primary}
+        />
+
+        <Button
+          label="Snackbar Bottom"
+          onClick={showSnackbarBottom}
+          type={ButtonType.Info}
+          className="ml-2"
         />
       </div>
     </>
