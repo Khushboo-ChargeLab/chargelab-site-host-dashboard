@@ -2,17 +2,17 @@ import { memo } from "react";
 import { Label, LabelType } from "./Label.component";
 
 export enum ButtonType {
-  Primary = "flex bg-blue-light p-6 rounded-lg justify-center h-12 items-center hover:bg-blue-dark",
-  Alert = "flex bg-red p-6 rounded-lg justify-center h-12 items-center",
-  Info = "flex bg-[#E8F7FC] p-6 rounded-lg justify-center h-12 items-center hover:bg-[#BBE7F6]",
-  Cancel = "flex bg-white p-6 rounded-lg justify-center h-12 items-center hover:bg-grey-dark1",
-  Disabled = "flex bg-grey-light1 p-6 rounded-lg justify-center h-12 items-center",
+  Primary = "flex bg-blue-light rounded justify-center h-10 items-center hover:bg-blue-dark",
+  Alert = "flex bg-red  rounded justify-center h-10 items-center",
+  Info = "flex bg-[#E8F7FC] rounded justify-center h-10 items-center hover:bg-[#BBE7F6]",
+  Cancel = "flex bg-silver rounded justify-center h-10 items-center hover:bg-grey-dark1",
+  Disabled = "flex bg-grey-light1 rounded justify-center h-10 items-center",
 }
 
 export enum ButtonSize {
   FULL = "w-full",
   NORMAL = "w-48",
-  SMALL = "w-24",
+  SMALL = "w-20",
 }
 
 interface InputProps {
@@ -20,6 +20,7 @@ interface InputProps {
   label: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: ButtonType;
+  className?: string;
 }
 
 const getLabelType = (buttonType: ButtonType) => {
@@ -45,18 +46,17 @@ export const Button = memo(
     label,
     onClick,
     type = ButtonType.Primary,
+    className = '',
   }: InputProps) => {
     const labelType = getLabelType(type);
     return (
-      <div className="p-2">
         <button
-          className={`${type} ${size}`}
+          className={`${type} ${size} ${className}`}
           onClick={onClick}
           disabled={type === ButtonType.Disabled}
         >
           <Label text={label} type={labelType}></Label>
         </button>
-      </div>
     );
   }
 );

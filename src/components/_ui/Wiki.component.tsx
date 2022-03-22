@@ -7,6 +7,7 @@ import {
   Switch,
   Button,
   ButtonType,
+  ModalForm,
 } from ".";
 import { SessionStatusHistory } from "../Session/SessionStatusHistory.component";
 import { ButtonSize } from "./Button.component";
@@ -18,6 +19,20 @@ export const Wiki = () => {
     { title: "PREPARING", date: new Date() },
     { title: "CHARGING", date: new Date() },
   ];
+
+  const showConfirmModal = ()=>{
+    ModalForm.confirm({
+      title:'Stop session',
+      alertType:2,
+    });
+  }
+  const showModal = ()=>{
+    ModalForm.show({
+      title:'Session detail',
+      small:false,
+      body:(<Wiki />)
+    });
+  }
   return (
     <>
       <div className="block mb-4">
@@ -104,13 +119,21 @@ export const Wiki = () => {
           onChange={(checked: boolean) => console.log("Switch:", checked)}
         />
       </div>
-      <div className="flex felx-row">
+      <hr/>
+      <div className="block mt-6 mb-4">
+        <input className="cursor-pointer" type="button" onClick={showModal} value="Show Modal"></input>
+        <input className="cursor-pointer ml-5" type="button" onClick={showConfirmModal} value="Confirmation Modal"></input>
+      </div>
+      <hr/>
+
+      <div className="flex felx-row mt-6">
         <Button label="Save" onClick={() => console.log("Save clicked")} />
         <Button label="Cancel" type={ButtonType.Cancel} />
         <Button label="Disabled" type={ButtonType.Disabled} />
         <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} />
         <Button label="Alert" type={ButtonType.Alert} />
       </div>
+      <br/>
       <Button
         size={ButtonSize.FULL}
         label="Click Me! full"

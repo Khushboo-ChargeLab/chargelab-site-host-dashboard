@@ -16,8 +16,14 @@ import help from "../assets/icons/help.svg";
 import chargerSelected from "../assets/icons/charger_selected.svg";
 import overview from "../assets/icons/overview.svg";
 
+import close from "../assets/icons/close.svg";
+import alert from "../assets/icons/alert.svg";
+import warning from "../assets/icons/warning.svg";
+import info from "../assets/icons/info.svg";
+
 export {
     chargelab, overviewSelected, chargers, pricing, access,
     company, payout, rfid, learning, help,
     chargerSelected, overview, pricingS, accessS,
+    close, alert, warning, info,
 };

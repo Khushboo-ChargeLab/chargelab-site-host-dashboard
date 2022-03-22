@@ -8,6 +8,7 @@ import { Wiki } from "./Wiki.component";
 import { Timeline } from "./time-line/Timeline.component";
 import { Button, ButtonType } from "./Button.component";
 import { Switch } from "./Switch.component";
+import { ModalForm } from "./Modal.component";
 
 export {
   AppSideBar,
@@ -23,4 +24,5 @@ export {
   Switch,
   Button,
   ButtonType,
+  ModalForm,
 };
