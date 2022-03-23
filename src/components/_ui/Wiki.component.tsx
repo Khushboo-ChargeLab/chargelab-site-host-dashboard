@@ -10,6 +10,7 @@ import {
   ButtonType,
   ModalForm,
   Snackbar,
+  DateTimePicker,
 } from '.';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
 import { ButtonSize } from './Button.component';
@@ -77,6 +78,12 @@ export const Wiki = () => {
         <div className="inline-block ml-4">
           <Label text="BODY2" type={LabelType.BODY2} />
         </div>
+      </div>
+      <hr />
+      <div className="block mt-4 mb-4">
+        <DateTimePicker
+          showMonthYearPicker
+        />
       </div>
       <hr />
       <div className="block mt-4 mb-4">

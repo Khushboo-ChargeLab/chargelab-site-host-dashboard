@@ -12,7 +12,7 @@ const i18n = i18next
       lng: navigator.language,
       fallbackLng: 'en-US',
       backend: {
-        loadPath: "/locales/{{lng}}/{{ns}}.json",
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
       },
       load: 'currentOnly',
       detection: {
@@ -20,19 +20,19 @@ const i18n = i18next
         caches: ['localStorage'],
         lookupQuerystring: 'language',
         lookupLocalStorage: 'language',
-      },      
-      react: { 
-        useSuspense: false
+      },
+      react: {
+        useSuspense: false,
       },
       interpolation: {
         escapeValue: false,
       },
     },
-    (error, t) => {
+    (error: any, t: any) => {
       if (error) {
-        console.error('i18n init error:', error)
+        console.error('i18n init error:', error);
       }
-    }
+    },
   );
 
 export default i18n;
