@@ -53,7 +53,9 @@
             "ts": "never",
             "tsx": "never"
             }
-        ]
+        ],
+        "indent": 0,
+        "import/no-extraneous-dependencies":0
     },
     "settings": {
         "import/resolver": {
