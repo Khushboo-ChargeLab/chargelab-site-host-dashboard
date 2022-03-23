@@ -1,0 +1,92 @@
+.snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    max-width: 450px;
+    margin-left: -125px;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    font-size: 1rem;
+  }
+  
+  .snackbar.show-bottom {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   bottom:30px;
+  }
+
+  .snackbar.show-bottom.always {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadein 0.5s;
+   animation: fadein 0.5s;
+  }
+
+  .snackbar.show-top {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadeintop 0.5s, fadeouttop 0.5s 2.5s;
+   animation: fadeintop 0.5s, fadeouttop 0.5s 2.5s;
+   top:30px;
+   bottom: unset;
+  }
+
+  .snackbar.show-top.always {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadeintop 0.5s;
+   animation: fadeintop 0.5s;
+   top:30px;
+  }
+  
+
+  @-webkit-keyframes fadeintop {
+    from {top: 0; opacity: 0;} 
+    to {top: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadeintop {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+  }
+
+  @-webkit-keyframes fadeouttop {
+    from {top: 30px; opacity: 1;} 
+    to {top: 0; opacity: 0; bottom:unset;}
+  }
+  
+  @keyframes fadeouttop {
+    from {top: 30px; opacity: 1;}
+    to {top: 0; opacity: 0;bottom:unset}
+  }
+
+  /* Animations to fade the snackbar in and out */
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }

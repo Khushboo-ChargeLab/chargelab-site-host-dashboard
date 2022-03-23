@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Pill,
   Grid,
@@ -8,31 +9,47 @@ import {
   Button,
   ButtonType,
   ModalForm,
-} from ".";
-import { SessionStatusHistory } from "../Session/SessionStatusHistory.component";
-import { ButtonSize } from "./Button.component";
+  Snackbar,
+} from '.';
+import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
+import { ButtonSize } from './Button.component';
+import { AlertPosition } from './snack-bar/Snack-Bar.component';
 
 export const Wiki = () => {
   const history = [
-    { title: "COMING_SOON", date: new Date() },
-    { title: "AVAILABLE", date: new Date() },
-    { title: "PREPARING", date: new Date() },
-    { title: "CHARGING", date: new Date() },
+    { title: 'COMING_SOON', date: new Date() },
+    { title: 'AVAILABLE', date: new Date() },
+    { title: 'PREPARING', date: new Date() },
+    { title: 'CHARGING', date: new Date() },
   ];
 
-  const showConfirmModal = ()=>{
+  const showSnackbar = () => {
+    Snackbar.show({
+      message: 'Snackbar successfully shown up with close button at right pls make sure you have all the details',
+      position: AlertPosition.TOP,
+    });
+  };
+
+  const showSnackbarBottom = () => {
+    Snackbar.show({
+      message: 'Snackbar successfully shown up with close button at right pls make sure you have all the details',
+      position: AlertPosition.BOTTOM,
+    });
+  };
+
+  const showConfirmModal = () => {
     ModalForm.confirm({
-      title:'Stop session',
-      alertType:2,
+      title: 'Stop session',
+      alertType: 2,
     });
-  }
-  const showModal = ()=>{
+  };
+  const showModal = () => {
     ModalForm.show({
-      title:'Session detail',
-      small:false,
-      body:(<Wiki />)
+      title: 'Session detail',
+      small: false,
+      body: (<Wiki />),
     });
-  }
+  };
   return (
     <>
       <div className="block mb-4">
@@ -83,16 +100,16 @@ export const Wiki = () => {
       <div className="block mt-6 mb-4">
         <Grid
           columns={[
-            { key: "id", title: "Charger Name" },
-            { key: "location", title: "Location" },
+            { key: 'id', title: 'Charger Name' },
+            { key: 'location', title: 'Location' },
             {
-              key: "status",
-              title: "Status",
+              key: 'status',
+              title: 'Status',
               component: (row: any) => (
                 <Pill
                   label={row.status}
                   bgColor={
-                    row.status === "Available"
+                    row.status === 'Available'
                       ? PILL_BG_COLOR.GREEN
                       : PILL_BG_COLOR.RED
                   }
@@ -101,11 +118,11 @@ export const Wiki = () => {
             },
           ]}
           data={[
-            { id: "AD-01", location: "UAT", status: "Available" },
-            { id: "AD-02", location: "DEV", status: "Hidden" },
+            { id: 'AD-01', location: 'UAT', status: 'Available' },
+            { id: 'AD-02', location: 'DEV', status: 'Hidden' },
           ]}
           totalPage={9}
-          primaryKey={"id"}
+          primaryKey="id"
         />
       </div>
       <hr />
@@ -116,30 +133,38 @@ export const Wiki = () => {
         <Switch
           enableLabel="Enabled"
           disableLabel="Disabled"
-          onChange={(checked: boolean) => console.log("Switch:", checked)}
+          onChange={(checked: boolean) => console.log('Switch:', checked)}
         />
       </div>
-      <hr/>
+      <hr />
       <div className="block mt-6 mb-4">
-        <input className="cursor-pointer" type="button" onClick={showModal} value="Show Modal"></input>
-        <input className="cursor-pointer ml-5" type="button" onClick={showConfirmModal} value="Confirmation Modal"></input>
+        <input className="cursor-pointer" type="button" onClick={showModal} value="Show Modal" />
+        <input className="cursor-pointer ml-5" type="button" onClick={showConfirmModal} value="Confirmation Modal" />
       </div>
-      <hr/>
+      <hr />
 
-      <div className="flex felx-row mt-6">
-        <Button label="Save" onClick={() => console.log("Save clicked")} />
-        <Button label="Cancel" type={ButtonType.Cancel} />
-        <Button label="Disabled" type={ButtonType.Disabled} />
-        <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} />
-        <Button label="Alert" type={ButtonType.Alert} />
+      <div className="flex felx-row mt-6 mb-4">
+        <Button label="Save" onClick={() => console.log('Save clicked')} />
+        <Button label="Cancel" type={ButtonType.Cancel} className="ml-2" />
+        <Button label="Disabled" type={ButtonType.Disabled} className="ml-2" />
+        <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} className="ml-2" />
+        <Button label="Alert" type={ButtonType.Alert} className="ml-2" />
       </div>
-      <br/>
-      <Button
-        size={ButtonSize.FULL}
-        label="Click Me! full"
-        onClick={() => console.log("full clicked")}
-        type={ButtonType.Primary}
-      />
+      <hr />
+      <div className="flex felx-row mt-6">
+        <Button
+          label="Snackbar Top"
+          onClick={showSnackbar}
+          type={ButtonType.Primary}
+        />
+
+        <Button
+          label="Snackbar Bottom"
+          onClick={showSnackbarBottom}
+          type={ButtonType.Info}
+          className="ml-2"
+        />
+      </div>
     </>
   );
 };

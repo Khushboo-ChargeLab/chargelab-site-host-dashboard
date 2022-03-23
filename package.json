@@ -33,13 +33,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "translation": "node scripts/translations/translations.ts"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "translation": "node scripts/translations/translations.ts",
+    "lint": "npx eslint src/*",
+    "lint:fix": "npx eslint src/* --fix"
   },
   "browserslist": {
     "production": [
@@ -57,8 +53,17 @@
     "@types/history": "^5.0.0",
     "@types/react-modal": "^3.13.1",
     "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
     "autoprefixer": "^10.4.2",
     "csv": "^6.0.5",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "lodash": "^4.17.21",
     "postcss": "^8.4.7",
     "tailwindcss": "^3.0.23"

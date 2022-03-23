@@ -9,6 +9,7 @@ import { Timeline } from "./time-line/Timeline.component";
 import { Button, ButtonType } from "./Button.component";
 import { Switch } from "./Switch.component";
 import { ModalForm } from "./Modal.component";
+import { Snackbar } from "./snack-bar/Snack-Bar.component";
 
 export {
   AppSideBar,
@@ -25,4 +26,5 @@ export {
   Button,
   ButtonType,
   ModalForm,
+  Snackbar,
 };

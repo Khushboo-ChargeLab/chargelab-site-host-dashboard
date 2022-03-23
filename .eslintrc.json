@@ -1,0 +1,63 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "react-hooks"
+    ],
+    "rules": {
+        "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
+        "max-len": ["warn", { "code": 150 }],
+        "import/prefer-default-export": "off",
+        "no-restricted-exports": 0,
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "linebreak-style": ["error", "windows"],
+        "func-style":0,
+        "no-console": 0,
+        "no-unused-vars":0,
+        "jsx-a11y/no-static-element-interactions":"off",
+        "jsx-a11y/click-events-have-key-events":0,
+        "react/no-unstable-nested-components": [
+            "off",
+            { "allowAsProps": true }
+          ],
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": ["arrow-function","function-declaration"],
+                "unnamedComponents": "arrow-function"
+            }
+          ],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+            "ts": "never",
+            "tsx": "never"
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+        "typescript": {}
+        }
+    }
+}

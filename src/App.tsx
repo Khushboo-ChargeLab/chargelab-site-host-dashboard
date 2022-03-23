@@ -1,7 +1,9 @@
-import React from "react";
-import { Link, Route } from "react-router-dom";
-import { AppHeader, AppSideBar, Label, Wiki } from "./components/_ui";
-import "./App.scss";
+import React from 'react';
+import { Link, Route } from 'react-router-dom';
+import {
+  AppHeader, AppSideBar, Label, Wiki,
+} from './components/_ui';
+import './App.scss';
 
 function App() {
   return (
@@ -15,7 +17,7 @@ function App() {
         </Route>
 
         <div className="fixed right-5 bottom-2">
-          <Link to={"/wiki"}>
+          <Link to="/wiki">
             <Label text="wiki" />
           </Link>
         </div>
