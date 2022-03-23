@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
-import chevnext from '../../../assets/icons/chev-next.svg';
-import chevpre from '../../../assets/icons/chev-pre.svg';
+import { chevnext, chevpre } from '../../../lib';
 
 interface InputProps {
     totalPage?: number;

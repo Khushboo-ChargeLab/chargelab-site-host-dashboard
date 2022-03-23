@@ -81,9 +81,28 @@ export const Wiki = () => {
       </div>
       <hr />
       <div className="block mt-4 mb-4">
-        <DateTimePicker
-          showMonthYearPicker
-        />
+        <div className="inline-block">
+          Month Picker :
+          <DateTimePicker
+            showMonthYearPicker
+            white
+          />
+        </div>
+
+        <div className="inline-block">
+          Date Picker :
+          <DateTimePicker white format="LLL dd, yyyy" />
+        </div>
+
+        <div className="inline-block">
+          Range Picker#1 :
+          <DateTimePicker white dateRange format="LLL dd yyyy" />
+        </div>
+
+        <div className="inline-block">
+          Range Picker#2:
+          <DateTimePicker white dateRange dateRangeMove format="LLL dd yyyy" />
+        </div>
       </div>
       <hr />
       <div className="block mt-4 mb-4">

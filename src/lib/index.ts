@@ -20,10 +20,14 @@ import close from '../assets/icons/close.svg';
 import alert from '../assets/icons/alert.svg';
 import warning from '../assets/icons/warning.svg';
 import info from '../assets/icons/info.svg';
+import chevdown from '../assets/icons/chevron_down.svg';
+import chevnext from '../assets/icons/chev-next.svg';
+import chevpre from '../assets/icons/chev-pre.svg';
 
 export {
     chargelab, overviewSelected, chargers, pricing, access,
     company, payout, rfid, learning, help,
     chargerSelected, overview, pricingS, accessS,
-    close, alert, warning, info,
+    close, alert, warning, info, chevdown,
+    chevnext, chevpre,
 };

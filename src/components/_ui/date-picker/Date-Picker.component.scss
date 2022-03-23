@@ -1,8 +1,15 @@
 .react-datepicker-year-header{
     background-color: white;
     border-bottom: none;
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+.react-datepicker__header{
+    background-color: white;
+    border-bottom: none;
+}
+
 .react-datepicker__triangle{
     display: none;
 }
@@ -29,15 +36,26 @@
     color: white;
 }
 
-.react-datepicker__input-container input {
-    max-width: 126px;
+.react-datepicker__input-container-button {
     height: 40px;
-    background: white;
     border-radius: 4px;
-    text-align: c;
     padding-left: 16px;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
+    outline: none;
+}
+.react-datepicker__navigation{
+    top:10px;
+}
+
+.date-range-selector {
+    height: 40px;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: middle;
 }
