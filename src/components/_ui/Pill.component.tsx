@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Label, LabelType } from './Label.component';
+import Label, { LabelType } from './Label.component';
 
 export enum PILL_BG_COLOR {
   DEFAULT = 'bg-grey-light',
@@ -21,7 +21,7 @@ interface PillProps {
   width?: number;
 }
 
-export const Pill = ({
+const Pill = ({
   label = '',
   bgColor = PILL_BG_COLOR.DEFAULT,
   labelType = LabelType.PILL,

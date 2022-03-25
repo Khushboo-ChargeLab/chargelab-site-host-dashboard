@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { formatDate } from '../../../utils/Date.Util';
-import { Label, LabelType } from '../Label.component';
+import { Label, LabelType } from '..';
 import { GridColumnType } from './enums/Grid-Column-Type.enum';
 import { InputProps } from './Grid.component';
 import { GridColumn } from './types/Grid-Column.interface';
@@ -11,15 +11,17 @@ export const GridBody = memo((
   const formatData = (col: GridColumn, dataRow: any) => {
     const originalData = dataRow[col.key];
 
-    switch (col.type) {
-      case GridColumnType.DATE:
-        if (originalData) {
-          return formatDate(new Date(originalData), col.format);
-        }
-        break;
-      default:
-        console.error('unknown type:', col.type);
-        break;
+    if (col.type) {
+      switch (col.type) {
+        case GridColumnType.DATE:
+          if (originalData) {
+            return formatDate(new Date(originalData), col.format);
+          }
+          break;
+        default:
+          console.warn('unknown type:', col.type);
+          break;
+      }
     }
 
     if (col.component) {

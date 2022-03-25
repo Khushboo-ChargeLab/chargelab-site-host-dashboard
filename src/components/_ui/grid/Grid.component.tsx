@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { GridBody } from './Grid-Body.component';
 import { GridHeader } from './Grid-Header.component';
-import { GridPager } from './Grid-Pager.component';
+import GridPager from './Grid-Pager.component';
 import './Grid.component.scss';
 import { GridColumn } from './types/Grid-Column.interface';
 

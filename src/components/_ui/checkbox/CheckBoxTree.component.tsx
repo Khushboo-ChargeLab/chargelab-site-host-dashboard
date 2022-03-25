@@ -8,7 +8,7 @@ interface CheckBoxTreeProps {
   defaultNodes: CheckBoxData[];
 }
 
-export const CheckBoxTree = ({ defaultNodes, onChange }: CheckBoxTreeProps) => {
+const CheckBoxTree = ({ defaultNodes, onChange }: CheckBoxTreeProps) => {
   const [nodes, setNodes] = useState(defaultNodes);
 
   const handleParentChange = (isChecked: boolean, pIndex: number) => {

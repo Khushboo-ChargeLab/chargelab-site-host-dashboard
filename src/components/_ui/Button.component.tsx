@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Label, LabelType } from './Label.component';
+import { Label, LabelType } from '.';
 
 export enum ButtonType {
   Primary = 'flex bg-blue-light rounded justify-center h-10 items-center hover:bg-blue-dark',
@@ -40,7 +40,7 @@ const getLabelType = (buttonType: ButtonType) => {
   }
 };
 
-export const Button = ({
+const Button = ({
   size = ButtonSize.NORMAL,
   label,
   onClick,

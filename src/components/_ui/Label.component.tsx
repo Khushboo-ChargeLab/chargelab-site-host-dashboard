@@ -28,7 +28,7 @@ interface LabelProps {
   className?: string;
 }
 
-export const Label = ({ text, type, className }: LabelProps) => (
+const Label = ({ text, type, className }: LabelProps) => (
   <span className={`${type || LabelType.LABEL_M} ${className || ''}`}>
     {text}
   </span>

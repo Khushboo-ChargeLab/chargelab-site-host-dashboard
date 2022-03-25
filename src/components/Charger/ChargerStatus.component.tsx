@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pill, PILL_BG_COLOR } from '../_ui/Pill.component';
-import { LabelType } from '../_ui/Label.component';
+import { Pill, PILL_BG_COLOR, LabelType } from '../_ui';
 
 export enum CHARGE_STATUS {
   COMING_SOON,

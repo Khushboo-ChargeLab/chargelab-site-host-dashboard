@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Label, LabelType } from '../Label.component';
+import { Label, LabelType } from '..';
 import { GridColumn } from './types/Grid-Column.interface';
 
 interface InputProps {

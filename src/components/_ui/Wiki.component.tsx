@@ -22,7 +22,7 @@ import { ButtonSize } from './Button.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
 
 const renderCheckBox = () => (
-  <div className="flex flex-row">
+  <div className="flex flex-row w-full">
     <div className="flex flex-col basis-1/2 gap-5">
       <CheckBox
         label="Time-of-use price"
@@ -233,7 +233,7 @@ export const Wiki = () => {
         <Button label="Alert" type={ButtonType.Alert} className="ml-2" />
       </div>
       <hr />
-      <div className="flex felx-row mt-6">
+      <div className="flex felx-row mt-6 mb-4">
         <Button
           label="Snackbar Top"
           onClick={showSnackbar}
@@ -247,7 +247,10 @@ export const Wiki = () => {
           className="ml-2"
         />
       </div>
-      {renderCheckBox()}
+      <hr />
+      <div className="flex felx-row mt-6">
+        {renderCheckBox()}
+      </div>
     </>
   );
 };

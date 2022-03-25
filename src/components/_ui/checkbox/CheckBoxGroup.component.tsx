@@ -15,7 +15,7 @@ interface CheckBoxGroupProps {
   onChange: Function;
 }
 
-export const CheckBoxGroup = ({
+const CheckBoxGroup = ({
   name,
   defaultItems,
   direction = GroupDirection.Horizontal,

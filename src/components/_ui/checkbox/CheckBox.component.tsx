@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { memo, useState, useEffect } from 'react';
-import { Label, LabelType } from '../Label.component';
+import React, { memo, useState, useEffect } from 'react';
+import { Label, LabelType } from '..';
 
 interface CheckBoxProps {
   name?: string;
@@ -47,7 +47,7 @@ const CheckBox = ({
         name={name}
         value={label}
       />
-      <Label type={LabelType.LABEL_M} text={label} />
+      <Label type={LabelType.BODY3} text={label} />
     </div>
   );
 };

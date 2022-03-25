@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { CheckBoxGroup, GroupDirection } from './CheckBoxGroup.component';
+import { CheckBoxGroup, GroupDirection } from '..';
 import { CheckBoxData } from './types/CheckBox-Column.interface';
 
 interface RadioGroupProps {
@@ -9,7 +9,7 @@ interface RadioGroupProps {
   onChange: Function;
 }
 
-export const RadioGroup = ({
+const RadioGroup = ({
   name,
   direction = GroupDirection.Horizontal,
   defaultItems,

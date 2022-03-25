@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { Label, LabelType } from '..';
 import { formatDate } from '../../../utils/Date.Util';
 import { TimelineData } from './types/Timeline.interface';
@@ -38,7 +38,7 @@ const renderItem = (
   </div>
 ));
 
-export const Timeline = ({ renderTitle, renderContent, data }: TimelineProps) => (
+const Timeline = ({ renderTitle, renderContent, data }: TimelineProps) => (
   <div className="p-4">{renderItem(data, renderTitle, renderContent)}</div>
 );
 

@@ -1,5 +1,5 @@
-import { memo, useState } from 'react';
-import { Label, LabelType } from './Label.component';
+import React, { memo, useState } from 'react';
+import { Label, LabelType } from '.';
 
 interface SwitchProps {
   disableLabel?: string;
@@ -8,7 +8,7 @@ interface SwitchProps {
   onChange?: Function;
 }
 
-export const Switch = ({
+const Switch = ({
   disableLabel,
   enableLabel,
   defaultValue = false,

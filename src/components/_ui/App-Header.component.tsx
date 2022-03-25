@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getCurrentNavigation } from '../../stores/selectors/app-navigation.selector';
-import { Label, LabelType } from './Label.component';
+import { Label, LabelType } from '.';
 
 export const AppHeader = () => {
   const current = useSelector(getCurrentNavigation);

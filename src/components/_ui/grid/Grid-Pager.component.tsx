@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import chevnext from '../../../assets/icons/chev-next.svg';
 import chevpre from '../../../assets/icons/chev-pre.svg';
 
@@ -7,7 +7,7 @@ interface InputProps {
     currentPage: number;
     loadPage?: (page:number)=> void;
 }
-export const GridPager = (
+const GridPager = (
   { totalPage, currentPage, loadPage }:InputProps,
 ) => {
   const itemsPerPage = 10;

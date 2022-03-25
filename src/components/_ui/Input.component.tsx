@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Label, LabelType } from './Label.component';
+import { Label, LabelType } from '.';
 
 export const FormInput = ({ label = '', error = '', ...props }) => (
   <div className="block">

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import CheckBox from './CheckBox.component';
 
 interface RadioProps {
@@ -9,7 +9,7 @@ interface RadioProps {
   isDisabled?: boolean;
 }
 
-export const Radio = ({
+const Radio = ({
   name,
   label = '',
   isChecked = false,
