@@ -41,6 +41,7 @@
         "react/button-has-type":0,
         "react/jsx-props-no-spreading":0,
         "eol-last":0,
+        "import/no-unresolved":0,
         "react/no-unstable-nested-components": [
             "off",
             { "allowAsProps": true }
