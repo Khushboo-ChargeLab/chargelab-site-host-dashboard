@@ -18,6 +18,7 @@ export interface InputProps {
     white?:boolean;
     dateRangeMove?:boolean;
 }
+
 export const DateTimePicker = memo(
     ({
         defaultDate = new Date(),
@@ -47,6 +48,7 @@ export const DateTimePicker = memo(
         if (dates.length === 2) {
           result = `${formatDate(new Date(dates[0]), format)} - ${formatDate(new Date(dates[1]), format)}`;
         }
+
         return (
           <button className={`date-range-selector ${white ? 'bg-white' : 'bg-silver'}`}>
             <div className="block">
