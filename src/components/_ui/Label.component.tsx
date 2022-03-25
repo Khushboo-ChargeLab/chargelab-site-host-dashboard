@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo } from 'react';
 
 export enum LabelType {
     ERROR = 'block pt-1 text-red text-sm',
@@ -15,23 +15,28 @@ export enum LabelType {
     LABEL_S_G6 = 'text-sm text-grey6 font-semibold',
     LABEL_XS = 'text-xs font-semibold text-grey6',
     PILL = 'text-sm text-white font-medium font-sans pt-0.5 pb-0.5 pl-2 pr-2',
-    BUTTON_PRIMARY = "text-sm font-semibold font-sans text-white",
-    BUTTON_CANCEL = "text-sm font-semibold font-sans text-grey6",
-    BUTTON_DISABLE = "text-sm font-semibold font-sans text-grey-light2",
-    BUTTON_INFO = "text-sm font-semibold font-sans text-[#18A0D7]",
-    BUTTON_ALERT = "text-sm font-semibold font-sans text-white",
+    BUTTON_PRIMARY = 'text-sm font-semibold font-sans text-white',
+    BUTTON_CANCEL = 'text-sm font-semibold font-sans text-grey6',
+    BUTTON_DISABLE = 'text-sm font-semibold font-sans text-grey-light2',
+    BUTTON_INFO = 'text-sm font-semibold font-sans text-[#18A0D7]',
+    BUTTON_ALERT = 'text-sm font-semibold font-sans text-white',
 }
 
-interface InputProps {
+interface LabelProps {
   text: string;
   type?: LabelType;
   className?: string;
 }
 
-export const Label = memo(({ text, type, className }: InputProps) => {
-  return (
-    <span className={`${type || LabelType.LABEL_M} ${className || ""}`}>
-      {text}
-    </span>
-  );
-});
+export const Label = ({ text, type, className }: LabelProps) => (
+  <span className={`${type || LabelType.LABEL_M} ${className || ''}`}>
+    {text}
+  </span>
+);
+
+Label.defaultProps = {
+  type: LabelType.LABEL_M,
+  className: '',
+};
+
+export default memo<LabelProps>(Label);

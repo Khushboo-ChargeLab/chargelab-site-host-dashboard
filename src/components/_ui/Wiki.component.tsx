@@ -8,12 +8,77 @@ import {
   Switch,
   Button,
   ButtonType,
+  CheckBox,
+  CheckBoxData,
+  CheckBoxGroup,
+  GroupDirection,
+  RadioGroup,
   ModalForm,
+  CheckBoxTree,
   Snackbar,
 } from '.';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
 import { ButtonSize } from './Button.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
+
+const renderCheckBox = () => (
+  <div className="flex flex-row">
+    <div className="flex flex-col basis-1/2 gap-5">
+      <CheckBox
+        label="Time-of-use price"
+        onChange={(checked: boolean) => console.log(checked)}
+      />
+      <CheckBoxGroup
+        name="testcheckboxgroup"
+        defaultItems={[
+          { label: 'FG-21', isChecked: true },
+          { label: 'FG-22', isChecked: true },
+          { label: 'FG-23' },
+        ]}
+        onChange={(items: CheckBoxData[]) => {
+          console.log(items);
+        }}
+      />
+      <RadioGroup
+        name="testradiogroup"
+        direction={GroupDirection.Vertical}
+        defaultItems={[
+          { label: 'Toronto', isChecked: true },
+          { label: 'Calgary' },
+          { label: 'Vancouver' },
+        ]}
+        onChange={(items: CheckBoxData[]) => {
+          console.log(items);
+        }}
+      />
+    </div>
+    <div className="basis-1/2">
+      <CheckBoxTree
+        defaultNodes={[
+          {
+            label: 'Hilton Kennedy',
+            isChecked: false,
+            children: [
+              { label: 'FG-21', isChecked: true },
+              { label: 'FG-22' },
+              { label: 'FG-23' },
+            ],
+          },
+          {
+            label: 'Hilton Springfield',
+            isChecked: false,
+            children: [
+              { label: 'BD-31', isChecked: true },
+              { label: 'BD-32' },
+              { label: 'BD-33' },
+            ],
+          },
+        ]}
+        onChange={(nodes: CheckBoxData[]) => console.log('onChange:', nodes)}
+      />
+    </div>
+  </div>
+);
 
 export const Wiki = () => {
   const history = [
@@ -25,14 +90,16 @@ export const Wiki = () => {
 
   const showSnackbar = () => {
     Snackbar.show({
-      message: 'Snackbar successfully shown up with close button at right pls make sure you have all the details',
+      message:
+        'Snackbar successfully shown up with close button at right pls make sure you have all the details',
       position: AlertPosition.TOP,
     });
   };
 
   const showSnackbarBottom = () => {
     Snackbar.show({
-      message: 'Snackbar successfully shown up with close button at right pls make sure you have all the details',
+      message:
+        'Snackbar successfully shown up with close button at right pls make sure you have all the details',
       position: AlertPosition.BOTTOM,
     });
   };
@@ -47,7 +114,7 @@ export const Wiki = () => {
     ModalForm.show({
       title: 'Session detail',
       small: false,
-      body: (<Wiki />),
+      body: <Wiki />,
     });
   };
   return (
@@ -138,8 +205,18 @@ export const Wiki = () => {
       </div>
       <hr />
       <div className="block mt-6 mb-4">
-        <input className="cursor-pointer" type="button" onClick={showModal} value="Show Modal" />
-        <input className="cursor-pointer ml-5" type="button" onClick={showConfirmModal} value="Confirmation Modal" />
+        <input
+          className="cursor-pointer"
+          type="button"
+          onClick={showModal}
+          value="Show Modal"
+        />
+        <input
+          className="cursor-pointer ml-5"
+          type="button"
+          onClick={showConfirmModal}
+          value="Confirmation Modal"
+        />
       </div>
       <hr />
 
@@ -147,7 +224,12 @@ export const Wiki = () => {
         <Button label="Save" onClick={() => console.log('Save clicked')} />
         <Button label="Cancel" type={ButtonType.Cancel} className="ml-2" />
         <Button label="Disabled" type={ButtonType.Disabled} className="ml-2" />
-        <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} className="ml-2" />
+        <Button
+          label="INFO"
+          type={ButtonType.Info}
+          size={ButtonSize.SMALL}
+          className="ml-2"
+        />
         <Button label="Alert" type={ButtonType.Alert} className="ml-2" />
       </div>
       <hr />
@@ -165,6 +247,7 @@ export const Wiki = () => {
           className="ml-2"
         />
       </div>
+      {renderCheckBox()}
     </>
   );
 };

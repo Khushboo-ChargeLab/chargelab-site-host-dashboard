@@ -21,6 +21,9 @@
         "react-hooks"
     ],
     "rules": {
+        "react/jsx-props-no-spreading": "off",
+        // suppress errors for missing 'import React' in files
+        "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
         "max-len": ["warn", { "code": 150 }],
         "import/prefer-default-export": "off",
@@ -29,7 +32,7 @@
         "react-hooks/exhaustive-deps": "warn",
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": ["error", "unix"],
         "func-style":0,
         "no-console": 0,
         "no-unused-vars":0,
