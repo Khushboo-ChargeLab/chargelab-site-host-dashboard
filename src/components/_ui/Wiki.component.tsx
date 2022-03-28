@@ -18,6 +18,7 @@ import {
   RadioGroup,
   CheckBoxTree,
 } from '.';
+import { start } from '../../lib';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
 import { ButtonSize } from './Button.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
@@ -234,12 +235,13 @@ export const Wiki = () => {
       </div>
       <hr />
 
-      <div className="flex felx-row mt-6 mb-4">
+      <div className="flex felx-row mt-6 mb-4 items-center">
         <Button label="Save" onClick={() => console.log('Save clicked')} />
         <Button label="Cancel" type={ButtonType.Cancel} className="ml-2" />
         <Button label="Disabled" type={ButtonType.Disabled} className="ml-2" />
         <Button label="INFO" type={ButtonType.Info} size={ButtonSize.SMALL} className="ml-2" />
         <Button label="Alert" type={ButtonType.Alert} className="ml-2" />
+        <Button label="Start" type={ButtonType.Icon} icon={start} className="ml-2" />
       </div>
       <hr />
       <div className="flex felx-row mt-6 mb-6">
