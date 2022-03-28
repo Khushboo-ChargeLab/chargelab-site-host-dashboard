@@ -41,11 +41,12 @@ export const DateTimePicker = memo(
         setDateRange([addDays(startDateRange, -differenceInDays(endDateRange, startDateRange)), startDateRange]);
       }, [startDateRange, endDateRange]);
 
+      const hasStartAndEndDate = (dates:any) => dates.length === 2;
       const DateRangeCustomInput = forwardRef(({ value, onClick }:any, ref:any) => {
         const dates = value.split('-');
         let result = '';
 
-        if (dates.length === 2) {
+        if (hasStartAndEndDate(dates)) {
           result = `${formatDate(new Date(dates[0]), format)} - ${formatDate(new Date(dates[1]), format)}`;
         }
 
@@ -83,10 +84,11 @@ export const DateTimePicker = memo(
         </button>
 ));
 
+        const validDateRange = (update:any) => update && update.length === 2 && update[0] && update[1];
       const updateDateRangeData = useCallback((update:any) => {
         setDateRange(update);
 
-        if (update && update.length === 2 && update[0] && update[1]) {
+        if (validDateRange(update)) {
           onChange && onChange(update);
         }
       }, [setDateRange, onChange]);
