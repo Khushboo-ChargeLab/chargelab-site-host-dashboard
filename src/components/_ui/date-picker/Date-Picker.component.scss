@@ -85,3 +85,8 @@
 .react-datepicker__day--range-end:hover{
     border-radius: 0px 18px 18px 0px;
 }
+
+.react-datepicker__day--in-selecting-range:not(.react-datepicker__day--selecting-range-start){
+    background-color: #E8F3FF !important;
+    color: #000;
+}
