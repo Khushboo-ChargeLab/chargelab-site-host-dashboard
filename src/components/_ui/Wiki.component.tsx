@@ -275,6 +275,9 @@ export const Wiki = () => {
 
         Profile Selector
         <ImageViewer profile className="mr-6" />
+
+        Circle Image
+        <ImageViewer className="mr-6" width={120} circle src="https://chargelabservice.s3.us-east-2.amazonaws.com/stations/generic/Delta+AC+Mini.jpg" />
       </div>
       <hr />
     </>

@@ -7,6 +7,8 @@ interface InputProps {
     width?:number;
     profile?:boolean;
     onClick?:()=>void;
+    alt?:string;
+    circle?:boolean;
   }
 
   export const ImageViewer = memo(
@@ -16,6 +18,8 @@ interface InputProps {
       width = 80,
       profile = false,
       onClick,
+      circle = false,
+      alt = '',
     }: InputProps) => {
       const [hover, setHover] = useState(false);
 
@@ -27,7 +31,7 @@ interface InputProps {
             className={`cursor-pointer ${className || ''}`}
             width={width || 80}
             src={profileSelector}
-            alt=""
+            alt={alt}
           />
         );
       }
@@ -35,10 +39,10 @@ interface InputProps {
       return (
         <img
           onMouseOver={() => profile && setHover(true)}
-          className={className || ''}
+          className={`${circle ? 'border-50-percent' : ''} ${className || ''}`}
           width={width || 80}
           src={src || avatar}
-          alt=""
+          alt={alt}
         />
       );
     },
