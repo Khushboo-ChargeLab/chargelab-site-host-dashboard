@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 export enum LabelType {
     ERROR = 'block pt-1 text-red text-sm',
@@ -22,21 +22,14 @@ export enum LabelType {
     BUTTON_ALERT = 'text-sm font-semibold font-sans text-white',
 }
 
-interface LabelProps {
+interface InputProps {
   text: string;
   type?: LabelType;
   className?: string;
 }
 
-const Label = ({ text, type, className }: LabelProps) => (
+export const Label = memo(({ text, type, className }: InputProps) => (
   <span className={`${type || LabelType.LABEL_M} ${className || ''}`}>
     {text}
   </span>
-);
-
-Label.defaultProps = {
-  type: LabelType.LABEL_M,
-  className: '',
-};
-
-export default memo<LabelProps>(Label);
+  ));

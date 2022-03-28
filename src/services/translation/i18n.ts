@@ -28,7 +28,7 @@ const i18n = i18next
         escapeValue: false,
       },
     },
-    (error, t) => {
+    (error: any, t: any) => {
       if (error) {
         console.error('i18n init error:', error);
       }

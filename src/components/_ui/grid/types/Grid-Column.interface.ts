@@ -1,4 +1,4 @@
-import { GridColumnType } from '../enums/Grid-Column-Type.enum';
+import { GridColumnType } from "../enums/Grid-Column-Type.enum";
 
 export interface GridColumn {
     key: string;

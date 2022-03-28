@@ -1,6 +1,7 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pill, PILL_BG_COLOR, LabelType } from '../_ui';
+import { Pill, PILL_BG_COLOR } from '../_ui/Pill.component';
+import { LabelType } from '../_ui/Label.component';
 
 export enum CHARGE_STATUS {
   COMING_SOON,
@@ -19,7 +20,7 @@ interface InputProps {
 export const ChargerStatus = memo(({ status }: InputProps) => {
   const { t } = useTranslation();
   let label; let
-    color;
+color;
   switch (status) {
     case CHARGE_STATUS.COMING_SOON:
       label = t('coming_soon');

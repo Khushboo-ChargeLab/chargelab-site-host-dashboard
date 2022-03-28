@@ -1,7 +1,13 @@
-import PropTypes from 'prop-types';
-import { Label, LabelType } from '.';
+import React from 'react';
+import { Label, LabelType } from './Label.component';
 
-export const FormInput = ({ label = '', error = '', ...props }) => (
+interface InputProps {
+    label?: string;
+    error?: string;
+    props?: any;
+  }
+
+export const FormInput = ({ label = '', error = '', props }: InputProps) => (
   <div className="block">
     <div className="block pb-2">
       <Label type={LabelType.LABEL_M} text={label} />
@@ -16,16 +22,6 @@ export const FormInput = ({ label = '', error = '', ...props }) => (
 
     {error && (
     <Label type={LabelType.ERROR} text={error} />
-    )}
+            )}
   </div>
-);
-
-FormInput.defaultProps = {
-  label: '',
-  error: '',
-};
-
-FormInput.propTypes = {
-  label: PropTypes.string,
-  error: PropTypes.string,
-};
+    );
