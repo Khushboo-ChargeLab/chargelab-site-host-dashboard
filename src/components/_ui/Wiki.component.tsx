@@ -171,6 +171,23 @@ export const Wiki = () => {
         </div>
       </div>
       <hr />
+      <div className="flex pt-6 pb-4 bg-white">
+        <Switch
+          enableLabel="Enabled"
+          disableLabel="Disabled"
+          onChange={(checked: boolean) => console.log('Switch:', checked)}
+        />
+
+        <Switch
+          enableLabel="Enabled"
+          disableLabel="Disabled"
+          className="ml-10"
+          segmented
+          options={['Company', 'Individual', 'N/A']}
+          onChange={(checked: boolean) => console.log('Switch:', checked)}
+        />
+      </div>
+      <hr />
       <div className="block mt-4 mb-4">
         <div className="inline-block">
           <Pill label="Available" bgColor={PILL_BG_COLOR.GREEN} />
@@ -220,13 +237,6 @@ export const Wiki = () => {
       <hr />
       <div className="block mt-6 mb-4">
         <SessionStatusHistory data={history} />
-      </div>
-      <div className="block mt-6 mb-4">
-        <Switch
-          enableLabel="Enabled"
-          disableLabel="Disabled"
-          onChange={(checked: boolean) => console.log('Switch:', checked)}
-        />
       </div>
       <hr />
       <div className="block mt-6 mb-4">

@@ -11,3 +11,8 @@
     font-family: Avenir Next LT Pro B;
     src        : url('../src/assets/fonts/AvenirNextLTPro-Demi.otf');
 }
+
+.box-shadow-switch {
+    box-shadow   : 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+}
