@@ -23,11 +23,12 @@ import info from '../assets/icons/info.svg';
 import chevdown from '../assets/icons/chevron_down.svg';
 import chevnext from '../assets/icons/chev-next.svg';
 import chevpre from '../assets/icons/chev-pre.svg';
+import avatar from '../assets/images/avatar.svg';
 
 export {
     chargelab, overviewSelected, chargers, pricing, access,
     company, payout, rfid, learning, help,
     chargerSelected, overview, pricingS, accessS,
     close, alert, warning, info, chevdown,
-    chevnext, chevpre,
+    chevnext, chevpre, avatar,
 };

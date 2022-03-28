@@ -17,6 +17,7 @@ import {
   GroupDirection,
   RadioGroup,
   CheckBoxTree,
+  ImageViewer,
 } from '.';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
 import { ButtonSize } from './Button.component';
@@ -260,6 +261,19 @@ export const Wiki = () => {
       <div className="flex felx-row mt-6">
         {renderCheckBox()}
       </div>
+      <hr />
+      <div className="flex felx-row mt-6 mb-4">
+        Empty
+        <ImageViewer className="mr-6" />
+
+        From URL
+        {' '}
+        <ImageViewer className="mr-6" width={120} src="https://chargelabservice.s3.us-east-2.amazonaws.com/stations/generic/Delta+AC+Mini.jpg" />
+
+        Profile
+        <ImageViewer width={40} className="mr-6" />
+      </div>
+      <hr />
     </>
   );
 };
