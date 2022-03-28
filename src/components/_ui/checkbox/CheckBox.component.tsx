@@ -37,7 +37,7 @@ const CheckBox = ({
   return (
     <div className="flex flex-row gap-2 items-center justify-start">
       <input
-        className={`justify-center  ${
+        className={`w-4 h-4 justify-center  ${
           singleSelection ? 'form-radio' : 'rounded-sm form-checkbox'
         }`}
         type={singleSelection ? 'radio' : 'checkbox'}
