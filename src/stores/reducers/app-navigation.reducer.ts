@@ -6,9 +6,9 @@ export const setCurrentNavigation = createAction<AppNavigator | null>('SET-CURRE
 export const appNavigationReducer = createReducer({
 
 }, (builder) => {
-  builder
-    .addCase(setCurrentNavigation, (state, action) => ({
-      ...state,
-      navigation: action.payload,
-    }));
+    builder
+        .addCase(setCurrentNavigation, (state, action) => ({
+            ...state,
+            navigation: action.payload,
+        }));
 });

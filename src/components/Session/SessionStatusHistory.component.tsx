@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import {
   ChargerStatus,
   CHARGE_STATUS,
@@ -27,4 +27,4 @@ export const SessionStatusHistory = memo(({ data }: InputProps) => (
     renderTitle={renderTitle}
     renderContent={renderContent}
   />
-));
+  ));

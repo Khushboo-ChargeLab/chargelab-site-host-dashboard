@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Label, LabelType } from '.';
+import { Label, LabelType } from './Label.component';
 
 export enum ButtonType {
   Primary = 'flex bg-blue-light rounded justify-center h-10 items-center hover:bg-blue-dark',
@@ -15,7 +15,7 @@ export enum ButtonSize {
   SMALL = 'w-20',
 }
 
-interface ButtonProps {
+interface InputProps {
   size?: ButtonSize;
   label: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -40,31 +40,23 @@ const getLabelType = (buttonType: ButtonType) => {
   }
 };
 
-const Button = ({
-  size = ButtonSize.NORMAL,
-  label,
-  onClick,
-  type = ButtonType.Primary,
-  className = '',
-}: ButtonProps) => {
-  const labelType = getLabelType(type);
-  return (
-    <button
-      type="button"
-      className={`${type} ${size} ${className}`}
-      onClick={onClick}
-      disabled={type === ButtonType.Disabled}
-    >
-      <Label text={label} type={labelType} />
-    </button>
-  );
-};
-
-Button.defaultProps = {
-  size: ButtonSize.NORMAL,
-  onClick: () => null,
-  type: ButtonType.Primary,
-  className: '',
-};
-
-export default memo<ButtonProps>(Button);
+export const Button = memo(
+  ({
+    size = ButtonSize.NORMAL,
+    label,
+    onClick,
+    type = ButtonType.Primary,
+    className = '',
+  }: InputProps) => {
+    const labelType = getLabelType(type);
+    return (
+      <button
+        className={`${type} ${size} ${className}`}
+        onClick={onClick}
+        disabled={type === ButtonType.Disabled}
+      >
+        <Label text={label} type={labelType} />
+      </button>
+    );
+  },
+);

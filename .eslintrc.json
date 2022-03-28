@@ -21,8 +21,6 @@
         "react-hooks"
     ],
     "rules": {
-        // suppress errors for missing 'import React' in files
-        "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
         "max-len": ["warn", { "code": 180 }],
         "import/prefer-default-export": "off",
@@ -43,6 +41,7 @@
         "react/button-has-type":0,
         "react/jsx-props-no-spreading":0,
         "eol-last":0,
+        "import/no-unresolved":0,
         "react/no-unstable-nested-components": [
             "off",
             { "allowAsProps": true }
