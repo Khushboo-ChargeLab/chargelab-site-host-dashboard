@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { memo, useState } from 'react';
+import React, { memo, useState } from 'react';
 import CheckBox from './CheckBox.component';
 import { CheckBoxData } from './types/CheckBox-Column.interface';
 

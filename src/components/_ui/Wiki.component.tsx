@@ -11,10 +11,75 @@ import {
   ModalForm,
   Snackbar,
   DateTimePicker,
+  CheckBox,
+  CheckBoxData,
+  CheckBoxGroup,
+  GroupDirection,
+  RadioGroup,
+  CheckBoxTree,
 } from '.';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
 import { ButtonSize } from './Button.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
+
+const renderCheckBox = () => (
+  <div className="flex flex-row w-full">
+    <div className="flex flex-col basis-1/2 gap-5">
+      <CheckBox
+        label="Time-of-use price"
+        onChange={(checked: boolean) => console.log(checked)}
+      />
+      <CheckBoxGroup
+        name="testcheckboxgroup"
+        defaultItems={[
+          { label: 'FG-21', isChecked: true },
+          { label: 'FG-22', isChecked: true },
+          { label: 'FG-23' },
+        ]}
+        onChange={(items: CheckBoxData[]) => {
+          console.log(items);
+        }}
+      />
+      <RadioGroup
+        name="testradiogroup"
+        direction={GroupDirection.Vertical}
+        defaultItems={[
+          { label: 'Toronto', isChecked: true },
+          { label: 'Calgary' },
+          { label: 'Vancouver' },
+        ]}
+        onChange={(items: CheckBoxData[]) => {
+          console.log(items);
+        }}
+      />
+    </div>
+    <div className="basis-1/2">
+      <CheckBoxTree
+        defaultNodes={[
+          {
+            label: 'Hilton Kennedy',
+            isChecked: false,
+            children: [
+              { label: 'FG-21', isChecked: true },
+              { label: 'FG-22' },
+              { label: 'FG-23' },
+            ],
+          },
+          {
+            label: 'Hilton Springfield',
+            isChecked: false,
+            children: [
+              { label: 'BD-31', isChecked: true },
+              { label: 'BD-32' },
+              { label: 'BD-33' },
+            ],
+          },
+        ]}
+        onChange={(nodes: CheckBoxData[]) => console.log('onChange:', nodes)}
+      />
+    </div>
+  </div>
+);
 
 export const Wiki = () => {
   const history = [
@@ -177,7 +242,7 @@ export const Wiki = () => {
         <Button label="Alert" type={ButtonType.Alert} className="ml-2" />
       </div>
       <hr />
-      <div className="flex felx-row mt-6">
+      <div className="flex felx-row mt-6 mb-6">
         <Button
           label="Snackbar Top"
           onClick={showSnackbar}
@@ -190,6 +255,10 @@ export const Wiki = () => {
           type={ButtonType.Info}
           className="ml-2"
         />
+      </div>
+      <hr />
+      <div className="flex felx-row mt-6">
+        {renderCheckBox()}
       </div>
     </>
   );

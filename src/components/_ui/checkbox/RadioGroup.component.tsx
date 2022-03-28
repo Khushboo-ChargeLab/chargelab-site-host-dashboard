@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { CheckBoxGroup, GroupDirection } from '..';
 import { CheckBoxData } from './types/CheckBox-Column.interface';
 
