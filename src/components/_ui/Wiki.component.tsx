@@ -272,6 +272,9 @@ export const Wiki = () => {
 
         Profile
         <ImageViewer width={40} className="mr-6" />
+
+        Profile Selector
+        <ImageViewer profile className="mr-6" />
       </div>
       <hr />
     </>
