@@ -19,6 +19,7 @@ import CheckBoxGroup, {
 } from './checkbox/CheckBoxGroup.component';
 import Radio from './checkbox/Radio.component';
 import RadioGroup from './checkbox/RadioGroup.component';
+import { ImageViewer } from './Image-Viewer.component';
 
 export {
   AppSideBar,
@@ -43,6 +44,7 @@ export {
   Radio,
   RadioGroup,
   CheckBoxTree,
+  ImageViewer,
 };
 
 export type { CheckBoxData };
