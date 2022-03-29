@@ -12,6 +12,11 @@
     src        : url('../src/assets/fonts/AvenirNextLTPro-Demi.otf');
 }
 
+.box-shadow-switch {
+    box-shadow   : 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+}
+
 .border-50-percent {
     border-radius: 50%;
 }
