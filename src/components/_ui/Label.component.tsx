@@ -29,7 +29,7 @@ interface InputProps {
 }
 
 export const Label = memo(({ text, type, className }: InputProps) => (
-  <span className={`${type || LabelType.LABEL_M} ${className || ''}`}>
+  <div className={`${type || LabelType.LABEL_M} ${className || ''}`}>
     {text}
-  </span>
+  </div>
   ));
