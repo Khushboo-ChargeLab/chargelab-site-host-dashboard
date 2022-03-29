@@ -32,6 +32,8 @@ import signout from '../assets/icons/signout.svg';
 import start from '../assets/icons/start.svg';
 import startGreen from '../assets/icons/start-green.svg';
 import stop from '../assets/icons/stop.svg';
+import avatar from '../assets/images/avatar.svg';
+import profileSelector from '../assets/images/profile-selector.svg';
 
 export {
     chargelab, overviewSelected, chargers, pricing, access,
@@ -41,4 +43,5 @@ export {
     chevnext, chevpre, bell, calendar, cancel,
     charging, infoRed, language, myprofile, noData,
     reset, signout, start, startGreen, stop,
+    avatar, profileSelector,
 };
