@@ -22,6 +22,7 @@ import {
 import { start } from '../../lib';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
 import { ButtonSize } from './Button.component';
+import { Card } from './Card.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
 
 const renderCheckBox = () => (
@@ -170,6 +171,37 @@ export const Wiki = () => {
           Range Picker#2:
           <DateTimePicker white dateRange dateRangeMove format="LLL dd yyyy" />
         </div>
+      </div>
+      <hr />
+      <div className="flex pt-6 pb-4">
+        <Card title="Recent sessions">
+          <Grid
+            columns={[
+            { key: 'id', title: 'Charger Name' },
+            { key: 'location', title: 'Location' },
+            {
+              key: 'status',
+              title: 'Status',
+              component: (row: any) => (
+                <Pill
+                  label={row.status}
+                  bgColor={
+                    row.status === 'Available'
+                      ? PILL_BG_COLOR.GREEN
+                      : PILL_BG_COLOR.RED
+                  }
+                />
+              ),
+            },
+          ]}
+            data={[
+            { id: 'AD-01', location: 'UAT', status: 'Available' },
+            { id: 'AD-02', location: 'DEV', status: 'Hidden' },
+          ]}
+            totalPage={9}
+            primaryKey="id"
+          />
+        </Card>
       </div>
       <hr />
       <div className="flex pt-6 pb-4 bg-white">
