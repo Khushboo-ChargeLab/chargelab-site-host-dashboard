@@ -13,7 +13,7 @@ export enum ButtonType {
 export enum ButtonSize {
   FULL = 'w-full',
   NORMAL = 'w-48',
-  SMALL = 'w-20',
+  SMALL = 'h-10 pl-4 pr-4 pt-2.5 pb-2.5',
   ICON = 'h-8 pr-3 pl-4',
 }
 

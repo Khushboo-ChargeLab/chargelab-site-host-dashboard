@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
-import { formatDate } from '../../../utils/Date.Util';
+import { convertToLocaleCurrency } from '../../../utils/Currency.Util';
+import { formatDate, formatDateTime } from '../../../utils/Date.Util';
 import { Label, LabelType } from '../Label.component';
 import { GridColumnType } from './enums/Grid-Column-Type.enum';
 import { InputProps } from './Grid.component';
@@ -15,7 +16,15 @@ export const GridBody = memo((
             if (currentData) {
                 return formatDate(new Date(currentData), col.format);
             }
-        }
+        } else if (col.type === GridColumnType.DATETIME) {
+          if (currentData) {
+              return formatDateTime(new Date(currentData), col.format);
+          }
+      } else if (col.type === GridColumnType.CURRENCY) {
+        if (currentData) {
+            return convertToLocaleCurrency(currentData);
+          }
+      }
 
         if (col.component) {
             const Component = col.component;

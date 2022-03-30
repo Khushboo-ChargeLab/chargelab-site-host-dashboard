@@ -26,10 +26,16 @@ interface InputProps {
   text: string;
   type?: LabelType;
   className?: string;
+  icon?:any;
 }
 
-export const Label = memo(({ text, type, className }: InputProps) => (
-  <div className={`${type || LabelType.LABEL_M} ${className || ''}`}>
+export const Label = memo(({
+ text, type, className = '', icon = null,
+}: InputProps) => (
+  <div className={`${type || LabelType.LABEL_M} ${className} ${icon ? 'flex items-center' : ''}`}>
+    {icon && (
+      <img src={icon} alt="" className="pr-2" />
+    )}
     {text}
   </div>
   ));
