@@ -9,5 +9,7 @@
   "charging": "Charging",
   "scheduled": "Scheduled",
   "offline": "Offline",
-  "out_of_order": "Out of order"
+  "out_of_order": "Out of order",
+  "clear": "Clear",
+  "search": "Search"
 }
