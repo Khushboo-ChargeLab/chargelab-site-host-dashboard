@@ -4,6 +4,7 @@ import {
   AppHeader, AppSideBar, Label, Wiki,
 } from './components/_ui';
 import './App.scss';
+import { Summary } from './components/overview';
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
         <Route path="/wiki">
           <Wiki />
         </Route>
-
+        <Route path="/summary">
+          <Summary />
+        </Route>
         <div className="fixed right-5 bottom-2">
           <Link to="/wiki">
             <Label text="wiki" />

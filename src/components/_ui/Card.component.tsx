@@ -8,9 +8,9 @@ interface InputProps {
 }
 
 export const Card = memo((
-    { title, className, children }: InputProps,
+    { title, className = 'w-full', children }: InputProps,
 ) => (
-  <div className={`bg-white rounded-lg pl-5 pr-5 pt-4 pb-4 w-full ${className}`}>
+  <div className={`bg-white rounded-lg pl-5 pr-5 pt-4 pb-4  ${className}`}>
     {title && (
     <Label type={LabelType.H4} text={title} className="pb-6" />
         )}
