@@ -5,7 +5,7 @@ import { Label, LabelType } from '..';
 interface CheckBoxProps {
   name?: string;
   label?: string;
-  isChecked?: boolean;
+  selected?: boolean;
   onChange?: Function;
   isDisabled?: boolean;
   singleSelection?: boolean;
@@ -16,18 +16,18 @@ const CheckBox = ({
   name = '',
   onChange,
   label = '',
-  isChecked = false,
+  selected = false,
   isDisabled = false,
   singleSelection = false,
   index,
 }: CheckBoxProps) => {
-  const [checked, setChecked] = useState(isChecked);
+  const [checked, setChecked] = useState(selected);
 
   useEffect(() => {
-    if (checked !== isChecked) {
-      setChecked(isChecked);
+    if (checked !== selected) {
+      setChecked(selected);
     }
-  }, [isChecked]);
+  }, [selected]);
 
   const handleChange = (event: any) => {
     setChecked(event.target.checked);
@@ -35,7 +35,7 @@ const CheckBox = ({
   };
 
   return (
-    <div className="flex flex-row gap-2 items-center justify-start">
+    <div className='flex flex-row gap-2 items-center justify-start'>
       <input
         className={`w-4 h-4 justify-center  ${
           singleSelection ? 'form-radio' : 'rounded-sm form-checkbox'
@@ -55,7 +55,7 @@ const CheckBox = ({
 CheckBox.defaultProps = {
   name: '',
   label: '',
-  isChecked: false,
+  selected: false,
   onChange: () => null,
   isDisabled: false,
   singleSelection: false,

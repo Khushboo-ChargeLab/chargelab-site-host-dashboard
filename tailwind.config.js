@@ -10,9 +10,11 @@ module.exports = {
       black: '#202223',
       silver: '#F2F4F6',
       red: '#E11900',
+      grey1: '#F2F4F6',
       grey5: '#6B7684',
       grey6: '#4E5968',
       blue2: '#18A0D7',
+      grey4: '#B0B8C1',
       green: {
         light4: '#4BD865',
         DEFAULT: '#05944F',
@@ -37,5 +39,6 @@ module.exports = {
     },
     extend: {},
   },
+  // eslint-disable-next-line global-require
   plugins: [require('@tailwindcss/forms')],
 };

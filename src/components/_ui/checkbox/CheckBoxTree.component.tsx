@@ -1,21 +1,32 @@
 /* eslint-disable react/no-array-index-key */
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import CheckBox from './CheckBox.component';
 import { CheckBoxData } from './types/CheckBox-Column.interface';
 
 interface CheckBoxTreeProps {
   onChange?: Function;
   defaultNodes: CheckBoxData[];
+  filterStr?: string;
 }
 
-const CheckBoxTree = ({ defaultNodes, onChange }: CheckBoxTreeProps) => {
+const CheckBoxTree = ({
+  defaultNodes,
+  onChange,
+  filterStr = '',
+}: CheckBoxTreeProps) => {
   const [nodes, setNodes] = useState(defaultNodes);
+  useEffect(() => {
+    setNodes(defaultNodes);
+  }, [defaultNodes]);
 
-  const handleParentChange = (isChecked: boolean, pIndex: number) => {
+  const handleParentChange = (selected: boolean, pIndex: number) => {
     const newNodes = nodes.map((node, index) => {
       if (index === pIndex) {
-        const newChildren = node.children?.map((child) => ({ ...child, isChecked }));
-        return { ...node, isChecked, children: newChildren };
+        const newChildren = node.children?.map((child) => ({
+          ...child,
+          selected,
+        }));
+        return { ...node, selected, children: newChildren };
       }
       return node;
     });
@@ -24,7 +35,7 @@ const CheckBoxTree = ({ defaultNodes, onChange }: CheckBoxTreeProps) => {
   };
 
   const handleChildrenChange = (
-    isChecked: boolean,
+    selected: boolean,
     cIndex: number,
     pIndex: number,
   ) => {
@@ -32,49 +43,72 @@ const CheckBoxTree = ({ defaultNodes, onChange }: CheckBoxTreeProps) => {
       if (index === pIndex) {
         let isAllChildrenChecked = true;
         const newChildren = node.children?.map((child, childIndex) => {
-          const newIsChecked = childIndex === cIndex ? isChecked : child.isChecked;
-          if (!newIsChecked) isAllChildrenChecked = false;
+          const newSelected = childIndex === cIndex ? selected : child.selected;
+          if (!newSelected) isAllChildrenChecked = false;
           return {
             ...child,
-            isChecked: newIsChecked,
+            selected: newSelected,
           };
         });
         return {
           ...node,
-          isChecked: isAllChildrenChecked,
+          selected: isAllChildrenChecked,
           children: newChildren,
         };
       }
       return node;
     });
-    console.log('handleChildrenChange newNodes:', newNodes);
     setNodes(newNodes);
     if (onChange) onChange(newNodes);
   };
 
   return (
-    <div>
-      {nodes.map((node, pIndex) => (
-        <div key={`${node.label}-${pIndex}`} className="p-2">
-          <CheckBox
-            index={pIndex}
-            label={node.label}
-            isChecked={node.isChecked}
-            onChange={handleParentChange}
-          />
-          {node.children?.map((child, cIndex) => (
-            <div key={`${child.label}-${cIndex}`} className="p-1 ml-3">
+    <div className='flex flex-col'>
+      {nodes.map((node, pIndex) => {
+        const shouldDisplayParent =
+          node.label.toLowerCase().includes(filterStr.toLowerCase()) ||
+          node.children?.some((child) =>
+            child.label.toLowerCase().includes(filterStr.toLowerCase()),
+          );
+        if (!shouldDisplayParent) {
+          return null;
+        }
+        return (
+          <div key={`${node.label}-${pIndex}`}>
+            <div className='flex hover:bg-silver h-12 pl-2 pr-12'>
               <CheckBox
-                name={node.label}
-                index={cIndex}
-                label={child.label}
-                isChecked={child.isChecked}
-                onChange={(isChecked: boolean, childIndex: number) => handleChildrenChange(isChecked, childIndex, pIndex)}
+                index={pIndex}
+                label={node.label}
+                selected={node.selected}
+                onChange={handleParentChange}
               />
             </div>
-          ))}
-        </div>
-      ))}
+
+            {node.children?.map((child, cIndex) => {
+              const shouldDisplayChild = child.label
+                .toLowerCase()
+                .includes(filterStr.toLowerCase());
+              if (!shouldDisplayChild) return null;
+              return (
+                <div
+                  key={`${child.label}-${cIndex}`}
+                  className='flex hover:bg-silver h-12 pl-2 pr-12 ml-3'
+                >
+                  <CheckBox
+                    name={node.label}
+                    index={cIndex}
+                    label={child.label}
+                    selected={child.selected}
+                    onChange={(selected: boolean, childIndex: number) =>
+                      handleChildrenChange(selected, childIndex, pIndex)
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 };
