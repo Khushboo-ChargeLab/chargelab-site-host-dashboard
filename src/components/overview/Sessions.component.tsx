@@ -1,23 +1,34 @@
 import { alert, charging } from '../../lib';
 import {
- Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType,
+ Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType, Dropdown, CustomDatePicker,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 
-export const Sessions = () => (
-  <Card title="Recent sessions">
-    <div className="flex mt-3 mb-8 w-full">
-      <div className="flex w-4/5">
-        <Button size={ButtonSize.SMALL} label="Export " type={ButtonType.Cancel} />
-
+export const Sessions = () => {
+  const dateChanged = (selectedDate:any) => {
+    console.log('selectedDate', selectedDate);
+  };
+  return (
+    <Card title="Recent sessions">
+      <div className="flex mt-3 mb-8 w-full">
+        <div className="flex w-4/5">
+          <Dropdown
+            title='Charger'
+            headerWidth='auto'
+            items={[]}
+            onItemClick={(items: any, item: any, index: number) =>
+            console.log(item, index)
+          }
+          />
+          <CustomDatePicker format="MMM d,yyyy" className='ml-2' onChange={dateChanged} />
+        </div>
+        <div className="flex justify-end w-1/5">
+          <Button size={ButtonSize.SMALL} label="Export CSV" type={ButtonType.Cancel} />
+        </div>
       </div>
-      <div className="flex justify-end w-1/5">
-        <Button size={ButtonSize.SMALL} label="Export CSV" type={ButtonType.Cancel} />
-      </div>
-    </div>
-    <Grid
-      columns={[
+      <Grid
+        columns={[
             { key: 'id', title: 'Authentication type' },
             { key: 'location', title: 'Location' },
             {
@@ -46,7 +57,7 @@ export const Sessions = () => (
             { key: 'energy', title: 'Energy used' },
             { key: 'cost', title: 'Cost', type: GridColumnType.CURRENCY },
           ]}
-      data={[
+        data={[
             {
  id: 'AD-01', location: 'UAT', charger: 'DR-41', start: '01/24/2022 10:20:33 PM', cost: 7.25, energy: '12.9 kWh', status: 'Charging',
 },
@@ -54,8 +65,9 @@ export const Sessions = () => (
  id: 'AD-02', location: 'DEV', charger: 'DR-55', status: 'Failed',
 },
           ]}
-      totalPage={9}
-      primaryKey="id"
-    />
-  </Card>
+        totalPage={9}
+        primaryKey="id"
+      />
+    </Card>
     );
+        };

@@ -214,7 +214,7 @@ export const Dropdown = memo(
       }
       return (
         <button
-          className={`${white ? 'bg-white' : 'bg-silver'} h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center`}
+          className={`${white ? 'bg-white' : 'bg-silver'} h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center ${className}`}
           type='button'
           onClick={handleHeaderClick}
           style={{ width: headerWidth }}
