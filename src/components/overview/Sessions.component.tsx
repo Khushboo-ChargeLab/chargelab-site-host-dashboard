@@ -11,6 +11,7 @@ export const Sessions = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const refreshGrid = useCallback(async (page:number) => {
+    console.log('refreshGrid', page, filter);
     setCurrentPage(page);
 
 // Fetch data
@@ -41,10 +42,18 @@ export const Sessions = () => {
           <Dropdown
             title='Charger'
             headerWidth='auto'
-            items={[{ label: 'AD-21', selected: true },
+            items={[{ label: 'AD-21', selected: false },
             { label: 'AD-22', selected: false },
             { label: 'AD-23', selected: false },
             { label: 'AD-24', selected: false },
+            { label: 'AD-25', selected: false },
+            { label: 'AD-26', selected: false },
+            { label: 'AD-27', selected: false },
+            { label: 'AD-28', selected: false },
+            { label: 'AD-29', selected: false },
+            { label: 'AD-30', selected: false },
+            { label: 'AD-31', selected: false },
+            { label: 'AD-32', selected: false },
             { label: 'AD-25', selected: false },
             { label: 'AD-26', selected: false },
             { label: 'AD-27', selected: false },
