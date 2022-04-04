@@ -34,9 +34,9 @@ export const CustomDatePicker = memo(
 
     const customDateChanged = useCallback((date:any) => {
       setOptions([
-        { label: 'Last week', selected: false },
-        { label: 'Last month', selected: false },
-        { label: 'Custom range', selected: true },
+        { label: 'Last week', selected: false, id: 'LASTWEEK' },
+        { label: 'Last month', selected: false, id: 'LASTMONTH' },
+        { label: 'Custom range', selected: true, id: '' },
       ]);
       onChange && onChange(date);
     }, [onChange]);
@@ -46,18 +46,18 @@ export const CustomDatePicker = memo(
      switch (op?.id) {
        case 'LASTWEEK': {
         onChange && onChange(getLastWeek());
-        return '1';
+        break;
        }
 
        case 'LASTMONTH': {
          onChange && onChange(getLastMonth());
-         return '2';
+         break;
        }
 
-       default: {
-         return '';
-       }
+       default:
      }
+
+     return '';
     }, [onChange]);
 
     return (

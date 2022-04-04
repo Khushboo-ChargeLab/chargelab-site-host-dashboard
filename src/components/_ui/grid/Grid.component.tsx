@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { GridBody } from './Grid-Body.component';
 import { GridHeader } from './Grid-Header.component';
 import { GridPager } from './Grid-Pager.component';
@@ -11,14 +11,16 @@ export interface InputProps {
     primaryKey: string;
     totalPage?: number;
     loadPage?: (page: number, filter?: any)=> void;
+    pageIndex?:number;
 }
 
 export const Grid = (
     {
  columns, data, primaryKey, totalPage, loadPage,
+ pageIndex = 1,
 }:InputProps,
 ) => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(pageIndex);
 
     const loadMoreData = useCallback((page: number) => {
         if (page >= 0 && page <= (totalPage || 1)) {
@@ -30,6 +32,9 @@ export const Grid = (
         }
     }, [loadPage, totalPage]);
 
+    useEffect(() => {
+      setCurrentPage(pageIndex);
+    }, [pageIndex]);
     return (
       <>
         <div className="table">

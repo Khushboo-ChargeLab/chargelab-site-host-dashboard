@@ -71,7 +71,12 @@ export const Dropdown = memo(
       }));
       setItems(newItems);
       setTitle(item.label);
-      onItemClick && onItemClick(newItems, item, index);
+
+      if (type === DropdownType.SELECT) {
+        onItemClick && onItemClick(item, index);
+      } else {
+        onItemClick && onItemClick(newItems, item, index);
+      }
     };
 
     const handleClearClick = () => {

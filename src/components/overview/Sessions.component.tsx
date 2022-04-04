@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from 'react';
 import { alert, charging } from '../../lib';
 import {
  Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType, Dropdown, CustomDatePicker,
@@ -6,9 +7,33 @@ import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 
 export const Sessions = () => {
-  const dateChanged = (selectedDate:any) => {
-    console.log('selectedDate', selectedDate);
-  };
+  const [filter, setFilter] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const refreshGrid = useCallback(async (page:number) => {
+    setCurrentPage(page);
+
+// Fetch data
+  }, [filter]);
+
+  const dateChanged = useCallback((selectedDate:any) => {
+    setFilter({
+      ...filter,
+      dateRange: selectedDate,
+    });
+  }, [filter]);
+
+  const chargerSelected = useCallback((item: any) => {
+    setFilter({
+      ...filter,
+      charger: item,
+    });
+  }, [filter]);
+
+  useEffect(() => {
+    refreshGrid(1);
+  }, [refreshGrid]);
+
   return (
     <Card title="Recent sessions">
       <div className="flex mt-3 mb-8 w-full">
@@ -16,10 +41,22 @@ export const Sessions = () => {
           <Dropdown
             title='Charger'
             headerWidth='auto'
-            items={[]}
-            onItemClick={(items: any, item: any, index: number) =>
-            console.log(item, index)
-          }
+            items={[{ label: 'AD-21', selected: true },
+            { label: 'AD-22', selected: false },
+            { label: 'AD-23', selected: false },
+            { label: 'AD-24', selected: false },
+            { label: 'AD-25', selected: false },
+            { label: 'AD-26', selected: false },
+            { label: 'AD-27', selected: false },
+            { label: 'AD-28', selected: false },
+            { label: 'AD-29', selected: false },
+            { label: 'AD-30', selected: false },
+            { label: 'AD-31', selected: false },
+            { label: 'AD-32', selected: false },
+            { label: 'AD-33', selected: false },
+            { label: 'AD-34', selected: false },
+            { label: 'AD-35', selected: false }]}
+            onItemClick={chargerSelected}
           />
           <CustomDatePicker format="MMM d,yyyy" className='ml-2' onChange={dateChanged} />
         </div>
@@ -28,6 +65,8 @@ export const Sessions = () => {
         </div>
       </div>
       <Grid
+        pageIndex={currentPage}
+        loadPage={refreshGrid}
         columns={[
             { key: 'id', title: 'Authentication type' },
             { key: 'location', title: 'Location' },
