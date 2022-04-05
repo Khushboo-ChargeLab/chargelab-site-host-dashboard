@@ -1,24 +1,31 @@
 import {
-    format, isValid, addDays as addDaysfns,
-    addMonths as addMonthsfns, differenceInDays as differenceInDaysfns,
+  format,
+  isValid,
+  addDays as addDaysfns,
+  addMonths as addMonthsfns,
+  differenceInDays as differenceInDaysfns,
 } from 'date-fns';
 
 export const formatDate = (date: Date, dateFormat: string = 'LLL dd, yyyy') => {
-    if (isValid(date)) {
-        return format(date, dateFormat || 'LLL dd, yyyy');
-    }
+  if (isValid(date)) {
+    return format(date, dateFormat || 'LLL dd, yyyy');
+  }
 
-    return '';
+  return '';
 };
 
 export const formatTime = (date: Date, dateFormat: string = 'HH:mm') => {
-    if (isValid(date)) {
-        return format(date, dateFormat);
-    }
+  if (isValid(date)) {
+    return format(date, dateFormat);
+  }
 
-    return '';
+  return '';
 };
 
 export const addDays = (date: Date, days: number) => addDaysfns(date, days);
-export const addMonths = (date: Date, amount: number) => addMonthsfns(date, amount);
-export const differenceInDays = (startDate: Date, endDate: Date) => differenceInDaysfns(startDate, endDate);
+export const addMonths = (date: Date, amount: number) =>
+  addMonthsfns(date, amount);
+export const differenceInDays = (startDate: Date, endDate: Date) =>
+  differenceInDaysfns(startDate, endDate);
+
+export const getShortMonth = (date: Date) => formatTime(date, 'LLL');

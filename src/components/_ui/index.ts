@@ -22,6 +22,8 @@ import RadioGroup from './checkbox/RadioGroup.component';
 import { Dropdown, DropdownType } from './Dropdown/Dropdown.component';
 import { ImageViewer } from './Image-Viewer.component';
 import { Card } from './Card.component';
+import { DoughnutChart } from './chart/DoughnutChart.component';
+import { VerticalBarChart } from './chart/VerticalBarChart.component';
 
 export {
   AppSideBar,
@@ -51,6 +53,8 @@ export {
   DropdownType,
   ImageViewer,
   Card,
+  DoughnutChart,
+  VerticalBarChart,
 };
 
 export type { CheckBoxData };

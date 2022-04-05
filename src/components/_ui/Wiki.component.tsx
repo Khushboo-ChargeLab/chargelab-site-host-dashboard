@@ -20,6 +20,8 @@ import {
   Dropdown,
   DropdownType,
   ImageViewer,
+  DoughnutChart,
+  VerticalBarChart,
 } from '.';
 import { start } from '../../lib';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
@@ -27,6 +29,93 @@ import { ButtonSize } from './Button.component';
 import { FormInput } from './Input.component';
 import { Card } from './Card.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
+
+const renderChart = () => {
+  const status = [
+    {
+      label: 'Available',
+      value: 4,
+      color: '#7CB342',
+    },
+    {
+      label: 'Charging',
+      value: 1,
+      color: '#039BE5',
+    },
+    {
+      label: 'Offline',
+      value: 3,
+      color: '#FFB300',
+    },
+    {
+      label: 'Coming soon',
+      value: 2,
+      color: '#B0B8C1',
+    },
+  ];
+  const feeCollected = [
+    {
+      date: new Date('2022-01-01'),
+      value: 0,
+    },
+    {
+      date: new Date('2022-02-01'),
+      value: 170,
+    },
+    {
+      date: new Date('2022-03-01'),
+      value: 720,
+    },
+    {
+      date: new Date('2022-04-01'),
+      value: 530,
+    },
+    {
+      date: new Date('2022-05-01'),
+      value: 600,
+    },
+    {
+      date: new Date('2022-06-01'),
+      value: 20,
+    },
+    {
+      date: new Date('2022-07-01'),
+      value: 880,
+    },
+    {
+      date: new Date('2022-08-01'),
+      value: 1000,
+    },
+    {
+      date: new Date('2022-09-01'),
+      value: 940,
+    },
+    {
+      date: new Date('2022-10-01'),
+      value: 30,
+    },
+    {
+      date: new Date('2022-11-01'),
+      value: 500,
+    },
+    {
+      date: new Date('2022-12-01'),
+      value: 1200,
+    },
+  ];
+  return (
+    <div>
+      <Card className='w-1/3 h-52' title='Charger Status'>
+        <DoughnutChart items={status} className='flex h-32' />
+      </Card>
+      <br />
+      <Card className='flex h-60'>
+        <VerticalBarChart items={feeCollected} className='flex h-52 w-full' />
+      </Card>
+      <br />
+    </div>
+  );
+};
 
 const renderDropdown = () => {
   const locations = [
@@ -273,6 +362,7 @@ export const Wiki = () => {
   return (
     <>
       <FormInput />
+      {renderChart()}
       <div className='block mb-4'>
         <div className='inline-block'>
           <Label text='Medium' type={LabelType.LABEL_M} />
@@ -300,9 +390,7 @@ export const Wiki = () => {
         </div>
       </div>
       <hr />
-      <div className='block mt-4 mb-4 bg-white p-5'>
-        {renderDropdown()}
-      </div>
+      <div className='block mt-4 mb-4 bg-white p-5'>{renderDropdown()}</div>
       <hr />
       <div className='block mt-4 mb-4'>
         <div className='inline-block'>
