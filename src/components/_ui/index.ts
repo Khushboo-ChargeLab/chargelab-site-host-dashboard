@@ -23,6 +23,8 @@ import { Dropdown, DropdownType } from './Dropdown/Dropdown.component';
 import { ImageViewer } from './Image-Viewer.component';
 import { Card } from './Card.component';
 import { CustomDatePicker } from './date-picker/Custom-Date-Picker.component';
+import { DoughnutChart } from './chart/DoughnutChart.component';
+import { VerticalBarChart } from './chart/VerticalBarChart.component';
 
 export {
   AppSideBar,
@@ -53,6 +55,8 @@ export {
   ImageViewer,
   Card,
   CustomDatePicker,
+  DoughnutChart,
+  VerticalBarChart,
 };
 
 export type { CheckBoxData };

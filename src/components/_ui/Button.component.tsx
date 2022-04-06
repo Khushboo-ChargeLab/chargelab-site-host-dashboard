@@ -5,7 +5,7 @@ export enum ButtonType {
   Primary = 'flex bg-blue-light rounded justify-center h-10 items-center hover:bg-blue-dark',
   Alert = 'flex bg-red  rounded justify-center h-10 items-center',
   Info = 'flex bg-[#E8F7FC] rounded justify-center h-10 items-center hover:bg-[#BBE7F6]',
-  Cancel = 'flex bg-silver rounded justify-center h-10 items-center hover:bg-grey-dark1',
+  Cancel = 'flex bg-silver rounded justify-center h-10 items-center hover:bg-silver',
   Disabled = 'flex bg-grey-light1 rounded justify-center h-10 items-center',
   Icon = 'flex border border-silver5 justify-center items-center rounded',
 }
@@ -23,7 +23,7 @@ interface InputProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: ButtonType;
   className?: string;
-  icon?:any;
+  icon?: any;
 }
 
 const getLabelType = (buttonType: ButtonType) => {
@@ -61,9 +61,7 @@ export const Button = memo(
         onClick={onClick}
         disabled={type === ButtonType.Disabled}
       >
-        {icon && (
-          <img src={icon} alt="" className="pr-2" />
-        )}
+        {icon && <img src={icon} alt='' className='pr-2' />}
 
         <Label text={label} type={labelType} />
       </button>

@@ -28,8 +28,8 @@ interface DropdownProps {
   onItemClick?: Function;
   type?: DropdownType;
   headerWidth?: any;
-  className?:string;
-  white?:boolean;
+  className?: string;
+  white?: boolean;
 }
 
 export const Dropdown = memo(
@@ -190,7 +190,7 @@ export const Dropdown = memo(
         if (pills.length > 0) {
           return (
             <div
-              className='bg-grey1 flex place-content-between px-2 py-2.5 overflow-y-auto max-h-32 rounded-lg'
+              className='bg-silver flex place-content-between px-2 py-2.5 overflow-y-auto max-h-32 rounded-lg'
               style={{ width: headerWidth }}
             >
               <div className='inline-flex flex-wrap gap-1'>{pills}</div>
@@ -207,7 +207,7 @@ export const Dropdown = memo(
         return (
           <div>
             <button
-              className='bg-grey1 rounded px-4 py-2.5 text-center inline-flex items-center'
+              className='bg-silver rounded px-4 py-2.5 text-center inline-flex items-center'
               type='button'
               onClick={handleHeaderClick}
               style={{ width: headerWidth }}

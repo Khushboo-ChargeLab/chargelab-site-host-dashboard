@@ -21,6 +21,7 @@
         "react-hooks"
     ],
     "rules": {
+        "quote-props": "off",
         "function-paren-newline": "off",
         "object-curly-newline":"off",
         "react/jsx-curly-newline": "off",
