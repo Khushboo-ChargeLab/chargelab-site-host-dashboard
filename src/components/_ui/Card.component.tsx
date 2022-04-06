@@ -7,7 +7,7 @@ interface InputProps {
   children?: any;
 }
 
-export const Card = memo(({ title = '', className, children }: InputProps) => (
+export const Card = memo(({ title = '', className = '', children }: InputProps) => (
   <div
     className={`bg-white rounded-lg pl-5 pr-5 pt-4 pb-4 w-full ${className}`}
   >

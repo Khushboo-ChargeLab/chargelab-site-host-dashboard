@@ -11,7 +11,7 @@ export const Summary = () => {
 return (
   <Card title="">
     <div className="block">
-      <DateTimePicker showMonthYearPicker onChange={dateChanged} />
+      <DateTimePicker showMonthYearPicker onChange={dateChanged} defaultDate={new Date()} />
     </div>
     <div className="flex items-center mt-4">
       <div className="block text-center w-60  h-36">
