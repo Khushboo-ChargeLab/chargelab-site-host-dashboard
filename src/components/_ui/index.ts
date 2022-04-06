@@ -1,5 +1,5 @@
 import { Pill, PILL_BG_COLOR } from './Pill.component';
-import { FormInput } from './Input.component';
+import { FormInput, InputIconType } from './Input.component';
 import { Label, LabelType } from './Label.component';
 import { AppSideBar } from './App-Side-Bar.component';
 import { AppHeader } from './App-Header.component';
@@ -19,8 +19,12 @@ import CheckBoxGroup, {
 } from './checkbox/CheckBoxGroup.component';
 import Radio from './checkbox/Radio.component';
 import RadioGroup from './checkbox/RadioGroup.component';
+import { Dropdown, DropdownType } from './Dropdown/Dropdown.component';
 import { ImageViewer } from './Image-Viewer.component';
 import { Card } from './Card.component';
+import { CustomDatePicker } from './date-picker/Custom-Date-Picker.component';
+import { DoughnutChart } from './chart/DoughnutChart.component';
+import { VerticalBarChart } from './chart/VerticalBarChart.component';
 
 export {
   AppSideBar,
@@ -31,6 +35,7 @@ export {
   FormInput,
   Label,
   LabelType,
+  InputIconType,
   PILL_BG_COLOR,
   Timeline,
   Switch,
@@ -45,8 +50,13 @@ export {
   Radio,
   RadioGroup,
   CheckBoxTree,
+  Dropdown,
+  DropdownType,
   ImageViewer,
   Card,
+  CustomDatePicker,
+  DoughnutChart,
+  VerticalBarChart,
 };
 
 export type { CheckBoxData };

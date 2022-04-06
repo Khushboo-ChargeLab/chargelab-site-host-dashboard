@@ -21,6 +21,13 @@
         "react-hooks"
     ],
     "rules": {
+        "quote-props": "off",
+        "function-paren-newline": "off",
+        "object-curly-newline":"off",
+        "react/jsx-curly-newline": "off",
+        "implicit-arrow-linebreak": "off",
+        "jsx-quotes": "off",
+        "operator-linebreak": "off",
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
         "max-len": ["warn", { "code": 180 }],

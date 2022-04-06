@@ -1,5 +1,6 @@
 export interface CheckBoxData {
   label: string;
-  isChecked?: boolean;
+  selected?: boolean;
   children?: CheckBoxData[];
+  id?: string;
 }

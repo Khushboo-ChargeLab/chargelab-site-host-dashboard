@@ -4,7 +4,7 @@ import CheckBox from './CheckBox.component';
 interface RadioProps {
   name?: string;
   label?: string;
-  isChecked?: boolean;
+  selected?: boolean;
   onChange?: Function;
   isDisabled?: boolean;
 }
@@ -12,14 +12,14 @@ interface RadioProps {
 const Radio = ({
   name,
   label = '',
-  isChecked = false,
+  selected = false,
   onChange,
   isDisabled = false,
 }: RadioProps) => (
   <CheckBox
     name={name}
     label={label}
-    isChecked={isChecked}
+    selected={selected}
     onChange={onChange}
     isDisabled={isDisabled}
     singleSelection
@@ -29,7 +29,7 @@ const Radio = ({
 Radio.defaultProps = {
   name: '',
   label: '',
-  isChecked: false,
+  selected: false,
   onChange: () => null,
   isDisabled: false,
 };

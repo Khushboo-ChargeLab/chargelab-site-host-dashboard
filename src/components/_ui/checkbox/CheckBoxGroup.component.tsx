@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import CheckBox from './CheckBox.component';
 import { CheckBoxData } from './types/CheckBox-Column.interface';
 
@@ -13,6 +13,7 @@ interface CheckBoxGroupProps {
   defaultItems: CheckBoxData[];
   singleSelection?: boolean;
   onChange: Function;
+  filterStr?: string;
 }
 
 const CheckBoxGroup = ({
@@ -21,39 +22,49 @@ const CheckBoxGroup = ({
   direction = GroupDirection.Horizontal,
   singleSelection = false,
   onChange,
+  filterStr = '',
 }: CheckBoxGroupProps) => {
   const [items, setItems] = useState(defaultItems);
+  useEffect(() => {
+    setItems(defaultItems);
+  }, [defaultItems]);
 
-  const changeHandler = (isChecked: boolean, i: number) => {
+  const changeHandler = (selected: boolean, i: number) => {
     const newItems = items.map((item, index) => {
       if (singleSelection) {
-        return { ...item, isChecked: index === i ? isChecked : false };
+        return { ...item, selected: index === i ? selected : false };
       }
       return {
         ...item,
-        isChecked: index === i ? isChecked : item.isChecked,
+        selected: index === i ? selected : item.selected,
       };
     });
-
     setItems(newItems);
-    if (onChange) onChange(items);
+    if (onChange) onChange(newItems);
   };
 
-  const classes = `flex  ${direction ? 'flex-col gap-2' : 'flex-row gap-4'}`;
   return (
-    <div className={classes}>
-      {items.map((item, index) => (
-        <CheckBox
-          index={index}
-          name={name}
+    <div className={`flex ${direction === GroupDirection.Vertical ? 'flex-col' : 'flex-row gap-4'}`}>
+      {items.map((item, index) => {
+        if (filterStr && !item.label.toLowerCase().includes(filterStr.toLowerCase())) {
+          return null;
+        }
+        return (
           // eslint-disable-next-line react/no-array-index-key
-          key={`${item.label}-${index}`}
-          label={item.label}
-          isChecked={item.isChecked || false}
-          singleSelection={singleSelection}
-          onChange={changeHandler}
-        />
-      ))}
+          <div key={`${item.label}-${index}`} className={`flex hover:bg-silver h-12 ${direction === GroupDirection.Vertical && 'pl-2 pr-12'} `}>
+            <CheckBox
+              index={index}
+              name={name}
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${item.label}-${index}`}
+              label={item.label}
+              selected={item.selected || false}
+              singleSelection={singleSelection}
+              onChange={changeHandler}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

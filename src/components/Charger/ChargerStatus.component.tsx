@@ -60,7 +60,7 @@ color;
       label={label}
       bgColor={color}
       labelType={LabelType.PILL}
-      width={120}
+      width="120"
     />
   );
 });

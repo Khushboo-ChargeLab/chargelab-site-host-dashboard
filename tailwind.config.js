@@ -13,6 +13,7 @@ module.exports = {
       grey5: '#6B7684',
       grey6: '#4E5968',
       blue2: '#18A0D7',
+      grey4: '#B0B8C1',
       green: {
         light4: '#4BD865',
         DEFAULT: '#05944F',
@@ -24,10 +25,10 @@ module.exports = {
         DEFAULT: '#4E5968',
         light: '#DFE1E6',
         dark: '#AFAFAF',
-        dark1: '#F2F4F6',
       },
       yellow: '#FFC043',
       purple: '#7356BF',
+      primaryblue1: '#3DBAE3',
       blue: {
         light: '#18A0D7',
         DEFAULT: '#276EF1',
@@ -37,5 +38,6 @@ module.exports = {
     },
     extend: {},
   },
+  // eslint-disable-next-line global-require
   plugins: [require('@tailwindcss/forms')],
 };

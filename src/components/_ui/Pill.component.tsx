@@ -18,7 +18,8 @@ interface InputProps {
   bgColor?: PILL_BG_COLOR;
   isButton?: boolean;
   onClick?: () => void;
-  width?: number;
+  width?: string;
+  className?:string;
 }
 
 export const Pill = memo(
@@ -28,23 +29,20 @@ export const Pill = memo(
     labelType = LabelType.PILL,
     isButton = false,
     onClick,
-    width,
+    width = '95',
+    className = '',
   }: InputProps) => {
-    const classes = `flex items-center justify-center rounded-3xl ${bgColor}`;
-    if (isButton) {
-      return (
-        <div className={classes} style={{ width: (width || 95) }}>
-          <Label type={labelType} text={label} />
-          <button type="button" className="flex" onClick={onClick!}>
-            <Label type={labelType} text="x" />
-          </button>
-        </div>
-      );
-    }
-      return (
-        <div className={classes} style={{ width: (width || 95) }}>
-          <Label type={labelType} text={label} />
-        </div>
-      );
+    const renderButton = () => (
+      <button type='button' className='flex' onClick={onClick!}>
+        <Label type={labelType} text='x' />
+      </button>
+    );
+    const classes = `flex h-6 items-center justify-center rounded-3xl ${bgColor}`;
+    return (
+      <div className={classes} style={{ width: `${width}px` }}>
+        <Label type={labelType} text={label} className={className} />
+        {isButton && renderButton()}
+      </div>
+    );
   },
 );

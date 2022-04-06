@@ -6,9 +6,9 @@ interface InputProps {
   enableLabel?: string;
   defaultValue?: boolean;
   onChange?: Function;
-  segmented?:boolean;
+  segmented?: boolean;
   className?: string;
-  options?:any[];
+  options?: any[];
 }
 
 export const Switch = memo(
@@ -24,7 +24,8 @@ export const Switch = memo(
     const [checked, setChecked] = useState(defaultValue);
     const [selected, setSelected] = useState('');
 
-    const selectedClass = 'font-semibold bg-white h-9 flex items-center pl-8 pr-8 ml-1 mr-1 text-black text-sm box-shadow-switch';
+    const selectedClass =
+      'font-semibold bg-white h-9 flex items-center pl-8 pr-8 ml-1 mr-1 text-black text-sm box-shadow-switch';
     const otherOptions = 'text-sm flex items-center pl-8 pr-8 text-grey5';
 
     const updateChecked = () => {
@@ -32,16 +33,28 @@ export const Switch = memo(
       onChange && onChange(!checked);
     };
 
-    const itemSelected = useCallback((option:any) => {
-      setSelected(option);
-      onChange && onChange(option);
-    }, [onChange]);
+    const itemSelected = useCallback(
+      (option: any) => {
+        setSelected(option);
+        onChange && onChange(option);
+      },
+      [onChange],
+    );
 
     if (segmented) {
       return (
-        <div className={`flex items-center bg-silver h-11 cursor-pointer rounded-3xl ${className}`}>
+        <div
+          className={`flex items-center bg-silver h-11 cursor-pointer rounded-3xl ${className}`}
+        >
           {options.map((op, index) => (
-            <div onClick={() => itemSelected(op)} className={selected === op || (!selected && index === 0) ? selectedClass : otherOptions}>
+            <div
+              onClick={() => itemSelected(op)}
+              className={
+                selected === op || (!selected && index === 0)
+                  ? selectedClass
+                  : otherOptions
+              }
+            >
               {op}
             </div>
           ))}
@@ -62,7 +75,7 @@ export const Switch = memo(
             }`}
           />
         </div>
-        <span className="self-center">
+        <span className='self-center'>
           <Label
             text={!checked ? disableLabel || 'Off' : enableLabel || 'On'}
             type={LabelType.BODY2}
