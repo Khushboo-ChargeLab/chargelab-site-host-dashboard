@@ -1,4 +1,5 @@
-import { Sessions, Summary, ChargerStatusChart } from '.';
+import { Summary, ChargerStatusChart } from '.';
+import { Sessions } from '../Session';
 
 export const Overview = () => {
   const chargerStatus = [
