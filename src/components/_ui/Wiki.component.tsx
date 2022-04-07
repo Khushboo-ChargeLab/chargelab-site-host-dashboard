@@ -395,22 +395,22 @@ export const Wiki = () => {
       <div className='block mt-4 mb-4'>
         <div className='inline-block'>
           Month Picker :
-          <DateTimePicker showMonthYearPicker white />
+          <DateTimePicker showMonthYearPicker white defaultDate={new Date()} />
         </div>
 
         <div className='inline-block'>
           Date Picker :
-          <DateTimePicker white format='LLL dd, yyyy' />
+          <DateTimePicker white format='LLL dd, yyyy' defaultDate={new Date()} />
         </div>
 
         <div className='inline-block'>
           Range Picker#1 :
-          <DateTimePicker white dateRange format='LLL dd yyyy' />
+          <DateTimePicker white dateRange format='LLL dd yyyy' defaultDate={new Date()} />
         </div>
 
         <div className='inline-block'>
           Range Picker#2:
-          <DateTimePicker white dateRange dateRangeMove format='LLL dd yyyy' />
+          <DateTimePicker white dateRange dateRangeMove format='LLL dd yyyy' defaultDate={new Date()} />
         </div>
       </div>
       <hr />

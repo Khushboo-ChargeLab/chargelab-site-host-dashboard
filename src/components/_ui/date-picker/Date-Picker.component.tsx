@@ -64,7 +64,7 @@ export const DateTimePicker = memo(
               </div>
               )}
 
-              <div className={`inline-block align-middle ${defaulttext ? 'text-grey4 text-xs' : ''}`} onClick={onClick} ref={ref}>
+              <div className={`inline-block align-middle ${defaulttext && !defaultDate ? 'text-grey4 text-xs' : 'text-grey6 text-sm'}`} onClick={onClick} ref={ref}>
                 {result}
               </div>
 
