@@ -31,6 +31,10 @@ export const Sessions = () => {
     });
   }, [filter]);
 
+  const rowClick = useCallback((rowData: any) => {
+   console.log(rowData);
+  }, []);
+
   useEffect(() => {
     refreshGrid(1);
   }, [refreshGrid]);
@@ -74,6 +78,7 @@ export const Sessions = () => {
         </div>
       </div>
       <Grid
+        onRowClick={rowClick}
         pageIndex={currentPage}
         loadPage={refreshGrid}
         columns={[
