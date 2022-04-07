@@ -14,15 +14,18 @@ ChartJS.register(ArcElement, Legend, CategoryScale, LinearScale);
 interface DoughnutChartProps {
   items?: Array<any>;
   className?: string;
+  valueField?: string;
+  labelField?: string;
+  colorField?: string;
 }
 
 export const DoughnutChart = memo(
-  ({ items = [], className = 'flex h-40' }: DoughnutChartProps) => {
-    const sortedItems = items.sort((a, b) => (a.value > b.value ? -1 : 1));
+  ({ items = [], className = 'flex h-40', valueField = 'value', labelField = 'label', colorField = 'color' }: DoughnutChartProps) => {
+    const sortedItems = items.sort((a, b) => (a[valueField] > b[valueField] ? -1 : 1));
     const getLabels = () =>
-      sortedItems.map((item: any) => `${item.label} (${item.value})`);
-    const getData = () => sortedItems.map((item: any) => item.value);
-    const getColors = () => sortedItems.map((item: any) => item.color);
+      sortedItems.map((item: any) => `${item[labelField]} (${item[valueField]})`);
+    const getData = () => sortedItems.map((item: any) => item[valueField]);
+    const getColors = () => sortedItems.map((item: any) => item[colorField]);
     return (
       <div className={className}>
         <Doughnut

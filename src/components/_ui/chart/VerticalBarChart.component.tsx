@@ -24,20 +24,22 @@ ChartJS.register(
 interface VerticalBarChartProps {
   items?: Array<any>;
   className?: string;
+  dateField?: string;
+  valueField?: string;
 }
 
 const MAX_TICKS_LIMIT = 6;
 
 export const VerticalBarChart = memo(
-  ({ items = [], className = 'flex w-full h-60' }: VerticalBarChartProps) => {
-    const getLabels = () => items.map((item: any) => getShortMonth(item.date));
-    const getData = () => items.map((item: any) => item.value);
+  ({ items = [], className = 'flex w-full h-60', dateField = 'date', valueField = 'value' }: VerticalBarChartProps) => {
+    const getLabels = () => items.map((item: any) => getShortMonth(item[dateField]));
+    const getData = () => items.map((item: any) => item[valueField]);
     const getTickLabel = (val: number) => convertToLocaleCurrency(val);
     const getTooltipTitle = (context: any) =>
       convertToLocaleCurrency(context[0].raw);
 
     const getTooltipLabel = (context: any) =>
-      formatDate(items[context.dataIndex].date, 'MMM, yyyy');
+      formatDate(items[context.dataIndex][dateField], 'MMM, yyyy');
 
     const data = getData();
     const max = Math.max(...data);

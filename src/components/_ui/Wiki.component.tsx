@@ -106,11 +106,11 @@ const renderChart = () => {
   return (
     <div>
       <Card className='w-1/3 h-52' title='Charger Status'>
-        <DoughnutChart items={status} className='flex h-32' />
+        <DoughnutChart items={status} className='flex h-32' valueField='value' labelField='label' colorField='color' />
       </Card>
       <br />
       <Card className='flex h-60'>
-        <VerticalBarChart items={feeCollected} className='flex h-52 w-full' />
+        <VerticalBarChart items={feeCollected} className='flex h-52 w-full' dateField='date' valueField='value' />
       </Card>
       <br />
     </div>
