@@ -18,7 +18,8 @@ interface InputProps {
   bgColor?: PILL_BG_COLOR;
   isButton?: boolean;
   onClick?: () => void;
-  width?: any;
+  width?: string;
+  className?:string;
 }
 
 export const Pill = memo(
@@ -28,7 +29,8 @@ export const Pill = memo(
     labelType = LabelType.PILL,
     isButton = false,
     onClick,
-    width = 95,
+    width = '95',
+    className = '',
   }: InputProps) => {
     const renderButton = () => (
       <button type='button' className='flex' onClick={onClick!}>
@@ -37,8 +39,8 @@ export const Pill = memo(
     );
     const classes = `flex h-6 items-center justify-center rounded-3xl ${bgColor}`;
     return (
-      <div className={classes} style={{ width }}>
-        <Label type={labelType} text={label} />
+      <div className={classes} style={{ width: `${width}px` }}>
+        <Label type={labelType} text={label} className={className} />
         {isButton && renderButton()}
       </div>
     );

@@ -71,7 +71,12 @@ export const Dropdown = memo(
       }));
       setItems(newItems);
       setTitle(item.label);
-      onItemClick && onItemClick(newItems, item, index);
+
+      if (type === DropdownType.SELECT) {
+        onItemClick && onItemClick(item, index);
+      } else {
+        onItemClick && onItemClick(newItems, item, index);
+      }
     };
 
     const handleClearClick = () => {
@@ -214,9 +219,7 @@ export const Dropdown = memo(
       }
       return (
         <button
-          className={`${
-            white ? 'bg-white' : 'bg-silver'
-          } h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center`}
+          className={`${white ? 'bg-white' : 'bg-silver'} h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center ${className}`}
           type='button'
           onClick={handleHeaderClick}
           style={{ width: headerWidth }}
@@ -254,9 +257,7 @@ export const Dropdown = memo(
               <button
                 key={key}
                 type='button'
-                className={`hover:bg-silver pl-2 pr-12 h-12 text-left ${
-                  item.selected ? 'bg-silver rounded' : ''
-                }`}
+                className={`hover:bg-silver pl-2 pr-12 min-h-[40px] text-left ${item.selected ? 'bg-silver rounded' : ''}`}
                 onClick={() => handleItemClick(item, index)}
               >
                 <Label
@@ -318,7 +319,7 @@ export const Dropdown = memo(
       const showSearchHeader = getIsShowSearchHeader();
       const showContentFooter = type !== DropdownType.SELECT;
       return (
-        <div className='absolute flex flex-col bg-white z-50 list-none rounded list-shadow my-2 p-2 max-h-[32rem] overflow-y-auto'>
+        <div className='absolute flex flex-col bg-white z-50 list-none rounded list-shadow my-2 p-2 max-h-[30rem] overflow-auto overflow-x-hidden'>
           {showSearchHeader && renderSearchHeader()}
           {renderItems()}
           {showContentFooter && renderContentFooter()}
