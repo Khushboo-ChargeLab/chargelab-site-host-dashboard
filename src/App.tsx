@@ -11,11 +11,11 @@ function App() {
       <AppHeader />
 
       <div className='absolute left-60 right-0 top-20  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
-        <Route path='/wiki'>
-          <Wiki />
-        </Route>
-        <Route path="/">
+        <Route exact path="/">
           <Overview />
+        </Route>
+        <Route exact path='/wiki'>
+          <Wiki />
         </Route>
 
         <div className='fixed right-5 bottom-2'>

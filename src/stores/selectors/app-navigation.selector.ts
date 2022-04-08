@@ -4,7 +4,7 @@ import { AppState } from '../types/App-State';
 const AppNavigationSelectors = (state: any) => state.navigator as AppState;
 const initStore = {
     title: 'Overview',
-    path: '/overview',
+    path: '/',
 };
 
 export const getCurrentNavigation = createSelector(

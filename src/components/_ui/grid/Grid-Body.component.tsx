@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { convertToLocaleCurrency } from '../../../utils/Currency.Util';
 import { formatDate, formatDateTime } from '../../../utils/Date.Util';
 import { Label, LabelType } from '../Label.component';
@@ -6,7 +6,7 @@ import { GridColumnType } from './enums/Grid-Column-Type.enum';
 import { InputProps } from './Grid.component';
 import { GridColumn } from './types/Grid-Column.interface';
 
-export const GridBody = memo(({ columns, data, primaryKey }: InputProps) => {
+export const GridBody = memo(({ columns, data, primaryKey, onRowClick }: InputProps) => {
   const formatData = (col: GridColumn, dataRow: any) => {
     const currentData = dataRow[col.key];
 
@@ -32,12 +32,16 @@ export const GridBody = memo(({ columns, data, primaryKey }: InputProps) => {
     return currentData;
   };
 
+  const rowClicked = useCallback((row:any) => {
+    onRowClick && onRowClick(row);
+  }, [onRowClick]);
+
   return (
     <div className='tbody'>
       {data?.map((dataRow: any) => (
-        <div key={dataRow[primaryKey]} className='row'>
+        <div onClick={() => rowClicked(dataRow)} key={dataRow[primaryKey]} className={`row ${onRowClick ? 'hover:bg-silver cursor-pointer' : ''}`}>
           {columns.map((col: GridColumn) => (
-            <div key={col.key} className='th pt-2.5 pb-2.5 pl-3'>
+            <div key={col.key} className='th pt-2 pb-2 pl-3'>
               <Label type={LabelType.BODY3} text={formatData(col, dataRow)} />
             </div>
           ))}

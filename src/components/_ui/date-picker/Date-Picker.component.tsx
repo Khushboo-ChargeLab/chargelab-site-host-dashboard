@@ -64,7 +64,7 @@ export const DateTimePicker = memo(
               </div>
               )}
 
-              <div className={`inline-block align-middle ${defaulttext ? 'text-grey4 text-xs' : ''}`} onClick={onClick} ref={ref}>
+              <div className={`inline-block align-middle ${defaulttext && !defaultDate ? 'text-grey4 text-xs' : 'text-grey6 text-sm'}`} onClick={onClick} ref={ref}>
                 {result}
               </div>
 
@@ -81,7 +81,7 @@ export const DateTimePicker = memo(
       const DateCustomInput = forwardRef(({ value, onClick }:any, ref:any) => (
         <button className={`react-datepicker__input-container-button ${white ? 'bg-white' : 'bg-silver'}`} onClick={onClick} ref={ref}>
           <div className="block">
-            <div className="inline-block">
+            <div className="inline-block text-grey6">
               {formatDate(new Date(value), format)}
             </div>
             <div className="inline-block align-middle pl-4 pr-2"><img src={chevdown} alt="" /></div>

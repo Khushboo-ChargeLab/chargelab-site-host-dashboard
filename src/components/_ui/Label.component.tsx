@@ -3,11 +3,13 @@ import React, { memo } from 'react';
 export enum LabelType {
   ERROR = 'block pt-1 text-red text-sm',
   LABEL_M = 'text-base font-semibold font-sans text-black',
+  H1 = 'text-3xl text-black font-semibold',
   H3 = 'text-2xl text-black font-semibold',
   H4 = 'text-xl text-black font-semibold',
   H5 = 'text-lg text-black font-semibold',
   H6 = 'text-base text-black font-semibold',
   H7 = 'text-sm text-grey font-semibold',
+  BODY1='text-lg font-normal text-grey6',
   BODY2 = 'text-base text-grey font-normal',
   BODY3 = 'text-sm text-black font-normal',
   LABEL_S = 'text-sm text-grey5 font-semibold',
