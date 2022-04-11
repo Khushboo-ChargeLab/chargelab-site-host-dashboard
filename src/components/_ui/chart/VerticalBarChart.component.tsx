@@ -9,8 +9,10 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
 import { convertToLocaleCurrency } from '../../../utils/Currency.Util';
 import { getShortMonth, formatDate } from '../../../utils/Date.Util';
+import { getCurrentTheme } from '../../../stores/selectors/theme.selector';
 
 ChartJS.register(
   CategoryScale,
@@ -26,12 +28,14 @@ interface VerticalBarChartProps {
   className?: string;
   dateField?: string;
   valueField?: string;
+  barBgColor?:string;
 }
 
 const MAX_TICKS_LIMIT = 6;
 
 export const VerticalBarChart = memo(
-  ({ items = [], className = 'flex w-full h-60', dateField = 'date', valueField = 'value' }: VerticalBarChartProps) => {
+  ({ barBgColor = '#3DBAE3', items = [], className = 'flex w-full h-60', dateField = 'date', valueField = 'value' }: VerticalBarChartProps) => {
+    const theme = useSelector(getCurrentTheme);
     const getLabels = () => items.map((item: any) => getShortMonth(item[dateField]));
     const getData = () => items.map((item: any) => item[valueField]);
     const getTickLabel = (val: number) => convertToLocaleCurrency(val);
@@ -51,7 +55,7 @@ export const VerticalBarChart = memo(
             datasets: [
               {
                 data,
-                backgroundColor: '#3DBAE3',
+                backgroundColor: theme.chartColor || barBgColor,
                 maxBarThickness: 32,
                 borderRadius: 4,
               },
