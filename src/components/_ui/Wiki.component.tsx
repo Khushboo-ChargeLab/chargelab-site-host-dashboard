@@ -29,6 +29,37 @@ import { ButtonSize } from './Button.component';
 import { FormInput } from './Input.component';
 import { Card } from './Card.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
+import { convertToLocaleCurrency } from '../../utils/Currency.Util';
+import { TimePriceSlider } from '../Pricing/TimePriceSlider.component';
+
+const renderTimeRangeSlider = () => {
+  const data = [
+    {
+      label: convertToLocaleCurrency(10.25),
+      value: 6,
+    },
+    {
+      label: convertToLocaleCurrency(88.35),
+      value: 13,
+    },
+    {
+      label: convertToLocaleCurrency(20.35),
+      value: 20,
+    },
+  ];
+  return (
+    <div>
+      <Card className='w-full h-40'>
+        <TimePriceSlider
+          blocks={data}
+          onChange={(blocks: any) => {
+            console.log('TimePriceSlider:', blocks);
+          }}
+        />
+      </Card>
+    </div>
+  );
+};
 
 const renderChart = () => {
   const status = [
@@ -363,6 +394,8 @@ export const Wiki = () => {
     <>
       <FormInput />
       {renderChart()}
+      <br />
+      {renderTimeRangeSlider()}
       <div className='block mb-4'>
         <div className='inline-block'>
           <Label text='Medium' type={LabelType.LABEL_M} />

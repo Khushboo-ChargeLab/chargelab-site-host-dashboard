@@ -14,6 +14,7 @@ module.exports = {
       grey6: '#4E5968',
       blue2: '#18A0D7',
       grey4: '#B0B8C1',
+      darkGrey: '#6D7175',
       green: {
         light4: '#4BD865',
         DEFAULT: '#05944F',
@@ -35,6 +36,8 @@ module.exports = {
         dark: '#117DB8',
       },
       silver5: '#D1D6DB',
+      mainColor: '#18A0D7',
+      secondaryColor: '#E8F7FC',
     },
     extend: {},
   },

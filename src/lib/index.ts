@@ -35,6 +35,9 @@ import stop from '../assets/icons/stop.svg';
 import avatar from '../assets/images/avatar.svg';
 import profileSelector from '../assets/images/profile-selector.svg';
 import search from '../assets/icons/search.svg';
+import sun from '../assets/icons/sun.svg';
+import moon from '../assets/icons/moon.svg';
+import halfsun from '../assets/icons/halfsun.svg';
 
 export {
   chargelab,
@@ -74,4 +77,7 @@ export {
   avatar,
   profileSelector,
   search,
+  sun,
+  moon,
+  halfsun,
 };
