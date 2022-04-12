@@ -392,29 +392,6 @@ export const Wiki = () => {
     });
   };
 
-  const chargerStatusHistory = [
-    { title: 'Alert', date: new Date() },
-    { title: 'Completed', date: new Date() },
-    { title: 'Charging', date: new Date() },
-    { title: 'Start', date: new Date() },
-  ];
-
-  const SessionDetailInfo = {
-    startTime: new Date(2022, 3, 8, 13, 0),
-    endTime: new Date(2022, 3, 8, 13, 31),
-    duration: '40 mins',
-    authenticationType: 'User',
-    charger: 'AD-24',
-    connector: 'J1772',
-    connectorSide: 'Left',
-    connectorUrl: 'url',
-    location: 'Hilton Kennedy',
-    address: '45 Kennedy St, Toronto, ON, M2M 1R1',
-    kwhUsed: 13.0,
-    cost: 7.25,
-    statusHistory: chargerStatusHistory,
-  };
-
   return (
     <>
       <FormInput />
@@ -645,12 +622,7 @@ export const Wiki = () => {
           src='https://chargelabservice.s3.us-east-2.amazonaws.com/stations/generic/Delta+AC+Mini.jpg'
         />
       </div>
-      <hr />
-      <div className='flex pt-6 pb-4'>
-        <Card title='Session Detail'>
-          <SessionDetail sessionData={SessionDetailInfo} />
-        </Card>
-      </div>
+
     </>
   );
 };

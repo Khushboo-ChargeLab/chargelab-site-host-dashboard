@@ -2,8 +2,8 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     fontFamily: {
-      sans: ['Avenir Next LT Pro'],
-      serif: ['Avenir Next LT Pro B'],
+      sans: ['Inter'],
+      serif: ['Inter'],
     },
     colors: {
       white: '#ffffff',

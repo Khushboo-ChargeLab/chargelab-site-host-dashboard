@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux';
 import { alert, charging } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import {
- Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType, Dropdown, CustomDatePicker,
+ Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType, Dropdown, CustomDatePicker, ModalForm,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
+import { SessionDetail } from './SessionDetail.component';
 
 export const Sessions = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,32 @@ export const Sessions = () => {
   }, [filter]);
 
   const rowClick = useCallback((rowData: any) => {
+    const chargerStatusHistory = [
+    { title: 'Alert', date: new Date() },
+    { title: 'Completed', date: new Date() },
+    { title: 'Charging', date: new Date() },
+    { title: 'Start', date: new Date() },
+  ];
+
+  const SessionDetailInfo = {
+    startTime: new Date(2022, 3, 8, 13, 0),
+    endTime: new Date(2022, 3, 8, 13, 31),
+    duration: '40 mins',
+    authenticationType: 'User',
+    charger: 'AD-24',
+    connector: 'J1772',
+    connectorSide: 'Left',
+    connectorUrl: 'url',
+    location: 'Hilton Kennedy',
+    address: '45 Kennedy St, Toronto, ON, M2M 1R1',
+    kwhUsed: 13.0,
+    cost: 7.25,
+    statusHistory: chargerStatusHistory,
+  };
+    ModalForm.show({
+      title: 'Session detail',
+      body: (<SessionDetail sessionData={SessionDetailInfo} />),
+    });
    console.log(rowData);
   }, []);
 
