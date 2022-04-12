@@ -68,6 +68,7 @@ export const AppSideBar = () => {
                 text='Overview'
                 type={LabelType.LABEL_S}
                 className={active.path === menu[0].path ? 'text-blue2' : 'text-grey6'}
+                style={active.path === menu[0].path ? { color: theme.navigationSelectedColor } : {}}
               />
             </div>
         ) : (
