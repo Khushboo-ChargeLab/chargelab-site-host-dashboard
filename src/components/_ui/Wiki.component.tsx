@@ -29,6 +29,7 @@ import { ButtonSize } from './Button.component';
 import { FormInput } from './Input.component';
 import { Card } from './Card.component';
 import { AlertPosition } from './snack-bar/Snack-Bar.component';
+import { SessionDetail } from '../Session/SessionDetail.component';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import { TimePriceSlider } from '../Pricing/TimePriceSlider.component';
 
@@ -390,6 +391,7 @@ export const Wiki = () => {
       body: <Wiki />,
     });
   };
+
   return (
     <>
       <FormInput />
@@ -620,7 +622,7 @@ export const Wiki = () => {
           src='https://chargelabservice.s3.us-east-2.amazonaws.com/stations/generic/Delta+AC+Mini.jpg'
         />
       </div>
-      <hr />
+
     </>
   );
 };

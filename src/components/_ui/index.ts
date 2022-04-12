@@ -25,6 +25,7 @@ import { Card } from './Card.component';
 import { CustomDatePicker } from './date-picker/Custom-Date-Picker.component';
 import { DoughnutChart } from './chart/DoughnutChart.component';
 import { VerticalBarChart } from './chart/VerticalBarChart.component';
+import { SessionDetail } from '../Session/SessionDetail.component';
 import { Badge } from './Badge.component';
 import { Spinner } from './Spinner.component';
 
@@ -59,6 +60,7 @@ export {
   CustomDatePicker,
   DoughnutChart,
   VerticalBarChart,
+  SessionDetail,
   Badge,
   Spinner,
 };

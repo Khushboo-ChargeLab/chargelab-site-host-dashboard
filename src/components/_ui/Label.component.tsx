@@ -12,9 +12,10 @@ export enum LabelType {
   BODY1='text-lg font-normal text-grey6',
   BODY2 = 'text-base text-grey font-normal',
   BODY3 = 'text-sm text-black font-normal',
-  LABEL_S = 'text-sm text-grey5 font-semibold',
+  BODY3_G5 = 'text-sm text-grey5 font-normal',
+  LABEL_S = 'text-sm text-grey5 font-medium',
   LABEL_S_BLUE2 = 'text-sm text-blue2 font-semibold',
-  LABEL_S_G6 = 'text-sm text-grey6 font-semibold',
+  LABEL_S_G6 = 'text-sm text-grey6 font-medium',
   LABEL_XS = 'text-xs font-semibold text-grey6',
   PILL = 'text-sm text-white font-medium font-sans pt-0.5 pb-0 pl-2 pr-2',
   PILL_DROPDOWN = 'text-sm text-grey6 font-medium font-sans pl-2 pr-2',
@@ -33,12 +34,14 @@ interface InputProps {
   type?: LabelType;
   className?: string;
   icon?:any;
+  style?:any;
 }
 
 export const Label = memo(({
  text, type, className = '', icon = null,
+ style = {},
 }: InputProps) => (
-  <div className={`${type || LabelType.LABEL_M} ${className} ${icon ? 'flex items-center' : ''}`}>
+  <div style={style} className={`${type || LabelType.LABEL_M} ${className} ${icon ? 'flex items-center' : ''}`}>
     {icon && (
       <img src={icon} alt="" className="pr-2" />
     )}

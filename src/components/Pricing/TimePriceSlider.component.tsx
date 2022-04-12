@@ -80,6 +80,7 @@ export const TimePriceSlider = memo(
         document.removeEventListener('mousemove', handleMouseMove);
         setIsMouseDown(false);
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMouseDown]);
 
     useEffect(() => {
@@ -88,6 +89,7 @@ export const TimePriceSlider = memo(
 
     useEffect(() => {
       onChange(_blocks);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_blocks]);
 
     const renderBlocks = () => (
