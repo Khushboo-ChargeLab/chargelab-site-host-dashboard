@@ -24,9 +24,9 @@ export const TimePriceSlider = memo(
 
     const barRef: any = useRef(null);
 
-    const getPercent = useCallback((value: number) => (value / (max - min)) * 100 + min, [max, min]);
-    const getValue = useCallback((percent: number) =>
-      Math.floor(((max - min) * percent) / 100 + min), [max, min]);
+    const getPercent = (value: number) => (value / (max - min)) * 100 + min;
+    const getValue = (percent: number) =>
+      Math.floor(((max - min) * percent) / 100 + min);
 
     const getColor = (index: number) => {
       switch (index) {
@@ -41,7 +41,7 @@ export const TimePriceSlider = memo(
       }
     };
 
-    const handleMouseMove = useCallback((e: any) => {
+    const handleMouseMove = (e: any) => {
       const offsetPercent = ((e.clientX - startPosition) / barWidth) * 100;
       const curPercent = getPercent(_blocks[curBlockIndex].value);
       const newPercent = offsetPercent + curPercent;
@@ -55,7 +55,7 @@ export const TimePriceSlider = memo(
         value: curBlockIndex === index ? value : _block.value,
       }));
       setBlocks(newBlocks);
-    }, [_blocks, barWidth, curBlockIndex, getPercent, getValue, min, max, startPosition]);
+    };
 
     const handleMouseDown = (e: any, index: number) => {
       e.stopPropagation();
@@ -80,7 +80,7 @@ export const TimePriceSlider = memo(
         document.removeEventListener('mousemove', handleMouseMove);
         setIsMouseDown(false);
       };
-    }, [isMouseDown, handleMouseMove]);
+    }, [isMouseDown]);
 
     useEffect(() => {
       setBarWidth(barRef?.current?.clientWidth || 0);
@@ -88,7 +88,7 @@ export const TimePriceSlider = memo(
 
     useEffect(() => {
       onChange(_blocks);
-    }, [_blocks, onChange]);
+    }, [_blocks]);
 
     const renderBlocks = () => (
       <div className='absolute top-1 bottom-1 left-0 right-0 box-border '>
