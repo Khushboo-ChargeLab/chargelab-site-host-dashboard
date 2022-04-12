@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { alert, charging } from '../../lib';
+import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import {
  Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType, Dropdown, CustomDatePicker,
 } from '../_ui';
@@ -7,15 +9,16 @@ import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 
 export const Sessions = () => {
+  const dispatch = useDispatch();
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
 
   const refreshGrid = useCallback(async (page:number) => {
     console.log('refreshGrid', page, filter);
     setCurrentPage(page);
-
+    dispatch(fetchSessions({ page, ...filter }));
 // Fetch data
-  }, [filter]);
+  }, [filter, dispatch]);
 
   const dateChanged = useCallback((selectedDate:any) => {
     setFilter({

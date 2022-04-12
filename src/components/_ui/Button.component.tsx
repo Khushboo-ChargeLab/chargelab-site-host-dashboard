@@ -1,4 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getCurrentTheme } from '../../stores/selectors/theme.selector';
 import { Label, LabelType } from './Label.component';
 
 export enum ButtonType {
@@ -54,12 +56,24 @@ export const Button = memo(
     className = '',
     icon = null,
   }: InputProps) => {
+    const theme = useSelector(getCurrentTheme);
+    const [style, setStyle] = useState({});
+
+    const setHoverStyle = useCallback(() => {
+      if (type === ButtonType.Primary) {
+        setStyle({ backgroundColor: theme.btnHoverColor });
+      }
+    }, [type, theme.btnHoverColor]);
+
     const labelType = getLabelType(type);
     return (
       <button
         className={`${type} ${icon ? ButtonSize.ICON : size} ${className}`}
         onClick={onClick}
         disabled={type === ButtonType.Disabled}
+        style={style}
+        onMouseEnter={setHoverStyle}
+        onMouseLeave={() => setStyle({})}
       >
         {icon && <img src={icon} alt='' className='pr-2' />}
 
