@@ -12,6 +12,7 @@ export enum LabelType {
   BODY1='text-lg font-normal text-grey6',
   BODY2 = 'text-base text-grey font-normal',
   BODY3 = 'text-sm text-black font-normal',
+  BODY3_G5 = 'text-sm text-grey5 font-normal',
   LABEL_S = 'text-sm text-grey5 font-semibold',
   LABEL_S_BLUE2 = 'text-sm text-blue2 font-semibold',
   LABEL_S_G6 = 'text-sm text-grey6 font-semibold',
