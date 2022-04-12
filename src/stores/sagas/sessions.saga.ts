@@ -1,9 +1,8 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { fetchSessions } from '../reducers/sessons.reducer';
-import { setCurrentTheme } from '../reducers/theme.reduer';
 
-function* fetchRecentSessions() {
-    console.log('fetchRecentSessions');
+function* fetchRecentSessions(filter: any) {
+    console.log('fetchRecentSessions', filter);
     yield put({ type: 'INCREMENT' });
 }
 
