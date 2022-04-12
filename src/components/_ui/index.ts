@@ -26,6 +26,7 @@ import { CustomDatePicker } from './date-picker/Custom-Date-Picker.component';
 import { DoughnutChart } from './chart/DoughnutChart.component';
 import { VerticalBarChart } from './chart/VerticalBarChart.component';
 import { Badge } from './Badge.component';
+import { Spinner } from './Spinner.component';
 
 export {
   AppSideBar,
@@ -59,6 +60,7 @@ export {
   DoughnutChart,
   VerticalBarChart,
   Badge,
+  Spinner,
 };
 
 export type { CheckBoxData };
