@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Summary, ChargerStatusChart } from '.';
+import { Summary, ChargerStatusChart, DataReport } from '.';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import { Sessions } from '../Session';
 import { Dropdown, DropdownType } from '../_ui';
@@ -72,7 +72,9 @@ export const Overview = () => {
           <Summary />
         </div>
       </div>
-
+      <div className='mt-6 block'>
+        <DataReport />
+      </div>
       <div className='mt-6 block'>
         <Sessions />
       </div>
