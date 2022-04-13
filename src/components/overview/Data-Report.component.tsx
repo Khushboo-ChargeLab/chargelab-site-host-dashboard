@@ -1,5 +1,6 @@
 import { Button, Card, DateTimePicker, Switch, VerticalBarChart } from '../_ui';
 import { ButtonSize, ButtonType } from '../_ui/Button.component';
+import './Data-Report.component.scss';
 
 const feeCollected = [
   {
@@ -66,7 +67,7 @@ export const DataReport = () => (
       </div>
       <div className='flex justify-end w-3/5'>
         <DateTimePicker white dateRange dateRangeMove format='LLL dd yyyy' defaultDate={new Date()} />
-        <Button size={ButtonSize.SMALL} label="Export CSV" type={ButtonType.Cancel} />
+        <Button size={ButtonSize.SMALL} label="Export CSV" type={ButtonType.Cancel} className='ml-4' />
       </div>
     </div>
     <VerticalBarChart items={feeCollected} className='flex h-52 w-full' dateField='date' valueField='value' />
