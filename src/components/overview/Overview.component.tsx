@@ -1,4 +1,4 @@
-import { Summary, ChargerStatusChart } from '.';
+import { Summary, ChargerStatusChart, DataReport } from '.';
 import { Sessions } from '../Session';
 
 export const Overview = () => {
@@ -35,7 +35,9 @@ export const Overview = () => {
         </div>
 
       </div>
-
+      <div className='mt-6 block'>
+        <DataReport />
+      </div>
       <div className='mt-6 block'>
         <Sessions />
       </div>
