@@ -6,6 +6,6 @@ import { ThemeReducer } from './reducers/theme.reducer';
 const rootReducer = combineReducers({
     navigator: appNavigationReducer,
     theme: ThemeReducer,
-    recentSessions: SessionsReducer,
+    sessions: SessionsReducer,
 });
 export default rootReducer;
