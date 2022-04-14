@@ -48,6 +48,7 @@ export const Chargers = () => {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [statusFilter, setStatusFilter] = useState<Array<string>>([]);
+  const [locationFilter, setLocationFilter] = useState(null);
 
   const getTroubleNum = () => {
     let count = 0;
@@ -122,8 +123,8 @@ export const Chargers = () => {
     setStatusFilter(newStatusFilter);
   };
 
-  const handleLocationSelected = (item: any) => {
-    console.log('item:', item);
+  const handleLocationSelected = (location: any) => {
+    setLocationFilter(location.id);
   };
 
   const rowClick = () => {};
@@ -156,8 +157,21 @@ export const Chargers = () => {
 
   const getColumnTitle = () => {
     return [
-      { key: 'charger', title: t('charger') },
-      { key: 'location', title: t('location') },
+      {
+        key: 'charger',
+        title: t('charger'),
+      },
+      {
+        key: 'location',
+        title: t('location'),
+        component: (row: any) => (
+          <Label
+            className='whitespace-nowrap'
+            text={row.location}
+            type={LabelType.BODY3}
+          />
+        ),
+      },
       {
         key: 'status',
         title: t('status'),
@@ -175,15 +189,9 @@ export const Chargers = () => {
         key: 'note',
         title: t('note'),
         component: (row: any) => {
-          console.log('row:', row);
           return (
-            <div className='h-4 max-w-lg bg-green-light4 truncate'>
-              <Label
-                // className='overflow-hidden'
-                // className='truncate'
-                text={row.note}
-                type={LabelType.BODY3}
-              />
+            <div className='h-4 overflow-hidden text-ellipsis'>
+              <Label text={row.note} type={LabelType.BODY3} />
             </div>
           );
         },
@@ -202,8 +210,12 @@ export const Chargers = () => {
 
   const getGridData = () => {
     const row: Array<Object> = [];
+
     chargers?.entries.forEach((charger) => {
-      if (statusFilter.length === 0 || statusFilter.includes(charger.status)) {
+      if (
+        (!locationFilter || charger.location.id === locationFilter) &&
+        (statusFilter.length === 0 || statusFilter.includes(charger.status))
+      ) {
         row.push({
           charger: charger.name,
           location: charger.location.name,
@@ -227,7 +239,7 @@ export const Chargers = () => {
       <div>
         {chargers && (
           <div className='flex flex-col gap-6 mt-6'>
-            <div className='flex w-full gap-3'>
+            <div className='flex gap-3'>
               {locations && (
                 <Dropdown
                   title={t('location')}
@@ -244,23 +256,20 @@ export const Chargers = () => {
                 onItemClick={handleStatusSelected}
               />
             </div>
-            <div className='w-full'>
-              <Grid
-                onRowClick={rowClick}
-                pageIndex={currentPage}
-                loadPage={refreshGrid}
-                columns={getColumnTitle()}
-                data={getGridData()}
-                primaryKey='charger'
-              />
-            </div>
+            <Grid
+              onRowClick={rowClick}
+              pageIndex={currentPage}
+              loadPage={refreshGrid}
+              columns={getColumnTitle()}
+              data={getGridData()}
+              primaryKey='charger'
+            />
           </div>
         )}
       </div>
     );
   };
-  // console.log('chargers:', chargers);
-  // console.log('locations:', locations);
+  console.log('chargers:', chargers);
   return (
     <Card>
       {renderChargerOverview()}

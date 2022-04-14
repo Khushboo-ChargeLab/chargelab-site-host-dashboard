@@ -41,7 +41,7 @@ export const GridBody = memo(
     );
 
     return (
-      <div className='tbody bg-red'>
+      <div className='tbody'>
         {data?.map((dataRow: any) => (
           <div
             onClick={() => rowClicked(dataRow)}
