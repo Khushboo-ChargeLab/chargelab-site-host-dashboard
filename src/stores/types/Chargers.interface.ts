@@ -9,6 +9,9 @@ export interface Location {
   city: string;
   stateOrRegion: string;
   isoCountryCode: string;
+  chargers?: [];
+  operationHours?: string;
+  phone?: string;
 }
 
 export interface Port {
@@ -47,4 +50,9 @@ export interface Charger {
 export interface ChargerList {
   totalCount: number;
   entries: Array<Charger>;
+}
+
+export interface LocationList {
+  totalCount: number;
+  entries: Array<Location>;
 }

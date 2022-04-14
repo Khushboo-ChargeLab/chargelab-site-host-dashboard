@@ -9,7 +9,6 @@ export const useFetch = <T>(url: string) => {
     const fetchData = async () => {
       try {
         const json = (await get(url)) as T;
-        console.log('json:', json);
         setData(json);
       } catch (e: any) {
         setError(e);

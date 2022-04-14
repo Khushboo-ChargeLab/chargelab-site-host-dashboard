@@ -5,4 +5,5 @@ export const CHARGER_STATUS = {
   OUT_OF_ORDER: 'Out of order',
   OFFLINE: 'Offline',
   SCHEDULED: 'Scheduled',
+  PREPARING: 'Preparing',
 };

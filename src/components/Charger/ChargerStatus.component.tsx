@@ -2,65 +2,48 @@ import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pill, PILL_BG_COLOR } from '../_ui/Pill.component';
 import { LabelType } from '../_ui/Label.component';
-
-export enum CHARGE_STATUS {
-  COMING_SOON,
-  AVAILABLE,
-  PREPARING,
-  CHARGING,
-  SCHEDULED,
-  OFFLINE,
-  OUT_OF_ORDER,
-}
+import { CHARGER_STATUS } from './Constants';
 
 interface InputProps {
-  status: CHARGE_STATUS;
+  status: string;
 }
 
 export const ChargerStatus = memo(({ status }: InputProps) => {
   const { t } = useTranslation();
-  let label; let
-color;
+  let label;
+  let color;
   switch (status) {
-    case CHARGE_STATUS.COMING_SOON:
-      label = t('coming_soon');
+    case CHARGER_STATUS.COMING_SOON:
       color = PILL_BG_COLOR.PURPLE;
       break;
-    case CHARGE_STATUS.AVAILABLE:
-      label = t('available');
+    case CHARGER_STATUS.AVAILABLE:
       color = PILL_BG_COLOR.LIGHT_FREEN;
       break;
-    case CHARGE_STATUS.PREPARING:
-      label = t('preparing');
+    case CHARGER_STATUS.PREPARING:
       color = PILL_BG_COLOR.GREEN;
       break;
-    case CHARGE_STATUS.CHARGING:
-      label = t('charging');
+    case CHARGER_STATUS.CHARGING:
       color = PILL_BG_COLOR.BLUE;
       break;
-    case CHARGE_STATUS.SCHEDULED:
-      label = t('scheduled');
+    case CHARGER_STATUS.SCHEDULED:
       color = PILL_BG_COLOR.YELLOW;
       break;
-    case CHARGE_STATUS.OFFLINE:
-      label = t('offline');
+    case CHARGER_STATUS.OFFLINE:
       color = PILL_BG_COLOR.GREY;
       break;
-    case CHARGE_STATUS.OUT_OF_ORDER:
-      label = t('out_of_order');
+    case CHARGER_STATUS.OUT_OF_ORDER:
       color = PILL_BG_COLOR.RED;
       break;
     default:
-      label = '';
-      color = PILL_BG_COLOR.DEFAULT;
+      color = PILL_BG_COLOR.GREEN;
       break;
   }
   return (
     <Pill
-      label={label}
+      label={t(status)}
       bgColor={color}
       labelType={LabelType.PILL}
-      width="120"
+      width='120'
     />
   );
 });
