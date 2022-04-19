@@ -31,6 +31,7 @@ import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { TransactionList } from '../../stores/types/transactions.interface';
 
 export const Chargers = () => {
+  // TODO: CB remove these 3 useFetch and use actions, services and selectors instead.
   const {
     data: chargers,
     error: chargersError,
