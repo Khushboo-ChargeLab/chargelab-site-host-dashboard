@@ -1,5 +1,11 @@
-import { Port } from './port.interface';
 import { Location } from './location.interface';
+
+export interface Port {
+  id: string;
+  physicalLocation: string;
+  connectorTypes: [];
+  status: string;
+}
 
 export interface Charger {
   id: string;
