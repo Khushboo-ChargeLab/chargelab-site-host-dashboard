@@ -6,9 +6,10 @@ import { CHARGER_STATUS } from './Constants';
 
 interface InputProps {
   status: string;
+  className?: string;
 }
 
-export const ChargerStatus = memo(({ status }: InputProps) => {
+export const ChargerStatus = memo(({ status, className }: InputProps) => {
   const { t } = useTranslation();
   let label;
   let color;
@@ -40,6 +41,7 @@ export const ChargerStatus = memo(({ status }: InputProps) => {
   }
   return (
     <Pill
+      className={className}
       label={t(status)}
       bgColor={color}
       labelType={LabelType.PILL}

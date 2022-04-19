@@ -3,7 +3,7 @@ import { ChargerList } from '../types/chargers.interface';
 
 export const fetchChargers = createAction('CHARGER_FETCH_REQUEST');
 export const fetchChargersSuccess = createAction<ChargerList>(
-  'FETCH-RECENT-SESSIONS-SUCCESS',
+  'CHARGER_FETCH_SUCCESS',
 );
 
 export const ChargersReducer = createReducer({}, (builder) => {

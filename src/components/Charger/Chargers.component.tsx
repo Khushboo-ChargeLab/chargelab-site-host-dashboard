@@ -24,13 +24,11 @@ import { ChargerStatus } from './ChargerStatus.component';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 
 // Constants
-import {
-  Charger,
-  ChargerList,
-  LocationList,
-} from '../../stores/types/chargers.interface';
+import { Charger, ChargerList } from '../../stores/types/chargers.interface';
+import { LocationList } from '../../stores/types/location.interface';
 import { CHARGER_STATUS } from './Constants';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
+import { TransactionList } from '../../stores/types/transactions.interface';
 
 export const Chargers = () => {
   const {
@@ -43,11 +41,22 @@ export const Chargers = () => {
     data: locations,
     error: locationsError,
     isLoading: isLocationLoading,
-  } = useFetch<ChargerList>('/internal/core/v2/locations');
+  } = useFetch<LocationList>('/internal/core/v2/locations');
+
+  const {
+    data: transactions,
+    error: transactionsError,
+    isLoading: isTransactionLoading,
+  } = useFetch<TransactionList>('/internal/core/v2/historical/transactions');
 
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
-  const [statusFilter, setStatusFilter] = useState<Array<string>>([]);
+  const [statusList, setStatusList] = useState(() =>
+    Object.values(CHARGER_STATUS).map((status) => ({
+      label: t(`${status}`),
+      selected: false,
+    })),
+  );
   const [locationFilter, setLocationFilter] = useState(null);
 
   const getTroubleNum = () => {
@@ -113,16 +122,6 @@ export const Chargers = () => {
     );
   };
 
-  const handleStatusSelected = (items: any) => {
-    const newStatusFilter: Array<string> = [];
-    items.forEach((item: any) => {
-      if (item.selected) {
-        newStatusFilter.push(item.label);
-      }
-    });
-    setStatusFilter(newStatusFilter);
-  };
-
   const handleLocationSelected = (location: any) => {
     setLocationFilter(location.id);
   };
@@ -133,15 +132,6 @@ export const Chargers = () => {
   useEffect(() => {
     refreshGrid(0);
   }, [currentPage]);
-
-  const getStatusDropDownList = () => {
-    return Object.values(CHARGER_STATUS).map((status) => {
-      return {
-        label: t(`${status}`),
-        selected: false,
-      };
-    });
-  };
 
   const getLocationDropDownList = () => {
     const result = [{ id: '', label: t('all_location'), selected: false }];
@@ -166,7 +156,7 @@ export const Chargers = () => {
         title: t('location'),
         component: (row: any) => (
           <Label
-            className='whitespace-nowrap'
+            className='whitespace-nowrap w-40'
             text={row.location}
             type={LabelType.BODY3}
           />
@@ -175,7 +165,9 @@ export const Chargers = () => {
       {
         key: 'status',
         title: t('status'),
-        component: (row: any) => <ChargerStatus status={row.status} />,
+        component: (row: any) => (
+          <ChargerStatus className='whitespace-nowrap' status={row.status} />
+        ),
       },
 
       {
@@ -190,7 +182,7 @@ export const Chargers = () => {
         title: t('note'),
         component: (row: any) => {
           return (
-            <div className='h-4 overflow-hidden text-ellipsis'>
+            <div className='h-6 overflow-hidden text-ellipsis'>
               <Label text={row.note} type={LabelType.BODY3} />
             </div>
           );
@@ -214,14 +206,17 @@ export const Chargers = () => {
     chargers?.entries.forEach((charger) => {
       if (
         (!locationFilter || charger.location.id === locationFilter) &&
-        (statusFilter.length === 0 || statusFilter.includes(charger.status))
+        (!statusList.some((item) => item.selected) ||
+          (charger.status &&
+            statusList.find((item) => item.label === charger.status)))
       ) {
         row.push({
           charger: charger.name,
           location: charger.location.name,
           status: charger.status,
-          // FIXME: Simon wants to prvide another api for 'lastUsed'
-          lastUsed: '',
+          lastUsed: transactions?.entries.find(
+            (transaction) => transaction.port.charger.id === charger.id,
+          ),
           pricing: getPrice(charger),
           access: charger.access,
           note: charger.usageNotes,
@@ -232,30 +227,66 @@ export const Chargers = () => {
     return row;
   };
 
-  const renderChargerTable = () => {
-    const statusDropdownList = getStatusDropDownList();
+  const hanlePillClick = (clickedItem: any) => {
+    setStatusList(
+      statusList.map((item) => {
+        return {
+          label: item.label,
+          selected: clickedItem.label === item.label ? false : item.selected,
+        };
+      }),
+    );
+  };
+
+  const renderSelectedStatus = () => {
+    return statusList
+      .filter((item) => item.selected)
+      .map((item) => {
+        return (
+          <Pill
+            key={item.label}
+            label={item.label}
+            labelType={LabelType.PILL_DROPDOWN}
+            isButton
+            onClick={() => hanlePillClick(item)}
+            autoWidth
+          />
+        );
+      });
+  };
+
+  const renderDropdown = () => {
     const locationDropdownLiust = getLocationDropDownList();
+    return (
+      <div className='flex flex-col gap-5'>
+        <div className='flex gap-3'>
+          {locations && (
+            <Dropdown
+              title={t('location')}
+              headerWidth='auto'
+              items={locationDropdownLiust}
+              onItemClick={handleLocationSelected}
+            />
+          )}
+          <Dropdown
+            title={t('status')}
+            type={DropdownType.CHECKBOX}
+            headerWidth='auto'
+            items={statusList}
+            onItemClick={(items: any) => setStatusList(items)}
+          />
+        </div>
+        <div className='flex flex-row gap-5'>{renderSelectedStatus()}</div>
+      </div>
+    );
+  };
+
+  const renderChargerTable = () => {
     return (
       <div>
         {chargers && (
           <div className='flex flex-col gap-6 mt-6'>
-            <div className='flex gap-3'>
-              {locations && (
-                <Dropdown
-                  title={t('location')}
-                  headerWidth='auto'
-                  items={locationDropdownLiust}
-                  onItemClick={handleLocationSelected}
-                />
-              )}
-              <Dropdown
-                title={t('status')}
-                type={DropdownType.CHECKBOX}
-                headerWidth='auto'
-                items={statusDropdownList}
-                onItemClick={handleStatusSelected}
-              />
-            </div>
+            <div className='flex gap-3'>{renderDropdown()}</div>
             <Grid
               onRowClick={rowClick}
               pageIndex={currentPage}
@@ -269,7 +300,7 @@ export const Chargers = () => {
       </div>
     );
   };
-  console.log('chargers:', chargers);
+
   return (
     <Card>
       {renderChargerOverview()}
