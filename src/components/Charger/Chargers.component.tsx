@@ -28,7 +28,7 @@ import {
   Charger,
   ChargerList,
   LocationList,
-} from '../../stores/types/Chargers.interface';
+} from '../../stores/types/chargers.interface';
 import { CHARGER_STATUS } from './Constants';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 
