@@ -3,7 +3,7 @@ import { Location } from './location.interface';
 export interface Port {
   id: string;
   physicalLocation: string;
-  connectorTypes: [];
+  connectorTypes: Array<string>;
   status: string;
 }
 

@@ -1,5 +1,11 @@
 // React
 import React, { useState, useEffect } from 'react';
+import {
+  TypedUseSelectorHook,
+  shallowEqual,
+  useSelector,
+  useDispatch,
+} from 'react-redux';
 
 // Hooks
 import { useTranslation } from 'react-i18next';
@@ -9,16 +15,27 @@ import { useFetch } from '../../hooks';
 import {
   Label,
   Card,
-  Spinner,
   LabelType,
   Dropdown,
   Grid,
-  PILL_BG_COLOR,
   Pill,
   DropdownType,
 } from '../_ui';
 import { infoRed, completed } from '../../lib';
 import { ChargerStatus } from './ChargerStatus.component';
+
+// Actions
+import {
+  fetchChargers,
+  fetchTroubleChargers,
+} from '../../stores/reducers/chargers.reducer';
+import { fetchTransactions } from '../../stores/reducers/transactions.reducer';
+
+// Selectors
+import {
+  getChargers,
+  getTroubleChargerNum,
+} from '../../stores/selectors/chargers.selector';
 
 // Utils
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
@@ -32,11 +49,7 @@ import { TransactionList } from '../../stores/types/transactions.interface';
 
 export const Chargers = () => {
   // TODO: CB remove these 3 useFetch and use actions, services and selectors instead.
-  const {
-    data: chargers,
-    error: chargersError,
-    isLoading: isChargersLoading,
-  } = useFetch<ChargerList>('/internal/core/v2/chargers');
+  // TEMP start
 
   const {
     data: locations,
@@ -49,6 +62,15 @@ export const Chargers = () => {
     error: transactionsError,
     isLoading: isTransactionLoading,
   } = useFetch<TransactionList>('/internal/core/v2/historical/transactions');
+  // TEMP end
+
+  const dispatch = useDispatch();
+  // dispatch(fetchChargers);
+  // dispatch(fetchTroubleChargers);
+  // dispatch(fetchTransactions);
+
+  const chargers = useSelector(getChargers, shallowEqual);
+  const troubleCount = useSelector(getTroubleChargerNum, shallowEqual);
 
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
@@ -60,26 +82,12 @@ export const Chargers = () => {
   );
   const [locationFilter, setLocationFilter] = useState(null);
 
-  const getTroubleNum = () => {
-    let count = 0;
-    chargers?.entries.forEach((charger) => {
-      if (
-        charger.status === CHARGER_STATUS.OUT_OF_ORDER ||
-        charger.status === CHARGER_STATUS.OFFLINE
-      ) {
-        count += 1;
-      }
-    });
-    return count;
-  };
-
   const renderChargerOverview = () => {
-    const troubleNum = getTroubleNum();
     const text =
-      troubleNum === 0
+      troubleCount === 0
         ? t('chargers_status_all_online')
-        : `${troubleNum} ${t('chargers_status_has_trouble')}`;
-    const icon = troubleNum > 0 ? infoRed : completed;
+        : `${troubleCount} ${t('chargers_status_has_trouble')}`;
+    const icon = troubleCount > 0 ? infoRed : completed;
     return (
       <div>
         <Card
@@ -87,20 +95,19 @@ export const Chargers = () => {
           title={t('chargers_overview')}
           titleType={LabelType.H7}
         >
-          {isChargersLoading && <Spinner />}
           {chargers && (
             <div className='flex flex-col gap-3'>
               <div className='flex flex-row items-center gap-2'>
                 <img className='w-8 h-8' src={icon} alt='' />
                 <Label text={text} type={LabelType.H4} />
               </div>
-              {troubleNum > 0 && (
+              {troubleCount > 0 && (
                 <Label
                   text={t('chargers_trouble_desc')}
                   type={LabelType.BODY3}
                 />
               )}
-              {troubleNum > 0 && (
+              {troubleCount > 0 && (
                 <ul className='list-disc flex flex-col ml-6'>
                   <li>
                     <Label
