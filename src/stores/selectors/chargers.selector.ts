@@ -56,7 +56,9 @@ const initState = {
 } as ChargerList;
 
 const ChargersSelectors = (state: any) => {
-  return (!_.isEmpty(state?.chargers) || initState) as ChargerList;
+  return (
+    _.isEmpty(state?.chargers) ? initState : state?.chargers
+  ) as ChargerList;
 };
 
 export const getChargers = createSelector([ChargersSelectors], (chargers) => {

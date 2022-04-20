@@ -2,7 +2,6 @@ import { createAction, createReducer } from '@reduxjs/toolkit';
 import { ChargerList } from '../types/chargers.interface';
 
 const chargersStoreKey = 'chargers';
-const API_PATH = '/internal/core/v2/chargers';
 
 export const fetchChargers = (payload: any) => ({
   type: 'CHARGER_FETCH_REQUEST',

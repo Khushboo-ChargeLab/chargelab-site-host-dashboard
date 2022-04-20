@@ -36,7 +36,8 @@ import {
   getChargers,
   getTroubleChargerNum,
 } from '../../stores/selectors/chargers.selector';
-
+import { getLocations } from '../../stores/selectors/locations.selector';
+import { getTransactions } from '../../stores/selectors/transactions.selector';
 // Utils
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 
@@ -48,22 +49,6 @@ import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { TransactionList } from '../../stores/types/transactions.interface';
 
 export const Chargers = () => {
-  // TODO: CB remove these 3 useFetch and use actions, services and selectors instead.
-  // TEMP start
-
-  const {
-    data: locations,
-    error: locationsError,
-    isLoading: isLocationLoading,
-  } = useFetch<LocationList>('/internal/core/v2/locations');
-
-  const {
-    data: transactions,
-    error: transactionsError,
-    isLoading: isTransactionLoading,
-  } = useFetch<TransactionList>('/internal/core/v2/historical/transactions');
-  // TEMP end
-
   const dispatch = useDispatch();
   // dispatch(fetchChargers);
   // dispatch(fetchTroubleChargers);
@@ -71,6 +56,8 @@ export const Chargers = () => {
 
   const chargers = useSelector(getChargers, shallowEqual);
   const troubleCount = useSelector(getTroubleChargerNum, shallowEqual);
+  const locations = useSelector(getLocations, shallowEqual);
+  const transactions = useSelector(getTransactions, shallowEqual);
 
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
