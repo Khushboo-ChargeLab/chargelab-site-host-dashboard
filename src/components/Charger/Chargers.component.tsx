@@ -204,11 +204,14 @@ export const Chargers = () => {
   const getGridData = () => {
     const row: Array<Object> = [];
     chargers?.entries.forEach((charger) => {
+      const isAnyStatusSelected = statusList.some((item) => item.selected);
+      const isStatusSelected = statusList.some(
+        (item) => item.label === charger.status && item.selected,
+      );
+
       if (
         (!locationFilter || charger.location.id === locationFilter) &&
-        (!statusList.some((item) => item.selected) ||
-          (charger.status &&
-            statusList.find((item) => item.label === charger.status)))
+        (!isAnyStatusSelected || isStatusSelected)
       ) {
         row.push({
           charger: charger.name,

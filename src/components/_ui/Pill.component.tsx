@@ -47,7 +47,7 @@ export const Pill = memo(
       </div>
     );
 
-    const classes = `flex h-6 items-center justify-center rounded-3xl ${bgColor}`;
+    const classes = `flex h-6 items-center justify-center rounded-3xl ${bgColor} whitespace-nowrap`;
     if (autoWidth) {
       return <div className={classes}>{renderContent()}</div>;
     }
