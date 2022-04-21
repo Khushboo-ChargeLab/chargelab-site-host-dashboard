@@ -138,11 +138,22 @@ const renderChart = () => {
   return (
     <div>
       <Card className='w-1/3 h-52' title='Charger Status'>
-        <DoughnutChart items={status} className='flex h-32' valueField='value' labelField='label' colorField='color' />
+        <DoughnutChart
+          items={status}
+          className='flex h-32'
+          valueField='value'
+          labelField='label'
+          colorField='color'
+        />
       </Card>
       <br />
       <Card className='flex h-60'>
-        <VerticalBarChart items={feeCollected} className='flex h-52 w-full' dateField='date' valueField='value' />
+        <VerticalBarChart
+          items={feeCollected}
+          className='flex h-52 w-full'
+          dateField='date'
+          valueField='value'
+        />
       </Card>
       <br />
     </div>
@@ -356,10 +367,10 @@ const renderCheckBox = () => (
 
 export const Wiki = () => {
   const history = [
-    { title: 'COMING_SOON', date: new Date() },
-    { title: 'AVAILABLE', date: new Date() },
-    { title: 'PREPARING', date: new Date() },
-    { title: 'CHARGING', date: new Date() },
+    { title: 'Coming soon', date: new Date() },
+    { title: 'Available', date: new Date() },
+    { title: 'Preparing', date: new Date() },
+    { title: 'Charging', date: new Date() },
   ];
 
   const showSnackbar = () => {
@@ -435,17 +446,32 @@ export const Wiki = () => {
 
         <div className='inline-block'>
           Date Picker :
-          <DateTimePicker white format='LLL dd, yyyy' defaultDate={new Date()} />
+          <DateTimePicker
+            white
+            format='LLL dd, yyyy'
+            defaultDate={new Date()}
+          />
         </div>
 
         <div className='inline-block'>
           Range Picker#1 :
-          <DateTimePicker white dateRange format='LLL dd yyyy' defaultDate={new Date()} />
+          <DateTimePicker
+            white
+            dateRange
+            format='LLL dd yyyy'
+            defaultDate={new Date()}
+          />
         </div>
 
         <div className='inline-block'>
           Range Picker#2:
-          <DateTimePicker white dateRange dateRangeMove format='LLL dd yyyy' defaultDate={new Date()} />
+          <DateTimePicker
+            white
+            dateRange
+            dateRangeMove
+            format='LLL dd yyyy'
+            defaultDate={new Date()}
+          />
         </div>
       </div>
       <hr />
@@ -622,7 +648,6 @@ export const Wiki = () => {
           src='https://chargelabservice.s3.us-east-2.amazonaws.com/stations/generic/Delta+AC+Mini.jpg'
         />
       </div>
-
     </>
   );
 };

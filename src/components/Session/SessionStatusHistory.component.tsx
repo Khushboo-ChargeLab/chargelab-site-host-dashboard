@@ -1,8 +1,5 @@
 import React, { memo } from 'react';
-import {
-  ChargerStatus,
-  CHARGE_STATUS,
-} from '../Charger/ChargerStatus.component';
+import { ChargerStatus } from '../Charger/ChargerStatus.component';
 import { Label, LabelType, Timeline } from '../_ui';
 import { TimelineData } from '../_ui/time-line/types/Timeline.interface';
 import { formatDate } from '../../utils/Date.Util';
@@ -12,8 +9,7 @@ interface InputProps {
 }
 
 const renderTitle = (title: string) => {
-  const status = CHARGE_STATUS[title as keyof typeof CHARGE_STATUS];
-  return <ChargerStatus status={status} />;
+  return <ChargerStatus status={title} />;
 };
 
 const renderContent = (date: Date) => {
@@ -27,4 +23,4 @@ export const SessionStatusHistory = memo(({ data }: InputProps) => (
     renderTitle={renderTitle}
     renderContent={renderContent}
   />
-  ));
+));

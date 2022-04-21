@@ -19,7 +19,8 @@ interface InputProps {
   isButton?: boolean;
   onClick?: () => void;
   width?: string;
-  className?:string;
+  className?: string;
+  autoWidth?: boolean;
 }
 
 export const Pill = memo(
@@ -30,6 +31,7 @@ export const Pill = memo(
     isButton = false,
     onClick,
     width = '95',
+    autoWidth = false,
     className = '',
   }: InputProps) => {
     const renderButton = () => (
@@ -37,11 +39,21 @@ export const Pill = memo(
         <Label type={labelType} text='x' />
       </button>
     );
-    const classes = `flex h-6 items-center justify-center rounded-3xl ${bgColor}`;
-    return (
-      <div className={classes} style={{ width: `${width}px` }}>
+
+    const renderContent = () => (
+      <div className='flex'>
         <Label type={labelType} text={label} className={className} />
         {isButton && renderButton()}
+      </div>
+    );
+
+    const classes = `flex h-6 items-center justify-center rounded-3xl ${bgColor} whitespace-nowrap`;
+    if (autoWidth) {
+      return <div className={classes}>{renderContent()}</div>;
+    }
+    return (
+      <div className={classes} style={{ width: `${width}px` }}>
+        {renderContent()}
       </div>
     );
   },
