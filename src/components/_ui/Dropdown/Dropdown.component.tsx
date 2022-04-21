@@ -72,7 +72,7 @@ export const Dropdown = memo(
         selected: _index === index,
       }));
       setItems(newItems);
-      setTitle(item[label]);
+      setTitle(item[label] === 'All' ? title : item[label]);
 
       if (type === DropdownType.SELECT) {
         onItemClick && onItemClick(item, index);
@@ -254,7 +254,7 @@ export const Dropdown = memo(
     const renderItems = () => {
       switch (type) {
         case DropdownType.SELECT:
-          return items.map((item, index) => {
+          return [{ [label]: 'All' }].concat(items).map((item, index) => {
             const key = `${item[label]}-${index}`;
             return (
               <button
