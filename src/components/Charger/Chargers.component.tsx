@@ -1,15 +1,9 @@
 // React
 import React, { useState, useEffect } from 'react';
-import {
-  TypedUseSelectorHook,
-  shallowEqual,
-  useSelector,
-  useDispatch,
-} from 'react-redux';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 // Hooks
 import { useTranslation } from 'react-i18next';
-import { useFetch } from '../../hooks';
 
 // Components
 import {
@@ -38,18 +32,20 @@ import {
 } from '../../stores/selectors/chargers.selector';
 import { getLocations } from '../../stores/selectors/locations.selector';
 import { getTransactions } from '../../stores/selectors/transactions.selector';
+
 // Utils
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
+import { formatDate } from '../../utils/Date.Util';
 
 // Constants
-import { Charger, ChargerList } from '../../stores/types/chargers.interface';
+import { ChargerList } from '../../stores/types/chargers.interface';
 import { LocationList } from '../../stores/types/location.interface';
 import { CHARGER_STATUS } from './Constants';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { TransactionList } from '../../stores/types/transactions.interface';
 
 export const Chargers = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // dispatch(fetchChargers);
   // dispatch(fetchTroubleChargers);
   // dispatch(fetchTransactions);
@@ -161,14 +157,24 @@ export const Chargers = () => {
         key: 'status',
         title: t('status'),
         component: (row: any) => (
-          <ChargerStatus className='whitespace-nowrap' status={row.status} />
+          <div className='whitespace-nowrap w-40'>
+            <ChargerStatus status={row.status} />
+          </div>
         ),
       },
 
       {
         key: 'lastUsed',
         title: t('chargers_grid_lastUsed'),
-        type: GridColumnType.DATETIME,
+        component: (row: any) => {
+          return (
+            <Label
+              className='whitespace-nowrap w-40'
+              text={formatDate(new Date(row.lastUsed), 'MMM dd, hh:mm a')}
+              type={LabelType.BODY3}
+            />
+          );
+        },
       },
       { key: 'pricing', title: t('pricing') },
       { key: 'access', title: t('access') },
@@ -197,7 +203,6 @@ export const Chargers = () => {
 
   const getGridData = () => {
     const row: Array<Object> = [];
-
     chargers?.entries.forEach((charger) => {
       if (
         (!locationFilter || charger.location.id === locationFilter) &&
@@ -209,9 +214,10 @@ export const Chargers = () => {
           charger: charger.name,
           location: charger.location.name,
           status: charger.status,
-          lastUsed: transactions?.entries.find(
-            (transaction) => transaction.port.charger.id === charger.id,
-          ),
+          lastUsed:
+            transactions?.entries.find(
+              (transaction) => transaction.port.charger.id === charger.id,
+            )?.startTime || '',
           pricing: getPrice(charger),
           access: charger.access,
           note: charger.usageNotes,

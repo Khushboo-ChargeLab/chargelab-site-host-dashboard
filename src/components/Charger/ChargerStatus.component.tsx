@@ -11,7 +11,6 @@ interface InputProps {
 
 export const ChargerStatus = memo(({ status, className }: InputProps) => {
   const { t } = useTranslation();
-  let label;
   let color;
   switch (status) {
     case CHARGER_STATUS.COMING_SOON:

@@ -1,17 +1,9 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { ChargerList } from '../types/chargers.interface';
 
-const chargersStoreKey = 'chargers';
+export const fetchChargers = createAction<string>('CHARGER_FETCH_REQUEST');
 
-export const fetchChargers = (payload: any) => ({
-  type: 'CHARGER_FETCH_REQUEST',
-  payload,
-});
-
-export const fetchTroubleChargers = (payload: any) => ({
-  type: 'CHARGER_FETCH_REQUEST',
-  payload,
-});
+export const fetchTroubleChargers = createAction<string>('CHARGER_TROUBLE_NUMBER_FETCH_REQUEST');
 
 export const fetchChargersSuccess = createAction<ChargerList>(
   'CHARGER_FETCH_SUCCESS',
@@ -20,6 +12,6 @@ export const fetchChargersSuccess = createAction<ChargerList>(
 export const ChargersReducer = createReducer({}, (builder) => {
   builder.addCase(fetchChargersSuccess, (state, action) => ({
     ...state,
-    [chargersStoreKey]: action.payload,
+    chargers: action.payload,
   }));
 });
