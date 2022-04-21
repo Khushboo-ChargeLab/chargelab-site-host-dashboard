@@ -11,5 +11,20 @@
   "offline": "Offline",
   "out_of_order": "Out of order",
   "clear": "Clear",
-  "search": "Search"
+  "search": "Search",
+  "chargers_overview": "CHARGER OVERVIEW",
+  "chargers_status_all_online": "All Chargers are online",
+  "chargers_status_has_trouble": "chargers may need your attention",
+  "chargers_trouble_desc": "We are looking into the issue. Here is what you can do in the meantime",
+  "chargers_trouble_solution_1": "Check if your WiFi got disconnected",
+  "chargers_trouble_solition_2": "Try rebooting your Wi-Fi router",
+  "location": "Location",
+  "status": "Status",
+  "all_location": "All Locations",
+  "charger": "Charger",
+  "chargers_grid_lastUsed": "Last used",
+  "chargers_grid_note": "Note",
+  "pricing": "Pricing",
+  "access": "Access",
+  "chargers_price_free": "Free"
 }

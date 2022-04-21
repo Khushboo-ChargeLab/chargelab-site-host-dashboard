@@ -1,5 +1,6 @@
-import React, { memo, useState, useRef } from 'react';
+import React, { memo, useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
 import {
   Label,
   LabelType,
@@ -30,7 +31,7 @@ interface DropdownProps {
   headerWidth?: any;
   className?: string;
   white?: boolean;
-  label?:string;
+  label?: string;
 }
 
 export const Dropdown = memo(
@@ -56,11 +57,16 @@ export const Dropdown = memo(
       return defaultTitle;
     });
     const { t } = useTranslation();
-    const [_items, setItems] = useState(items);
+    const [_items, setItems] = useState(_.cloneDeep(items));
     const [isOpen, setOpen] = useState(false);
     const ref = useRef(null);
     useOnClickOutside(ref, () => setOpen(false));
     const [searchStr, setSearchStr] = useState('');
+
+    useEffect(() => {
+      setItems(items);
+    }, [items]);
+
     const handleHeaderClick = () => {
       setOpen(!isOpen);
     };
@@ -221,8 +227,9 @@ export const Dropdown = memo(
       }
       return (
         <button
-          className={`${white ? 'bg-white border border-solid border-silver5' :
-          'bg-silver'} h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center ${className}`}
+          className={`${
+            white ? 'bg-white border border-solid border-silver5' : 'bg-silver'
+          } h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center ${className}`}
           type='button'
           onClick={handleHeaderClick}
           style={{ width: headerWidth }}
@@ -260,7 +267,9 @@ export const Dropdown = memo(
               <button
                 key={key}
                 type='button'
-                className={`hover:bg-silver pl-2 pr-12 min-h-[40px] text-left ${item.selected ? 'bg-silver rounded' : ''}`}
+                className={`hover:bg-silver pl-2 pr-12 min-h-[40px] text-left ${
+                  item.selected ? 'bg-silver rounded' : ''
+                }`}
                 onClick={() => handleItemClick(item, index)}
               >
                 <Label

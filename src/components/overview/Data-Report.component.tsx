@@ -55,9 +55,10 @@ const feeCollected = [
 
 export const DataReport = () => (
   <Card>
-    <div className="flex mt-3 mb-8 w-full">
-      <div className="flex w-2/5">
+    <div className='flex mt-3 mb-8 w-full'>
+      <div className='flex w-3/5'>
         <Switch
+          className='whitespace-nowrap'
           enableLabel='Enabled'
           disableLabel='Disabled'
           segmented
@@ -66,10 +67,25 @@ export const DataReport = () => (
         />
       </div>
       <div className='flex justify-end w-3/5'>
-        <DateTimePicker white dateRange dateRangeMove format='LLL dd yyyy' defaultDate={new Date()} />
-        <Button size={ButtonSize.SMALL} label="Export CSV" type={ButtonType.Cancel} className='ml-4' />
+        <DateTimePicker
+          white
+          dateRange
+          dateRangeMove
+          format='LLL dd yyyy'
+          defaultDate={new Date()}
+        />
+        <Button
+          size={ButtonSize.SMALL}
+          label='Export CSV'
+          type={ButtonType.Cancel}
+        />
       </div>
     </div>
-    <VerticalBarChart items={feeCollected} className='flex h-52 w-full' dateField='date' valueField='value' />
+    <VerticalBarChart
+      items={feeCollected}
+      className='flex h-52 w-full'
+      dateField='date'
+      valueField='value'
+    />
   </Card>
-    );
+);

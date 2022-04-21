@@ -5,6 +5,7 @@ import { AppHeader, AppSideBar, Label, Wiki } from './components/_ui';
 import './App.scss';
 import { Overview } from './components/overview';
 import { fetchLocations } from './stores/reducers/location.reducer';
+import { Chargers } from './components/Charger';
 
 function App() {
   const distpach = useDispatch();
@@ -19,8 +20,11 @@ function App() {
       <AppHeader />
 
       <div className='absolute left-60 right-0 top-20  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
-        <Route exact path="/">
+        <Route exact path='/'>
           <Overview />
+        </Route>
+        <Route exact path='/chargers'>
+          <Chargers />
         </Route>
         <Route exact path='/wiki'>
           <Wiki />
