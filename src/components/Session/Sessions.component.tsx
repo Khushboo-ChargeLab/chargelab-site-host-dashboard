@@ -114,10 +114,6 @@ export const Sessions = () => {
       });
   };
 
-  const handleDropDownColor = () => {
-    return chargerData.filter((charger: any) => charger.selected).length > 0 ? 'bg-grey6/60' : '';
-  };
-
   const chargerSelected = useCallback(
     (item: any) => {
       setFilter({
@@ -173,7 +169,6 @@ export const Sessions = () => {
             items={chargerData}
             type={DropdownType.CHECKBOX}
             onItemClick={chargerSelected}
-            className={handleDropDownColor()}
           />
           <CustomDatePicker
             format='MMM d,yyyy'
