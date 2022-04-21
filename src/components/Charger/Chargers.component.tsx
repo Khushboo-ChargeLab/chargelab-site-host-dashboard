@@ -228,7 +228,7 @@ export const Chargers = () => {
     return row;
   };
 
-  const hanlePillClick = (clickedItem: any) => {
+  const handlePillClick = (clickedItem: any) => {
     setStatusList(
       statusList.map((item) => {
         return {
@@ -249,7 +249,7 @@ export const Chargers = () => {
             label={item.label}
             labelType={LabelType.PILL_DROPDOWN}
             isButton
-            onClick={() => hanlePillClick(item)}
+            onClick={() => handlePillClick(item)}
             autoWidth
           />
         );
