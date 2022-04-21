@@ -57,12 +57,6 @@ export const Grid = ({
           pageIndex={pageIndex}
           primaryKey={primaryKey}
         />
-
-        <GridPager
-          totalPage={totalPage || 1}
-          currentPage={currentPage}
-          loadPage={loadMoreData}
-        />
       </div>
 
       <GridPager
