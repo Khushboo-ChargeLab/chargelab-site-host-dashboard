@@ -2,7 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert, charging } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
-import { Button, ButtonType, Card, CustomDatePicker, Dropdown, DropdownType, Grid, Label, LabelType, ModalForm, Pill, PILL_BG_COLOR } from '../_ui';
+import {
+  Card,
+  Grid,
+  Pill,
+  PILL_BG_COLOR,
+  Button,
+  ButtonType,
+  Label,
+  LabelType,
+  Dropdown,
+  CustomDatePicker,
+  ModalForm,
+  DropdownType,
+} from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
@@ -36,19 +49,24 @@ export const Sessions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [chargerData, setChargerData] = useState(chargerDummyData);
 
-  const refreshGrid = useCallback(async (page: number) => {
-    console.log('refreshGrid', page, filter);
-    setCurrentPage(page);
-    dispatch(fetchSessions({ page, ...filter }));
-    // Fetch data
-  }, [filter, dispatch]);
+  const refreshGrid = useCallback(
+    async (page: number) => {
+      setCurrentPage(page);
+      dispatch(fetchSessions({ page, ...filter }));
+      // Fetch data
+    },
+    [filter, dispatch],
+  );
 
-  const dateChanged = useCallback((selectedDate: any) => {
-    setFilter({
-      ...filter,
-      dateRange: selectedDate,
-    });
-  }, [filter]);
+  const dateChanged = useCallback(
+    (selectedDate: any) => {
+      setFilter({
+        ...filter,
+        dateRange: selectedDate,
+      });
+    },
+    [filter],
+  );
 
   const handleClearAllClick = () => {
     setChargerData(chargerDummyData);
@@ -100,13 +118,16 @@ export const Sessions = () => {
     return chargerData.filter((charger: any) => charger.selected).length > 0 ? 'bg-grey6/60' : '';
   };
 
-  const chargerSelected = useCallback((item: any) => {
-    setFilter({
-      ...filter,
-      charger: item,
-    });
+  const chargerSelected = useCallback(
+    (item: any) => {
+      setFilter({
+        ...filter,
+        charger: item,
+      });
     setChargerData(item);
-  }, [filter]);
+    },
+    [filter],
+  );
 
   const rowClick = useCallback((rowData: any) => {
     const chargerStatusHistory = [
@@ -133,7 +154,7 @@ export const Sessions = () => {
     };
     ModalForm.show({
       title: 'Session detail',
-      body: (<SessionDetail sessionData={SessionDetailInfo} />),
+      body: <SessionDetail sessionData={SessionDetailInfo} />,
     });
     console.log(rowData);
   }, []);
@@ -143,9 +164,9 @@ export const Sessions = () => {
   }, [refreshGrid]);
 
   return (
-    <Card title="Recent sessions">
-      <div className="flex mt-3 mb-8 w-full">
-        <div className="flex w-4/5">
+    <Card title='Recent sessions'>
+      <div className='flex mt-3 mb-8 w-full'>
+        <div className='flex w-4/5'>
           <Dropdown
             title='Charger'
             headerWidth='auto'
@@ -154,10 +175,18 @@ export const Sessions = () => {
             onItemClick={chargerSelected}
             className={handleDropDownColor()}
           />
-          <CustomDatePicker format="MMM d,yyyy" className='ml-2' onChange={dateChanged} />
+          <CustomDatePicker
+            format='MMM d,yyyy'
+            className='ml-2'
+            onChange={dateChanged}
+          />
         </div>
-        <div className="flex justify-end w-1/5">
-          <Button size={ButtonSize.SMALL} label="Export CSV" type={ButtonType.Cancel} />
+        <div className='flex justify-end w-1/5'>
+          <Button
+            size={ButtonSize.SMALL}
+            label='Export CSV'
+            type={ButtonType.Cancel}
+          />
         </div>
       </div>
       <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
@@ -177,7 +206,7 @@ export const Sessions = () => {
             component: (row: any) => (
               <Pill
                 label={row.charger}
-                className="text-grey6"
+                className='text-grey6'
                 bgColor={PILL_BG_COLOR.GREY}
               />
             ),
@@ -199,14 +228,23 @@ export const Sessions = () => {
         ]}
         data={[
           {
-            id: 'AD-01', location: 'UAT', charger: 'DR-41', start: '01/24/2022 10:20:33 PM', cost: 7.25, energy: '12.9 kWh', status: 'Charging',
+            id: 'AD-01',
+            location: 'UAT',
+            charger: 'DR-41',
+            start: '01/24/2022 10:20:33 PM',
+            cost: 7.25,
+            energy: '12.9 kWh',
+            status: 'Charging',
           },
           {
-            id: 'AD-02', location: 'DEV', charger: 'DR-55', status: 'Failed',
+            id: 'AD-02',
+            location: 'DEV',
+            charger: 'DR-55',
+            status: 'Failed',
           },
         ]}
         totalPage={9}
-        primaryKey="id"
+        primaryKey='id'
       />
     </Card>
   );
