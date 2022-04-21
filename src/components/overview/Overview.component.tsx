@@ -1,11 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Summary, ChargerStatusChart, DataReport } from '.';
+import { fetchChargers } from '../../stores/reducers/charger.reducer';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import { getLocation } from '../../stores/selectors/location.selector';
 import { Sessions } from '../Session';
-import { Dropdown, DropdownType } from '../_ui';
+import { Dropdown } from '../_ui';
 
 export const Overview = () => {
   const dispatch = useDispatch();
+  const locations = useSelector(getLocation);
 
   const chargerStatus = [
     {
@@ -29,28 +33,14 @@ export const Overview = () => {
       color: '#B0B8C1',
     },
   ];
-  const locations = [
-    {
-      label: 'All locations',
-      selected: false,
-    },
-    {
-      label: 'Hilton Kennedy',
-      selected: false,
-    },
-    {
-      label: 'Hilton Spring field',
-      selected: false,
-    },
-    {
-      label: 'A very loooooooooooooooong location',
-      selected: false,
-    },
-  ];
 
   const locationChanged = (location:any) => {
-    dispatch(fetchSessions({ locations: location.filter((l:any) => l.selected) }));
+    dispatch(fetchSessions({ locations: location }));
   };
+
+  useEffect(() => {
+    dispatch(fetchChargers());
+  }, [dispatch]);
 
   return (
     <>
@@ -60,7 +50,7 @@ export const Overview = () => {
           headerWidth='auto'
           items={locations}
           white
-          type={DropdownType.CHECKBOX}
+          label="name"
           onItemClick={locationChanged}
         />
       </div>

@@ -5,7 +5,7 @@ const header = {
 };
 
 const baseUrl = process.env.REACT_APP_EXTERNAL_API_URL;
-const getBearerToken = () => '';
+const getBearerToken = () => 'BAU9T23JZEU_08DZTI-ZQ1BIGG4:9af838e3589d71034cbfdf11af9adc83ddde1882620b01c2841d5cd7b3fbb8f5';
 
 export const post = async (url: string, body: any) => {
     try {
@@ -38,7 +38,7 @@ export const get = async (url: string) => {
             method: 'GET',
             headers: {
                 ...header,
-                Authorization: `Bearer ${getBearerToken()}`,
+                Authorization: `x-auth ${getBearerToken()}`,
             },
         });
 

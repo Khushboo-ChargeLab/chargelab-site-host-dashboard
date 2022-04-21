@@ -30,7 +30,7 @@ export enum LabelType {
 }
 
 interface InputProps {
-  text: string;
+  text: any;
   type?: LabelType;
   className?: string;
   icon?:any;

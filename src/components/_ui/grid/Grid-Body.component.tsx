@@ -6,9 +6,25 @@ import { GridColumnType } from './enums/Grid-Column-Type.enum';
 import { InputProps } from './Grid.component';
 import { GridColumn } from './types/Grid-Column.interface';
 
-export const GridBody = memo(({ columns, data, primaryKey, onRowClick }: InputProps) => {
+export const GridBody = memo(({ columns, data, primaryKey, onRowClick, pageIndex, local }: InputProps) => {
   const formatData = (col: GridColumn, dataRow: any) => {
-    const currentData = dataRow[col.key];
+    let currentData = '';
+
+    if (col.key.indexOf('.') !== -1) {
+      currentData = dataRow;
+      col.key.split('.').forEach((key:any) => {
+        currentData = currentData[key];
+      });
+    } else if (col.key.indexOf('|') !== -1) {
+      const keys = col.key.split('|');
+      currentData = dataRow[keys[0]];
+
+      if (!currentData) {
+        currentData = dataRow[keys[1]];
+      }
+    } else {
+      currentData = dataRow[col.key];
+    }
 
         if (col.type === GridColumnType.DATE) {
             if (currentData) {
@@ -16,11 +32,11 @@ export const GridBody = memo(({ columns, data, primaryKey, onRowClick }: InputPr
             }
         } else if (col.type === GridColumnType.DATETIME) {
           if (currentData) {
-              return formatDateTime(new Date(currentData), col.format);
+              return formatDateTime(new Date(currentData.split('[')[0]), col.format);
           }
       } else if (col.type === GridColumnType.CURRENCY) {
         if (currentData) {
-            return convertToLocaleCurrency(currentData);
+            return convertToLocaleCurrency(+currentData);
           }
       }
 
@@ -38,7 +54,7 @@ export const GridBody = memo(({ columns, data, primaryKey, onRowClick }: InputPr
 
   return (
     <div className='tbody'>
-      {data?.map((dataRow: any) => (
+      {(local ? (data || []).filter((d:any, index) => index >= ((pageIndex || 1) - 1) * 20 && index < (((pageIndex || 1) - 1) * 20) + 20) : (data || [])).map((dataRow: any) => (
         <div onClick={() => rowClicked(dataRow)} key={dataRow[primaryKey]} className={`row ${onRowClick ? 'hover:bg-silver cursor-pointer' : ''}`}>
           {columns.map((col: GridColumn) => (
             <div key={col.key} className='th pt-2 pb-2 pl-3'>

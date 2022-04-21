@@ -30,6 +30,7 @@ interface DropdownProps {
   headerWidth?: any;
   className?: string;
   white?: boolean;
+  label?:string;
 }
 
 export const Dropdown = memo(
@@ -41,13 +42,14 @@ export const Dropdown = memo(
     headerWidth = 143,
     className = '',
     white = false,
+    label = 'label',
   }: DropdownProps) => {
     const [_title, setTitle] = useState(() => {
       let defaultTitle = title;
       if (type === DropdownType.SELECT) {
         items.forEach((item) => {
           if (item.selected) {
-            defaultTitle = item.label;
+            defaultTitle = item[label];
           }
         });
       }
@@ -70,7 +72,7 @@ export const Dropdown = memo(
         selected: _index === index,
       }));
       setItems(newItems);
-      setTitle(item.label);
+      setTitle(item[label]);
 
       if (type === DropdownType.SELECT) {
         onItemClick && onItemClick(item, index);
@@ -161,9 +163,9 @@ export const Dropdown = memo(
             pills.push(
               <Pill
                 // eslint-disable-next-line react/no-array-index-key
-                key={`${item.label}-${pIndex}`}
+                key={`${item[label]}-${pIndex}`}
                 onClick={() => handleParentPillClick(item, pIndex)}
-                label={item.label}
+                label={item[label]}
                 isButton
                 width='auto'
                 labelType={LabelType.PILL_DROPDOWN}
@@ -175,7 +177,7 @@ export const Dropdown = memo(
                 pills.push(
                   <Pill
                     // eslint-disable-next-line react/no-array-index-key
-                    key={`${item.label}-${cIndex}`}
+                    key={`${item[label]}-${cIndex}`}
                     onClick={() => handleChildPillClick(pIndex, cIndex)}
                     label={child.label}
                     isButton
@@ -252,8 +254,8 @@ export const Dropdown = memo(
     const renderItems = () => {
       switch (type) {
         case DropdownType.SELECT:
-          return _items.map((item, index) => {
-            const key = `${item.label}-${index}`;
+          return items.map((item, index) => {
+            const key = `${item[label]}-${index}`;
             return (
               <button
                 key={key}
@@ -267,7 +269,7 @@ export const Dropdown = memo(
                       ? LabelType.DROPDOWN_ITEM_SELECTED
                       : LabelType.BODY3
                   }
-                  text={item.label}
+                  text={item[label]}
                 />
               </button>
             );
@@ -276,10 +278,11 @@ export const Dropdown = memo(
           return (
             <CheckBoxGroup
               name={title}
-              defaultItems={_items}
+              defaultItems={items}
               onChange={handleCheckBoxSelect}
               direction={GroupDirection.Vertical}
               filterStr={searchStr}
+              label={label}
             />
           );
         case DropdownType.CHECKBOX_TREE:

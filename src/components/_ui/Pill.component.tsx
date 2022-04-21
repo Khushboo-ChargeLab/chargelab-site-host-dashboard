@@ -10,6 +10,7 @@ export enum PILL_BG_COLOR {
   PURPLE = 'bg-purple',
   BLUE = 'bg-blue',
   GREY = 'bg-grey-dark',
+  LIGHT ='bg-grey2',
 }
 
 interface InputProps {

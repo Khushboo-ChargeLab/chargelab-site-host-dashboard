@@ -1,5 +1,28 @@
+import { Location } from '.';
+
 export interface Charger {
-    charger: string;
+    id: string;
+    completeTime?: Date;
+    createTime?: Date;
+    startTime?: Date;
+    stopTime?: Date;
+    billedTotalAmount?: number;
+    consumedEnergyJoules?: number;
+    status: string;
+    transactionId?: string;
+    name?: string;
+    type?: string;
+    port: {
+        id: string;
+        physicalLocation: string;
+        charger: {
+            id: string;
+            model: string;
+            name: string;
+            type: string;
+            location: Location;
+        };
+    };
 }
 
 export interface ChargerStatus {

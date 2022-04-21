@@ -14,6 +14,7 @@ interface CheckBoxGroupProps {
   singleSelection?: boolean;
   onChange: Function;
   filterStr?: string;
+  label?:string;
 }
 
 const CheckBoxGroup = ({
@@ -23,6 +24,7 @@ const CheckBoxGroup = ({
   singleSelection = false,
   onChange,
   filterStr = '',
+  label = 'label',
 }: CheckBoxGroupProps) => {
   const [items, setItems] = useState(defaultItems);
   useEffect(() => {
@@ -45,20 +47,21 @@ const CheckBoxGroup = ({
 
   return (
     <div className={`flex ${direction === GroupDirection.Vertical ? 'flex-col' : 'flex-row gap-4'}`}>
-      {items.map((item, index) => {
-        if (filterStr && !item.label.toLowerCase().includes(filterStr.toLowerCase())) {
+      {items.map((rowData:any, index) => {
+        const item = rowData[label] as string;
+        if (filterStr && !item.toLowerCase().includes(filterStr.toLowerCase())) {
           return null;
         }
         return (
           // eslint-disable-next-line react/no-array-index-key
-          <div key={`${item.label}-${index}`} className={`flex hover:bg-silver h-12 ${direction === GroupDirection.Vertical && 'pl-2 pr-12'} `}>
+          <div key={`${item}-${index}`} className={`flex hover:bg-silver h-12 ${direction === GroupDirection.Vertical && 'pl-2 pr-12'} `}>
             <CheckBox
               index={index}
               name={name}
               // eslint-disable-next-line react/no-array-index-key
-              key={`${item.label}-${index}`}
-              label={item.label}
-              selected={item.selected || false}
+              key={`${item}-${index}`}
+              label={item}
+              selected={rowData.selected || false}
               singleSelection={singleSelection}
               onChange={changeHandler}
             />

@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { AppHeader, AppSideBar, Label, Wiki } from './components/_ui';
 import './App.scss';
 import { Overview } from './components/overview';
+import { fetchLocations } from './stores/reducers/location.reducer';
 
 function App() {
+  const distpach = useDispatch();
+
+  useEffect(() => {
+    distpach(fetchLocations());
+  }, [distpach]);
+
   return (
     <div className='App'>
       <AppSideBar />

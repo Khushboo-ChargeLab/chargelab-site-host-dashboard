@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { alert, charging } from '../../lib';
+import { useDispatch, useSelector } from 'react-redux';
+import { alert, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import { selectChargers } from '../../stores/selectors/charger.selector';
+import { selectRecentSessions } from '../../stores/selectors/session.selector';
 import {
  Card, Grid, Pill, PILL_BG_COLOR, Button, ButtonType, Label, LabelType, Dropdown, CustomDatePicker, ModalForm,
 } from '../_ui';
@@ -11,13 +13,17 @@ import { SessionDetail } from './SessionDetail.component';
 
 export const Sessions = () => {
   const dispatch = useDispatch();
+  const recentSessions = useSelector(selectRecentSessions);
+  const chargers = useSelector(selectChargers);
+
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
 
   const refreshGrid = useCallback(async (page:number) => {
-    console.log('refreshGrid', page, filter);
     setCurrentPage(page);
-    dispatch(fetchSessions({ page, ...filter }));
+    if (page === 1) {
+      dispatch(fetchSessions({ page, ...filter }));
+    }
 // Fetch data
   }, [filter, dispatch]);
 
@@ -76,29 +82,8 @@ export const Sessions = () => {
           <Dropdown
             title='Charger'
             headerWidth='auto'
-            items={[{ label: 'AD-21', selected: false },
-            { label: 'AD-22', selected: false },
-            { label: 'AD-23', selected: false },
-            { label: 'AD-24', selected: false },
-            { label: 'AD-25', selected: false },
-            { label: 'AD-26', selected: false },
-            { label: 'AD-27', selected: false },
-            { label: 'AD-28', selected: false },
-            { label: 'AD-29', selected: false },
-            { label: 'AD-30', selected: false },
-            { label: 'AD-31', selected: false },
-            { label: 'AD-32', selected: false },
-            { label: 'AD-25', selected: false },
-            { label: 'AD-26', selected: false },
-            { label: 'AD-27', selected: false },
-            { label: 'AD-28', selected: false },
-            { label: 'AD-29', selected: false },
-            { label: 'AD-30', selected: false },
-            { label: 'AD-31', selected: false },
-            { label: 'AD-32', selected: false },
-            { label: 'AD-33', selected: false },
-            { label: 'AD-34', selected: false },
-            { label: 'AD-35', selected: false }]}
+            items={chargers}
+            label="name"
             onItemClick={chargerSelected}
           />
           <CustomDatePicker format="MMM d,yyyy" className='ml-2' onChange={dateChanged} />
@@ -111,44 +96,38 @@ export const Sessions = () => {
         onRowClick={rowClick}
         pageIndex={currentPage}
         loadPage={refreshGrid}
+        local
         columns={[
-            { key: 'id', title: 'Authentication type' },
-            { key: 'location', title: 'Location' },
-            {
- key: 'charger',
+            { key: 'port.charger.location.name', title: 'Location' },
+            { key: 'port.charger.name',
               title: 'Charger',
             component: (row: any) => (
               <Pill
-                label={row.charger}
+                width="200"
+                label={row.port.charger.name}
                 className="text-grey6"
-                bgColor={PILL_BG_COLOR.GREY}
+                bgColor={PILL_BG_COLOR.LIGHT}
+                labelType={LabelType.LABEL_S_G6}
               />
             ),
           },
-            { key: 'start', title: 'Start Time', type: GridColumnType.DATETIME },
+            { key: 'createTime|startTime', title: 'Start Time', type: GridColumnType.DATETIME, format: 'LLL dd, HH:mm a' },
             {
               key: 'status',
               title: 'Status',
               component: (row: any) => (
                 <Label
-                  text={row.status}
+                  text={(row.status || 'Completed').replace('ENDED', 'Completed')}
                   type={LabelType.BODY3}
-                  icon={row.status === 'Failed' ? alert : charging}
+                  icon={row.status === 'Failed' ? alert : completed}
                 />
               ),
             },
-            { key: 'energy', title: 'Energy used' },
-            { key: 'cost', title: 'Cost', type: GridColumnType.CURRENCY },
+            { key: 'consumedEnergyJoules', title: 'Energy used' },
+            { key: 'billedTotalAmount', title: 'Cost', type: GridColumnType.CURRENCY },
           ]}
-        data={[
-            {
- id: 'AD-01', location: 'UAT', charger: 'DR-41', start: '01/24/2022 10:20:33 PM', cost: 7.25, energy: '12.9 kWh', status: 'Charging',
-},
-            {
- id: 'AD-02', location: 'DEV', charger: 'DR-55', status: 'Failed',
-},
-          ]}
-        totalPage={9}
+        data={recentSessions}
+        totalPage={Math.ceil(recentSessions.length / 20)}
         primaryKey="id"
       />
     </Card>
