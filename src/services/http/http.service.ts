@@ -5,7 +5,10 @@ const header = {
 };
 
 const baseUrl = process.env.REACT_APP_EXTERNAL_API_URL;
-const getBearerToken = () => '';
+export const setApiPrefix = (api: string) => {
+    localStorage.setItem('DASHBOARD-API-PREFIX', api);
+};
+export const getBearerToken = () => localStorage.getItem('DASHBOARD-TOKEN') || '';
 
 export const post = async (url: string, body: any) => {
   try {
