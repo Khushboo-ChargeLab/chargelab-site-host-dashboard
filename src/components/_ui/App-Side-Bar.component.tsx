@@ -27,13 +27,13 @@ import { getCurrentTheme } from '../../stores/selectors/theme.selector';
 const menu: AppNavigator[] = [
   { selectedIcon: overviewSelected, header: '', path: '/', title: 'Overview', icon: overview },
   { selectedIcon: chargerSelected, header: 'CHARGER MANAGEMENT', path: '/chargers', title: 'Chargers', icon: chargers },
-  { selectedIcon: pricingS, header: 'CHARGER MANAGEMENT', path: '/Pricing', title: 'Pricing', icon: pricing },
-  { selectedIcon: accessS, header: 'CHARGER MANAGEMENT', path: '/Access', title: 'Access', icon: access },
-  { selectedIcon: company, header: 'ADMIN', path: '/Company', title: 'Company', icon: company },
-  { selectedIcon: payout, header: 'ADMIN', path: '/Payout', title: 'Payout', icon: payout },
-  { selectedIcon: rfid, header: 'ADMIN', path: '/RFID', title: 'RFID cards', icon: rfid },
-  { selectedIcon: learning, header: 'RESOURCES', path: '/Learning', title: 'Learning', icon: learning },
-  { selectedIcon: help, header: 'RESOURCES', path: '/Help', title: 'Help', icon: help },
+  // { selectedIcon: pricingS, header: 'CHARGER MANAGEMENT', path: '/Pricing', title: 'Pricing', icon: pricing },
+  // { selectedIcon: accessS, header: 'CHARGER MANAGEMENT', path: '/Access', title: 'Access', icon: access },
+  // { selectedIcon: company, header: 'ADMIN', path: '/Company', title: 'Company', icon: company },
+  // { selectedIcon: payout, header: 'ADMIN', path: '/Payout', title: 'Payout', icon: payout },
+  // { selectedIcon: rfid, header: 'ADMIN', path: '/RFID', title: 'RFID cards', icon: rfid },
+  // { selectedIcon: learning, header: 'RESOURCES', path: '/Learning', title: 'Learning', icon: learning },
+  // { selectedIcon: help, header: 'RESOURCES', path: '/Help', title: 'Help', icon: help },
 ];
 
 export const AppSideBar = () => {
