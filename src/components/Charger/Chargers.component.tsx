@@ -180,7 +180,7 @@ export const Chargers = () => {
       { key: 'access', title: t('access') },
       {
         key: 'note',
-        title: t('note'),
+        title: t('chargers_grid_note'),
         component: (row: any) => {
           return (
             <div className='h-6 overflow-hidden text-ellipsis'>
