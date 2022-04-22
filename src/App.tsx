@@ -12,19 +12,10 @@ import { Login } from './components/Login/Login.component';
 function App() {
     useEffect(() => {
         (async () => {
-            const isRunningLocally = process.env.REACT_APP_ENV === 'dev';
-            let dep = await httpRawGet(`${(isRunningLocally ? process.env.REACT_APP_ENDPOINT : '')}/deployment/cognito`)
+            // when running locally, please update the .env file to point it to the stack you want
+            // will output {"region": "us-east-1", "userPoolId": "us-east-1_S1aRqShe6", "clientId": "4ahk7m1g54kodg0e3c9qedv6vg"}
+            const dep = await httpRawGet('/deployment/cognito')
                 .catch((e) => e);
-
-            // you can manually change the .env properties to target a specific stack when running locally
-            // setupProxy.js will resolve the CORS issue
-            if (isRunningLocally) {
-                dep = {
-                    region: process.env.REACT_APP_REGION,
-                    userPoolId: process.env.REACT_APP_USER_POOL,
-                    clientId: process.env.REACT_APP_CLIENTID,
-                };
-            }
 
             Amplify.configure({
                 Auth: {
@@ -48,16 +39,10 @@ function App() {
                     const userInfo = await Auth.currentUserInfo();
                     setUserInfo(userInfo);
 
+                    // when running locally, please update the .env file to point it to the stack you want
                     // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
-                    let apiPrefix = await httpRawGet(`${(isRunningLocally ? process.env.REACT_APP_ENDPOINT : '')}/deployment/api`);
+                    const apiPrefix = await httpRawGet('/deployment/api');
 
-                    // you can manually change the .env properties to target a specific stack when running locally
-                    // setupProxy.js will resolve the CORS issue
-                    if (isRunningLocally) {
-                        apiPrefix = {
-                            apiUrlPrefix: process.env.REACT_APP_EXTERNAL_API_URL,
-                        };
-                    }
                     setApiPrefix(apiPrefix.apiUrlPrefix);
                 }
             }
