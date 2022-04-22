@@ -8,13 +8,17 @@ import store from './stores/store';
 import './index.css';
 import './services/translation/i18n';
 import { ModalForm, Snackbar } from './components/_ui';
+import { Login } from './components/Login/Login.component';
 
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <Router>
         <Switch>
-          <Route path="/">
+          <Route exact path='/login'>
+            <Login />
+          </Route>
+          <Route path='/'>
             <App />
           </Route>
         </Switch>

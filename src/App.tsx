@@ -23,10 +23,6 @@ function App() {
   const distpach = useDispatch();
 
   useEffect(() => {
-    distpach(fetchLocations());
-  }, [distpach]);
-
-  useEffect(() => {
     (async () => {
       // When running locally, please update the .env file to point it to the stack you want
       // will output {"region": "us-east-1", "userPoolId": "us-east-1_S1aRqShe6", "clientId": "4ahk7m1g54kodg0e3c9qedv6vg"}
@@ -37,7 +33,7 @@ function App() {
       // eg: ./add-given-family-name.sh 11-jer Jerome Dogillo 'email = "jerome.dogillo@chargelab.co"'
       // 3. Try logging in again
       const dep = await httpRawGet('/deployment/cognito').catch((e) => e);
-
+      console.log('dep', dep);
       Amplify.configure({
         Auth: {
           region: dep.region,
@@ -64,10 +60,11 @@ function App() {
           const apiPrefix = await httpRawGet('/deployment/api');
 
           setApiPrefix(apiPrefix.apiUrlPrefix);
+          distpach(fetchLocations());
         }
       }
     })();
-  }, []);
+  }, [distpach]);
 
   if (getBearerToken() === '') {
     return (
