@@ -17,7 +17,7 @@ function App() {
             // Upon logging in and your user does not exist in the user pool, kindly do the steps (note that the stack version should match what is in .env):
             // 1. ./path/to/chargelab-aws/scripts/add-user.sh [STACK VERSION] [E-MAIL] [PHONE NUMBER]
             // eg: ./add-user.sh 11-jer jerome.dogillo@chargelab.co +17807991234
-            // 2. ./path/to/chargelab-aws/scripts/add-user.sh [STACK VERSION] [GIVEN NAME] [FAMILY NAME] [FILTER]
+            // 2. ./path/to/chargelab-aws/scripts/add-given-family-name.sh [STACK VERSION] [GIVEN NAME] [FAMILY NAME] [FILTER]
             // eg: ./add-given-family-name.sh 11-jer Jerome Dogillo 'email = "jerome.dogillo@chargelab.co"'
             // 3. Try logging in again
             const dep = await httpRawGet('/deployment/cognito')
