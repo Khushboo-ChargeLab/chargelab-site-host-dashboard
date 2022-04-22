@@ -79,6 +79,10 @@ export const Sessions = () => {
 
   const handleClearAllClick = () => {
     setChargerData(chargerDummyData);
+    setFilter({
+      ...filter,
+      charger: [],
+    });
   };
 
   const renderClearAllButton = () => {
@@ -115,9 +119,9 @@ export const Sessions = () => {
         return (
           <Pill
             // eslint-disable-next-line react/no-array-index-key
-            key={`${c.label}-${index}`}
+            key={`${c.name}-${index}`}
             onClick={() => handlePillClick(c)}
-            label={c.label}
+            label={c.name}
             isButton
             width='auto'
             labelType={LabelType.PILL_DROPDOWN}
@@ -130,7 +134,7 @@ export const Sessions = () => {
     (item: any) => {
       setFilter({
         ...filter,
-        charger: item,
+        charger: item.filter((charger: any) => charger.selected),
       });
       setChargerData(item);
     },
@@ -178,6 +182,7 @@ export const Sessions = () => {
           <Dropdown
             title='Charger'
             headerWidth='auto'
+            type={DropdownType.CHECKBOX}
             items={chargers}
             label='name'
             onItemClick={chargerSelected}
@@ -196,10 +201,13 @@ export const Sessions = () => {
           />
         </div>
       </div>
-      <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
-        {renderSelectedCharger()}
-        {renderClearAllButton()}
-      </div>
+
+      {chargerData.some((c: any) => c.selected) && (
+        <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
+          {renderSelectedCharger()}
+          {renderClearAllButton()}
+        </div>
+      )}
       <Grid
         onRowClick={rowClick}
         pageIndex={currentPage}
