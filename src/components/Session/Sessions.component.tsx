@@ -109,6 +109,7 @@ export const Sessions = () => {
             isButton
             width='auto'
             labelType={LabelType.PILL_DROPDOWN}
+            className='pr-0'
           />
         );
       });

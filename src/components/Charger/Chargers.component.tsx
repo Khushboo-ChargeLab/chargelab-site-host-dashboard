@@ -254,6 +254,7 @@ export const Chargers = () => {
             isButton
             onClick={() => handlePillClick(item)}
             autoWidth
+            className='pr-0'
           />
         );
       });
