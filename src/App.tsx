@@ -12,8 +12,14 @@ import { Login } from './components/Login/Login.component';
 function App() {
     useEffect(() => {
         (async () => {
-            // when running locally, please update the .env file to point it to the stack you want
+            // When running locally, please update the .env file to point it to the stack you want
             // will output {"region": "us-east-1", "userPoolId": "us-east-1_S1aRqShe6", "clientId": "4ahk7m1g54kodg0e3c9qedv6vg"}
+            // Upon logging in and your user does not exist in the user pool, kindly do the steps (note that the stack version should match what is in .env):
+            // 1. ./path/to/chargelab-aws/scripts/add-user.sh [STACK VERSION] [E-MAIL] [PHONE NUMBER]
+            // eg: ./add-user.sh 11-jer jerome.dogillo@chargelab.co +17807991234
+            // 2. ./path/to/chargelab-aws/scripts/add-user.sh [STACK VERSION] [GIVEN NAME] [FAMILY NAME] [FILTER]
+            // eg: ./add-given-family-name.sh 11-jer Jerome Dogillo 'email = "jerome.dogillo@chargelab.co"'
+            // 3. Try logging in again
             const dep = await httpRawGet('/deployment/cognito')
                 .catch((e) => e);
 
