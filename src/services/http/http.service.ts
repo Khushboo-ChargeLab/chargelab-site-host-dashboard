@@ -4,8 +4,12 @@ const header = {
   'Access-Control-Allow-Origin': '*',
 };
 
-const baseUrl = process.env.REACT_APP_EXTERNAL_API_URL;
-const getBearerToken = () => 'BAU9T23JZEU_08DZTI-ZQ1BIGG4:9af838e3589d71034cbfdf11af9adc83ddde1882620b01c2841d5cd7b3fbb8f5';
+export const setApiPrefix = (api: string) => {
+  localStorage.setItem('DASHBOARD-API-PREFIX', api);
+};
+export const getBearerToken = () => localStorage.getItem('DASHBOARD-TOKEN') || '';
+export const getApiPrefix = () => localStorage.getItem('DASHBOARD-API-PREFIX') || '';
+const baseUrl = getApiPrefix();
 
 export const post = async (url: string, body: any) => {
   try {
@@ -49,5 +53,29 @@ export const get = async (url: string) => {
   } catch (err) {
     console.log('err - ', err);
     return Promise.reject(err);
+  }
+};
+
+/**
+ * Used for calling an endpoint without the predefined base url eg:
+ * /deployment/cognito => {"region": "us-east-1", "userPoolId": "us-east-1_S1aRqShe6", "clientId": "4ahk7m1g54kodg0e3c9qedv6vg"}
+ * /deployment/api => {"apiUrlPrefix": "https://api-v2-dash.dev.chargelab.io"}
+ * @param url
+ */
+export const httpRawGet = async (url: string) => {
+  try {
+    const getRequest = await fetch(`${url}`, {
+      method: 'GET',
+      headers: {
+        ...header,
+      },
+    });
+
+    if (getRequest.ok) {
+      return getRequest.json();
+    }
+    throw new Error('Something went wrong');
+  } catch (err) {
+    console.log('err - ', err);
   }
 };
