@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { Amplify, Auth } from 'aws-amplify';
-import { get, getBearerToken, setApiPrefix } from './services/http/http.service';
+import { getBearerToken, httpRawGet, setApiPrefix } from './services/http/http.service';
 import { AppHeader, AppSideBar, Label, Wiki } from './components/_ui';
 import './App.scss';
 import { Overview } from './components/overview';
@@ -12,10 +12,13 @@ import { Login } from './components/Login/Login.component';
 function App() {
     useEffect(() => {
         (async () => {
-            let dep = await get(`${(process.env.REACT_APP_ENV === 'dev' ? process.env.REACT_APP_ENDPOINT : '')}/deployment/cognito`)
+            const isRunningLocally = process.env.REACT_APP_ENV === 'dev';
+            let dep = await httpRawGet(`${(isRunningLocally ? process.env.REACT_APP_ENDPOINT : '')}/deployment/cognito`)
                 .catch((e) => e);
 
-            if (process.env.REACT_APP_ENV === 'dev') {
+            // you can manually change the .env properties to target a specific stack when running locally
+            // setupProxy.js will resolve the CORS issue
+            if (isRunningLocally) {
                 dep = {
                     region: process.env.REACT_APP_REGION,
                     userPoolId: process.env.REACT_APP_USER_POOL,
@@ -46,9 +49,11 @@ function App() {
                     setUserInfo(userInfo);
 
                     // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
-                    let apiPrefix = await get(`${(process.env.REACT_APP_ENV === 'dev' ? process.env.REACT_APP_ENDPOINT : '')}/deployment/api`);
+                    let apiPrefix = await httpRawGet(`${(isRunningLocally ? process.env.REACT_APP_ENDPOINT : '')}/deployment/api`);
 
-                    if (process.env.REACT_APP_ENV === 'dev') {
+                    // you can manually change the .env properties to target a specific stack when running locally
+                    // setupProxy.js will resolve the CORS issue
+                    if (isRunningLocally) {
                         apiPrefix = {
                             apiUrlPrefix: process.env.REACT_APP_EXTERNAL_API_URL,
                         };
