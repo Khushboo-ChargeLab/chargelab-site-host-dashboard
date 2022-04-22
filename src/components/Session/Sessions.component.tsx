@@ -4,6 +4,7 @@ import { alert, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
 import { selectRecentSessions } from '../../stores/selectors/session.selector';
+import { convertToDate } from '../../utils/Date.Util';
 import {
   Card,
   Grid,
@@ -150,18 +151,18 @@ export const Sessions = () => {
     ];
 
     const SessionDetailInfo = {
-      startTime: new Date(2022, 3, 8, 13, 0),
-      endTime: new Date(2022, 3, 8, 13, 31),
+      startTime: convertToDate(rowData.createTime),
+      endTime: convertToDate(rowData.completeTime),
       duration: '40 mins',
-      authenticationType: 'User',
-      charger: 'AD-24',
-      connector: 'J1772',
-      connectorSide: 'Left',
-      connectorUrl: 'url',
-      location: 'Hilton Kennedy',
-      address: '45 Kennedy St, Toronto, ON, M2M 1R1',
-      kwhUsed: 13.0,
-      cost: 7.25,
+      authenticationType: 'N/A',
+      charger: rowData.port?.charger?.name,
+      connector: rowData.port?.charger?.type,
+      connectorSide: rowData.port?.physicalLocation,
+      connectorUrl: 'N/A',
+      location: rowData.port?.charger?.location?.name,
+      address: rowData.port?.charger?.location?.streetAddress,
+      kwhUsed: rowData.consumedEnergyJoules || 0,
+      cost: rowData.billedTotalAmount || 0,
       statusHistory: chargerStatusHistory,
     };
     ModalForm.show({

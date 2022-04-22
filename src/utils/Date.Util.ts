@@ -2,6 +2,7 @@ import {
   format, isValid, addDays as addDaysfns,
   addMonths as addMonthsfns, differenceInDays as differenceInDaysfns,
   startOfMonth, startOfWeek, endOfWeek, endOfMonth, formatISO,
+  toDate,
 } from 'date-fns';
 
 export const formatDate = (date: Date, dateFormat: string = 'LLL dd, yyyy') => {
@@ -44,3 +45,4 @@ export const getLastWeek = (date?: Date) => {
 
 export const getShortMonth = (date: Date) => formatTime(date, 'LLL');
 export const formatIso = (date: Date) => formatISO(date);
+export const convertToDate = (date: any) => toDate(date);
