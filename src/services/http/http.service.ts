@@ -42,7 +42,7 @@ export const get = async (url: string) => {
       method: 'GET',
       headers: {
         ...header,
-        Authorization: `x-auth ${getBearerToken()}`,
+        Authorization: `Bearer ${getBearerToken()}`,
       },
     });
 
