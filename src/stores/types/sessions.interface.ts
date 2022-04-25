@@ -1,3 +1,4 @@
+import { NumberLiteralType } from 'typescript';
 import { Location } from '.';
 
 export interface Charger {
@@ -12,6 +13,24 @@ export interface Charger {
     transactionId?: string;
     name?: string;
     type?: string;
+    usageNotes?: string;
+    access?: string;
+    location?: Location;
+    model?: string;
+    autoStartEnabled: boolean;
+    currentPrice: {
+        currency: string;
+        flatRate: number;
+        ratePerEffectiveHour: number;
+        ratePerHourPluggedIn: number;
+        ratePerKilowattHour: number;
+    };
+    free: boolean;
+    maxPowerKW: number;
+
+    imageUrl: string;
+    installInfo: string;
+    installationVoltage: NumberLiteralType;
     port: {
         id: string;
         physicalLocation: string;
@@ -23,6 +42,7 @@ export interface Charger {
             location: Location;
         };
     };
+    ports: { id: string; physicalLocation: string; status: string; connectorTypes: string[] }[];
 }
 
 export interface ChargerStatus {

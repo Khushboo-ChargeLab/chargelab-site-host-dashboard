@@ -9,7 +9,7 @@ export const setApiPrefix = (api: string) => {
 };
 export const getBearerToken = () => localStorage.getItem('DASHBOARD-TOKEN') || '';
 export const getApiPrefix = () => localStorage.getItem('DASHBOARD-API-PREFIX') || '';
-const baseUrl = getApiPrefix();
+const baseUrl = `${getApiPrefix()}/internal/core/v2/`;
 
 export const post = async (url: string, body: any) => {
   try {
