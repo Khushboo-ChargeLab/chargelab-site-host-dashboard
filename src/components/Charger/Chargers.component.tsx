@@ -19,15 +19,10 @@ import { infoRed, completed } from '../../lib';
 import { ChargerStatus } from './ChargerStatus.component';
 
 // Actions
-import {
-  fetchChargers,
-  fetchTroubleChargers,
-} from '../../stores/reducers/chargers.reducer';
 import { fetchTransactions } from '../../stores/reducers/transactions.reducer';
 
 // Selectors
 
-import { getLocations } from '../../stores/selectors/locations.selector';
 import { getTransactions } from '../../stores/selectors/transactions.selector';
 
 // Utils
