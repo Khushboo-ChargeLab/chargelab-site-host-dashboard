@@ -37,7 +37,7 @@ export const Pill = memo(
   }: InputProps) => {
     const renderButton = () => (
       <button type='button' className='flex' onClick={onClick!}>
-        <Label type={labelType} text='x' />
+        <Label type={LabelType.PILL_DROPDOWN_BTN} text='x' />
       </button>
     );
 
