@@ -1,9 +1,10 @@
-import { AppNavigator } from './App-Navigator.interface';
-import { RecentSessions } from './sessions.interface';
-import { Theme } from './theme.interface';
+import { AppNavigator, Theme, RecentSessions, Location } from '.';
+import { Charger } from './sessions.interface';
 
 export interface AppState {
     navigation: AppNavigator;
     theme: Theme;
-    recentSessions: RecentSessions;
+    sessions: RecentSessions;
+    locations: Location[];
+    chargers: Charger[];
 }

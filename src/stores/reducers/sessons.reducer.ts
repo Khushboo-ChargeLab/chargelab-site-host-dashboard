@@ -1,8 +1,9 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
-import { RecentSessions } from '../types/sessions.interface';
+import { Charger } from '../types/sessions.interface';
 
 export const fetchSessions = createAction<any>('FETCH-RECENT-SESSIONS');
-export const fetchSessionsSuccess = createAction<RecentSessions>('FETCH-RECENT-SESSIONS-SUCCESS');
+export const fetchSessionsSuccess = createAction<Charger[]>('FETCH-RECENT-SESSIONS-SUCCESS');
+export const setSessionsFilter = createAction<any>('SET-SESSIONS-FILTER');
 
 export const SessionsReducer = createReducer({
 
@@ -10,6 +11,13 @@ export const SessionsReducer = createReducer({
     builder
         .addCase(fetchSessionsSuccess, (state, action) => ({
             ...state,
-            recentSessions: action.payload,
+            chargers: action.payload,
+        }))
+        .addCase(fetchSessions, (state: any, action) => ({
+            ...state,
+            filter: {
+                ...state.filter,
+                ...action.payload,
+            },
         }));
 });

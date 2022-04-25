@@ -26,10 +26,7 @@ import {
 import { fetchTransactions } from '../../stores/reducers/transactions.reducer';
 
 // Selectors
-import {
-  getChargers,
-  getTroubleChargerNum,
-} from '../../stores/selectors/chargers.selector';
+
 import { getLocations } from '../../stores/selectors/locations.selector';
 import { getTransactions } from '../../stores/selectors/transactions.selector';
 
@@ -43,6 +40,11 @@ import { LocationList } from '../../stores/types/location.interface';
 import { CHARGER_STATUS } from './Constants';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { TransactionList } from '../../stores/types/transactions.interface';
+import { getLocation } from '../../stores/selectors/location.selector';
+import {
+  getTroubleChargerNum,
+  selectChargers,
+} from '../../stores/selectors/charger.selector';
 
 export const Chargers = () => {
   // const dispatch = useDispatch();
@@ -50,9 +52,9 @@ export const Chargers = () => {
   // dispatch(fetchTroubleChargers);
   // dispatch(fetchTransactions);
 
-  const chargers = useSelector(getChargers, shallowEqual);
-  const troubleCount = useSelector(getTroubleChargerNum, shallowEqual);
-  const locations = useSelector(getLocations, shallowEqual);
+  const chargers = useSelector(selectChargers);
+  const troubleCount = useSelector(getTroubleChargerNum);
+  const locations = useSelector(getLocation);
   const transactions = useSelector(getTransactions, shallowEqual);
 
   const { t } = useTranslation();
@@ -124,18 +126,6 @@ export const Chargers = () => {
     refreshGrid(0);
   }, [currentPage]);
 
-  const getLocationDropDownList = () => {
-    const result = [{ id: '', label: t('all_location'), selected: false }];
-    locations?.entries.forEach((location) => {
-      result.push({
-        id: location.id,
-        label: location.name,
-        selected: false,
-      });
-    });
-    return result;
-  };
-
   const getColumnTitle = () => {
     return [
       {
@@ -203,19 +193,19 @@ export const Chargers = () => {
 
   const getGridData = () => {
     const row: Array<Object> = [];
-    chargers?.entries.forEach((charger) => {
+    chargers?.forEach((charger) => {
       const isAnyStatusSelected = statusList.some((item) => item.selected);
       const isStatusSelected = statusList.some(
         (item) => item.label === charger.status && item.selected,
       );
 
       if (
-        (!locationFilter || charger.location.id === locationFilter) &&
+        (!locationFilter || charger.location?.id === locationFilter) &&
         (!isAnyStatusSelected || isStatusSelected)
       ) {
         row.push({
           charger: charger.name,
-          location: charger.location.name,
+          location: charger.location?.name,
           status: charger.status,
           lastUsed:
             transactions?.entries.find(
@@ -260,7 +250,6 @@ export const Chargers = () => {
   };
 
   const renderDropdown = () => {
-    const locationDropdownLiust = getLocationDropDownList();
     return (
       <div className='flex flex-col gap-5'>
         <div className='flex gap-3'>
@@ -268,7 +257,8 @@ export const Chargers = () => {
             <Dropdown
               title={t('location')}
               headerWidth='auto'
-              items={locationDropdownLiust}
+              items={locations}
+              label='name'
               onItemClick={handleLocationSelected}
             />
           )}

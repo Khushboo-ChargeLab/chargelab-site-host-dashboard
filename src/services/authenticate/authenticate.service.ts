@@ -50,7 +50,7 @@ export const verifyCode = async (user: any, code: string) => Auth.sendCustomChal
 
 export const resendCode = async (user: any) => {
     const session = await Auth.signIn(user.username)
-        .catch((e) => e);
+        .catch((e: any) => e);
 
     if (session.message) {
         return null;
@@ -65,7 +65,7 @@ export const resendCode = async (user: any) => {
 
 export const login = async (email: string) => {
     const user = await Auth.signIn(getLoginString(email))
-        .catch((e) => e);
+        .catch((e: any) => e);
 
     if (user.message) {
         return null;

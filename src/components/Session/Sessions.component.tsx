@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { alert, charging } from '../../lib';
+import { useDispatch, useSelector } from 'react-redux';
+import { alert, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import { selectChargers } from '../../stores/selectors/charger.selector';
+import { selectRecentSessions } from '../../stores/selectors/session.selector';
+import { convertToDate } from '../../utils/Date.Util';
 import {
   Card,
   Grid,
@@ -21,30 +24,35 @@ import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
 
 export const Sessions = () => {
-  const chargerDummyData = ([{ label: 'AD-21', selected: false },
-  { label: 'AD-22', selected: false },
-  { label: 'AD-23', selected: false },
-  { label: 'AD-24', selected: false },
-  { label: 'AD-25', selected: false },
-  { label: 'AD-26', selected: false },
-  { label: 'AD-27', selected: false },
-  { label: 'AD-28', selected: false },
-  { label: 'AD-29', selected: false },
-  { label: 'AD-30', selected: false },
-  { label: 'AD-31', selected: false },
-  { label: 'AD-32', selected: false },
-  { label: 'AD-25', selected: false },
-  { label: 'AD-26', selected: false },
-  { label: 'AD-27', selected: false },
-  { label: 'AD-28', selected: false },
-  { label: 'AD-29', selected: false },
-  { label: 'AD-30', selected: false },
-  { label: 'AD-31', selected: false },
-  { label: 'AD-32', selected: false },
-  { label: 'AD-33', selected: false },
-  { label: 'AD-34', selected: false },
-  { label: 'AD-35', selected: false }]);
+  const chargerDummyData = [
+    { label: 'AD-21', selected: false },
+    { label: 'AD-22', selected: false },
+    { label: 'AD-23', selected: false },
+    { label: 'AD-24', selected: false },
+    { label: 'AD-25', selected: false },
+    { label: 'AD-26', selected: false },
+    { label: 'AD-27', selected: false },
+    { label: 'AD-28', selected: false },
+    { label: 'AD-29', selected: false },
+    { label: 'AD-30', selected: false },
+    { label: 'AD-31', selected: false },
+    { label: 'AD-32', selected: false },
+    { label: 'AD-25', selected: false },
+    { label: 'AD-26', selected: false },
+    { label: 'AD-27', selected: false },
+    { label: 'AD-28', selected: false },
+    { label: 'AD-29', selected: false },
+    { label: 'AD-30', selected: false },
+    { label: 'AD-31', selected: false },
+    { label: 'AD-32', selected: false },
+    { label: 'AD-33', selected: false },
+    { label: 'AD-34', selected: false },
+    { label: 'AD-35', selected: false },
+  ];
   const dispatch = useDispatch();
+  const recentSessions = useSelector(selectRecentSessions);
+  const chargers = useSelector(selectChargers);
+
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [chargerData, setChargerData] = useState(chargerDummyData);
@@ -52,7 +60,9 @@ export const Sessions = () => {
   const refreshGrid = useCallback(
     async (page: number) => {
       setCurrentPage(page);
-      dispatch(fetchSessions({ page, ...filter }));
+      if (page === 1) {
+        dispatch(fetchSessions({ page, ...filter }));
+      }
       // Fetch data
     },
     [filter, dispatch],
@@ -70,10 +80,16 @@ export const Sessions = () => {
 
   const handleClearAllClick = () => {
     setChargerData(chargerDummyData);
+    setFilter({
+      ...filter,
+      charger: [],
+    });
   };
 
   const renderClearAllButton = () => {
-    const foundSelectedCharger = chargerData.find((charger) => charger.selected);
+    const foundSelectedCharger = chargerData.find(
+      (charger) => charger.selected,
+    );
     if (foundSelectedCharger) {
       return (
         <button
@@ -98,14 +114,15 @@ export const Sessions = () => {
   };
 
   const renderSelectedCharger = () => {
-    return chargerData.filter((charger: any) => charger.selected)
+    return chargerData
+      .filter((charger: any) => charger.selected)
       .map((c: any, index) => {
         return (
           <Pill
             // eslint-disable-next-line react/no-array-index-key
-            key={`${c.label}-${index}`}
+            key={`${c.name}-${index}`}
             onClick={() => handlePillClick(c)}
-            label={c.label}
+            label={c.name}
             isButton
             width='auto'
             labelType={LabelType.PILL_DROPDOWN}
@@ -118,9 +135,9 @@ export const Sessions = () => {
     (item: any) => {
       setFilter({
         ...filter,
-        charger: item,
+        charger: item.filter((charger: any) => charger.selected),
       });
-    setChargerData(item);
+      setChargerData(item);
     },
     [filter],
   );
@@ -134,18 +151,18 @@ export const Sessions = () => {
     ];
 
     const SessionDetailInfo = {
-      startTime: new Date(2022, 3, 8, 13, 0),
-      endTime: new Date(2022, 3, 8, 13, 31),
+      startTime: convertToDate(rowData.createTime),
+      endTime: convertToDate(rowData.completeTime),
       duration: '40 mins',
-      authenticationType: 'User',
-      charger: 'AD-24',
-      connector: 'J1772',
-      connectorSide: 'Left',
-      connectorUrl: 'url',
-      location: 'Hilton Kennedy',
-      address: '45 Kennedy St, Toronto, ON, M2M 1R1',
-      kwhUsed: 13.0,
-      cost: 7.25,
+      authenticationType: 'N/A',
+      charger: rowData.port?.charger?.name,
+      connector: rowData.port?.charger?.type,
+      connectorSide: rowData.port?.physicalLocation,
+      connectorUrl: 'N/A',
+      location: rowData.port?.charger?.location?.name,
+      address: rowData.port?.charger?.location?.streetAddress,
+      kwhUsed: rowData.consumedEnergyJoules || 0,
+      cost: rowData.billedTotalAmount || 0,
       statusHistory: chargerStatusHistory,
     };
     ModalForm.show({
@@ -166,8 +183,9 @@ export const Sessions = () => {
           <Dropdown
             title='Charger'
             headerWidth='auto'
-            items={chargerData}
             type={DropdownType.CHECKBOX}
+            items={chargers}
+            label='name'
             onItemClick={chargerSelected}
           />
           <CustomDatePicker
@@ -184,61 +202,59 @@ export const Sessions = () => {
           />
         </div>
       </div>
-      <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
-        {renderSelectedCharger()}
-        {renderClearAllButton()}
-      </div>
+
+      {chargerData.some((c: any) => c.selected) && (
+        <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
+          {renderSelectedCharger()}
+          {renderClearAllButton()}
+        </div>
+      )}
       <Grid
         onRowClick={rowClick}
         pageIndex={currentPage}
         loadPage={refreshGrid}
+        local
         columns={[
-          { key: 'id', title: 'Authentication type' },
-          { key: 'location', title: 'Location' },
+          { key: 'port.charger.location.name', title: 'Location' },
           {
-            key: 'charger',
+            key: 'port.charger.name',
             title: 'Charger',
             component: (row: any) => (
               <Pill
-                label={row.charger}
+                width='200'
+                label={row.port.charger.name}
                 className='text-grey6'
-                bgColor={PILL_BG_COLOR.GREY}
+                bgColor={PILL_BG_COLOR.LIGHT}
+                labelType={LabelType.LABEL_S_G6}
               />
             ),
           },
-          { key: 'start', title: 'Start Time', type: GridColumnType.DATETIME },
+          {
+            key: 'createTime|startTime',
+            title: 'Start Time',
+            type: GridColumnType.DATETIME,
+            format: 'LLL dd, HH:mm a',
+          },
           {
             key: 'status',
             title: 'Status',
             component: (row: any) => (
               <Label
-                text={row.status}
+                text={(row.status || 'Completed').replace('ENDED', 'Completed')}
                 type={LabelType.BODY3}
-                icon={row.status === 'Failed' ? alert : charging}
+                icon={row.status === 'Failed' ? alert : completed}
               />
             ),
           },
-          { key: 'energy', title: 'Energy used' },
-          { key: 'cost', title: 'Cost', type: GridColumnType.CURRENCY },
-        ]}
-        data={[
+          { key: 'consumedEnergyJoules', title: 'Energy used' },
           {
-            id: 'AD-01',
-            location: 'UAT',
-            charger: 'DR-41',
-            start: '01/24/2022 10:20:33 PM',
-            cost: 7.25,
-            energy: '12.9 kWh',
-            status: 'Charging',
-          },
-          {
-            id: 'AD-02',
-            location: 'DEV',
-            charger: 'DR-55',
-            status: 'Failed',
+            key: 'billedTotalAmount',
+            title: 'Cost',
+            type: GridColumnType.CURRENCY,
           },
         ]}
-        totalPage={9}
+        data={recentSessions}
+        totalPage={Math.ceil(recentSessions.length / 20)}
         primaryKey='id'
       />
     </Card>

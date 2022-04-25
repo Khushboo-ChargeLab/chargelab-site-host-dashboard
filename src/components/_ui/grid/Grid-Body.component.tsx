@@ -7,9 +7,25 @@ import { InputProps } from './Grid.component';
 import { GridColumn } from './types/Grid-Column.interface';
 
 export const GridBody = memo(
-  ({ columns, data, primaryKey, onRowClick }: InputProps) => {
+  ({ columns, data, primaryKey, onRowClick, pageIndex, local }: InputProps) => {
     const formatData = (col: GridColumn, dataRow: any) => {
-      const currentData = dataRow[col.key];
+      let currentData = '';
+
+      if (col.key.indexOf('.') !== -1) {
+        currentData = dataRow;
+        col.key.split('.').forEach((key: any) => {
+          currentData = currentData[key];
+        });
+      } else if (col.key.indexOf('|') !== -1) {
+        const keys = col.key.split('|');
+        currentData = dataRow[keys[0]];
+
+        if (!currentData) {
+          currentData = dataRow[keys[1]];
+        }
+      } else {
+        currentData = dataRow[col.key];
+      }
 
       if (col.type === GridColumnType.DATE) {
         if (currentData) {
@@ -17,11 +33,14 @@ export const GridBody = memo(
         }
       } else if (col.type === GridColumnType.DATETIME) {
         if (currentData) {
-          return formatDateTime(new Date(currentData), col.format);
+          return formatDateTime(
+            new Date(currentData.split('[')[0]),
+            col.format,
+          );
         }
       } else if (col.type === GridColumnType.CURRENCY) {
         if (currentData) {
-          return convertToLocaleCurrency(currentData);
+          return convertToLocaleCurrency(+currentData);
         }
       }
 
@@ -42,7 +61,14 @@ export const GridBody = memo(
 
     return (
       <div className='tbody'>
-        {data?.map((dataRow: any) => (
+        {(local
+          ? (data || []).filter(
+              (d: any, index) =>
+                index >= ((pageIndex || 1) - 1) * 20 &&
+                index < ((pageIndex || 1) - 1) * 20 + 20,
+            )
+          : data || []
+        ).map((dataRow: any) => (
           <div
             onClick={() => rowClicked(dataRow)}
             key={dataRow[primaryKey]}

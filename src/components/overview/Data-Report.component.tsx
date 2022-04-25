@@ -1,53 +1,54 @@
 import { Button, Card, DateTimePicker, Switch, VerticalBarChart } from '../_ui';
 import { ButtonSize, ButtonType } from '../_ui/Button.component';
+import './Data-Report.component.scss';
 
 const feeCollected = [
   {
-    date: new Date('2022-01-01'),
-    value: 0,
+    date: new Date('2022-01-10'),
+    value: 10,
   },
   {
-    date: new Date('2022-02-01'),
+    date: new Date('2022-02-10'),
     value: 170,
   },
   {
-    date: new Date('2022-03-01'),
+    date: new Date('2022-03-10'),
     value: 720,
   },
   {
-    date: new Date('2022-04-01'),
+    date: new Date('2022-04-10'),
     value: 530,
   },
   {
-    date: new Date('2022-05-01'),
+    date: new Date('2022-05-10'),
     value: 600,
   },
   {
-    date: new Date('2022-06-01'),
+    date: new Date('2022-06-10'),
     value: 20,
   },
   {
-    date: new Date('2022-07-01'),
+    date: new Date('2022-07-10'),
     value: 880,
   },
   {
-    date: new Date('2022-08-01'),
+    date: new Date('2022-08-10'),
     value: 1000,
   },
   {
-    date: new Date('2022-09-01'),
+    date: new Date('2022-09-10'),
     value: 940,
   },
   {
-    date: new Date('2022-10-01'),
+    date: new Date('2022-10-10'),
     value: 30,
   },
   {
-    date: new Date('2022-11-01'),
+    date: new Date('2022-11-10'),
     value: 500,
   },
   {
-    date: new Date('2022-12-01'),
+    date: new Date('2022-12-10'),
     value: 1200,
   },
 ];

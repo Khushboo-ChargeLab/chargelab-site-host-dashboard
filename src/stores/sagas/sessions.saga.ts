@@ -1,8 +1,12 @@
-import { put, takeEvery } from 'redux-saga/effects';
-import { fetchSessions } from '../reducers/sessons.reducer';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { getRecentSessions } from '../../services/overview/session.service';
+import { fetchSessions, fetchSessionsSuccess } from '../reducers/sessons.reducer';
+import { selectRecentSessionFilter } from '../selectors/session.selector';
 
-function* fetchRecentSessions(filter: any) {
-    yield put({ type: 'INCREMENT' });
+function* fetchRecentSessions(): any {
+    const filters = yield select(selectRecentSessionFilter);
+    const response = yield call(getRecentSessions, filters);
+    yield put(fetchSessionsSuccess(response));
 }
 
 function* sessionsSaga() {

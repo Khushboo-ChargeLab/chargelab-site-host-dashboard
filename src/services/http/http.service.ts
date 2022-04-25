@@ -5,11 +5,11 @@ const header = {
 };
 
 export const setApiPrefix = (api: string) => {
-    localStorage.setItem('DASHBOARD-API-PREFIX', api);
+  localStorage.setItem('DASHBOARD-API-PREFIX', api);
 };
 export const getBearerToken = () => localStorage.getItem('DASHBOARD-TOKEN') || '';
 export const getApiPrefix = () => localStorage.getItem('DASHBOARD-API-PREFIX') || '';
-const baseUrl = getApiPrefix();
+const baseUrl = `${getApiPrefix()}/internal/core/v2/`;
 
 export const post = async (url: string, body: any) => {
   try {
@@ -36,27 +36,24 @@ export const post = async (url: string, body: any) => {
   }
 };
 
-export const get = async (url: string, timeout: number = 10000) => {
-  return Promise.race([
-    fetch(new URL(url, baseUrl).href, {
+export const get = async (url: string) => {
+  try {
+    const request = await fetch(new URL(url, baseUrl).href, {
       method: 'GET',
       headers: {
         ...header,
         Authorization: `Bearer ${getBearerToken()}`,
       },
-    }),
-    new Promise((resolve, reject) => {
-      setTimeout(() => reject(new Error('Request timeout')), timeout);
-    }),
-  ])
-    .then((response: any) => {
-      if (response.ok) {
-        return response.json();
-      }
-    })
-    .catch((e) => {
-      return Promise.reject(new Error(`err -:${e}`));
     });
+
+    if (request.ok) {
+      return request.json();
+    }
+    throw new Error('Something went wrong');
+  } catch (err) {
+    console.log('err - ', err);
+    return Promise.reject(err);
+  }
 };
 
 /**

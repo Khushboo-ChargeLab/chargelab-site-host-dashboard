@@ -13,6 +13,7 @@ export interface InputProps {
   loadPage?: (page: number, filter?: any) => void;
   pageIndex?: number;
   onRowClick?: (rowData: any) => void;
+  local?: boolean;
 }
 
 export const Grid = ({
@@ -22,6 +23,7 @@ export const Grid = ({
   totalPage,
   loadPage,
   pageIndex = 1,
+  local = false,
   onRowClick,
 }: InputProps) => {
   const [currentPage, setCurrentPage] = useState<number>(pageIndex);
@@ -51,6 +53,8 @@ export const Grid = ({
           onRowClick={onRowClick}
           columns={columns}
           data={data}
+          local={local}
+          pageIndex={pageIndex}
           primaryKey={primaryKey}
         />
       </div>

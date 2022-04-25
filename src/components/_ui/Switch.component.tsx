@@ -26,7 +26,7 @@ export const Switch = memo(
 
     const selectedClass =
       'font-semibold bg-white h-9 flex items-center pl-8 pr-8 ml-1 mr-1 text-black text-sm box-shadow-switch';
-    const otherOptions = 'text-sm flex items-center pl-8 pr-8 text-grey5';
+    const otherOptions = 'text-sm flex items-center pl-8 pr-8 text-grey5 font-semibold';
 
     const updateChecked = () => {
       setChecked(!checked);
