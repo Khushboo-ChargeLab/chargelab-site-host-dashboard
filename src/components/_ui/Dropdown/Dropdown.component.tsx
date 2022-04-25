@@ -173,7 +173,6 @@ export const Dropdown = memo(
                 isButton
                 width='auto'
                 labelType={LabelType.PILL_DROPDOWN}
-                className='pr-0'
               />,
             );
           } else {
@@ -188,7 +187,6 @@ export const Dropdown = memo(
                     isButton
                     width='auto'
                     labelType={LabelType.PILL_DROPDOWN}
-                    className='pr-0'
                   />,
                 );
               }
