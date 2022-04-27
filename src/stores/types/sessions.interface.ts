@@ -59,4 +59,5 @@ export interface RecentSessions {
     chargerStatus: ChargerStatus[];
     chargerSummary: ChargerSummary[];
     filter: any;
+    stats: any[];
 }
