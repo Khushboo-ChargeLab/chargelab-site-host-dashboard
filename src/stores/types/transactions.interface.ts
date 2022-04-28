@@ -1,4 +1,4 @@
-import { Charger } from './chargers.interface';
+import { Charger } from './sessions.interface';
 
 export interface Transaction {
   id: string;

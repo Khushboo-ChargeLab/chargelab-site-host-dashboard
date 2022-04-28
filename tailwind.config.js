@@ -21,6 +21,7 @@ module.exports = {
         DEFAULT: '#05944F',
         light: '#8BC34A',
       },
+      alert_positive: '#7CB342',
       grey: {
         light1: '#F9FAFB',
         light2: '#D1D6DB',
@@ -31,6 +32,8 @@ module.exports = {
       yellow: '#FFC043',
       purple: '#7356BF',
       primaryblue1: '#3DBAE3',
+      alerts_accent: '#039BE5',
+      alerts_warning: '#FFB300',
       blue: {
         light: '#18A0D7',
         DEFAULT: '#276EF1',

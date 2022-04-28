@@ -1,5 +1,10 @@
 import { Auth } from 'aws-amplify';
 
+export enum USER_ROLE {
+    SUPPORT,
+    NORMAL,
+}
+
 export const setUserInfo = (user: any) => {
     localStorage.setItem('DASHBOARD-USER-INFO', JSON.stringify(user));
 };
@@ -23,6 +28,19 @@ export const getUserInfo = () => {
         },
         username: '',
     };
+};
+
+export const getUserRole = () => {
+    const user = getUserInfo();
+    if (user.attributes['custom:legacy_support_da'] === 'ALLOW') {
+        return USER_ROLE.SUPPORT;
+    }
+    return USER_ROLE.NORMAL;
+};
+
+export const getUserScope = () => {
+    // FIXME: Should get this from BE or something else.
+    return 'company';
 };
 
 export const setBearerToken = (token: string) => {

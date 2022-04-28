@@ -20,6 +20,10 @@ import { ChargerStatus } from './ChargerStatus.component';
 
 // Actions
 import { fetchTransactions } from '../../stores/reducers/transactions.reducer';
+import {
+  fetchChargers,
+  fetchTroubleChargers,
+} from '../../stores/reducers/charger.reducer';
 
 // Selectors
 
@@ -39,21 +43,16 @@ import { getLocation } from '../../stores/selectors/location.selector';
 import {
   getTroubleChargerNum,
   selectChargers,
+  getChargerNumber,
+  getChargersByOffset,
 } from '../../stores/selectors/charger.selector';
 
+const ROW_PER_PAGE = 20;
+
 export const Chargers = () => {
-  // const dispatch = useDispatch();
-  // dispatch(fetchChargers);
-  // dispatch(fetchTroubleChargers);
-  // dispatch(fetchTransactions);
-
-  const chargers = useSelector(selectChargers);
-  const troubleCount = useSelector(getTroubleChargerNum);
-  const locations = useSelector(getLocation);
-  const transactions = useSelector(getTransactions, shallowEqual);
-
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(0);
   const [statusList, setStatusList] = useState(() =>
     Object.values(CHARGER_STATUS).map((status) => ({
       label: t(`${status}`),
@@ -61,6 +60,14 @@ export const Chargers = () => {
     })),
   );
   const [locationFilter, setLocationFilter] = useState(null);
+
+  const chargers = useSelector(
+    getChargersByOffset(currentPage - 1, ROW_PER_PAGE),
+  );
+  const troubleCount = useSelector(getTroubleChargerNum);
+  const locations = useSelector(getLocation);
+  const transactions = useSelector(getTransactions, shallowEqual);
+  const chargerCount = useSelector(getChargerNumber);
 
   const renderChargerOverview = () => {
     const text =
@@ -115,10 +122,17 @@ export const Chargers = () => {
   };
 
   const rowClick = () => {};
-  const refreshGrid = (page: number) => {};
+  const handleLoadPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
-    refreshGrid(0);
+    dispatch(fetchTroubleChargers({ limit: 0, filter_hasTrouble: true }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const offset = (currentPage - 1) * ROW_PER_PAGE;
+    dispatch(fetchChargers({ offset, limit: ROW_PER_PAGE }));
   }, [currentPage]);
 
   const getColumnTitle = () => {
@@ -279,10 +293,11 @@ export const Chargers = () => {
             <Grid
               onRowClick={rowClick}
               pageIndex={currentPage}
-              loadPage={refreshGrid}
+              loadPage={handleLoadPage}
               columns={getColumnTitle()}
               data={getGridData()}
               primaryKey='charger'
+              totalPage={Math.ceil(chargerCount / ROW_PER_PAGE)}
             />
           </div>
         )}
