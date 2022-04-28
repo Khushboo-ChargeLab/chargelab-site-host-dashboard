@@ -16,7 +16,7 @@ interface InputProps {
   data?: ChartData[];
 }
 export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
-  const [chargerStatus, setChargerStatus] = useState<any>([]);
+  const [chargerStatus, setChargerStatus] = useState<ChartData[]>(data);
   const chargers = useSelector(selectChargers);
 
   useEffect(() => {
