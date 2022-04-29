@@ -23,7 +23,7 @@ export const Summary = () => {
   }, [dispatch]);
 
   const handleFeesCollectedDisplay = (statsSelectorObj: any) => {
-     return statsSelectorObj?.stats?.[0] ? convertToLocaleCurrency(statsSelectorObj.stats[0].revenue, statsSelectorObj.stats[0].revenueCurrency) : '';
+     return statsSelectorObj?.stats?.[0] ? convertToLocaleCurrency(statsSelectorObj.stats[0].revenue, statsSelectorObj.stats[0].revenueCurrency) : 0;
   };
 
   const handleEnergyUsedDisplay = (statsSelectorObj: any) => {
@@ -31,7 +31,7 @@ export const Summary = () => {
     if (statsObj) {
       return statsObj.energyDeliveredKWh === 0 ? '0.0 kWh' : `${convertToThousandSeperator(statsObj.energyDeliveredKWh)} kWh`;
     }
-    return '';
+    return '0';
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ return (
       </div>
       <div className="block text-center w-60  h-36">
         <Label type={LabelType.BODY1} text="Sessions" className="ml-15 pt-7" />
-        <Label type={LabelType.H1} text={statsSelector?.stats?.[0]?.transactions} className="ml-15 pt-4 pb-7" />
+        <Label type={LabelType.H1} text={statsSelector?.stats?.[0] ? statsSelector?.stats?.[0]?.transactions : '0'} className="ml-15 pt-4 pb-7" />
       </div>
     </div>
   </Card>
