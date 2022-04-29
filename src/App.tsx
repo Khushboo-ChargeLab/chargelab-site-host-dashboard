@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Auth } from 'aws-amplify';
@@ -13,12 +13,15 @@ import { Overview } from './components/overview';
 import { fetchLocations } from './stores/reducers/location.reducer';
 import { Chargers } from './components/Charger';
 import {
+  refreshToken,
   setBearerToken,
   setupCognito,
   setUserInfo,
 } from './services/authenticate/authenticate.service';
 
 function App() {
+  const [loaded, setLoaded] = useState<boolean>(false);
+
   const distpach = useDispatch();
 
   useEffect(() => {
@@ -34,16 +37,11 @@ function App() {
       await setupCognito();
 
       if (document.location.href.indexOf('/login') === -1) {
-        const user = await Auth.currentSession().catch(() => null);
+        const validToken = await refreshToken();
 
-        if (!user) {
+        if (!validToken) {
           document.location.href = '/login';
         } else {
-          setBearerToken(user.getAccessToken().getJwtToken());
-
-          const userInfo = await Auth.currentUserInfo();
-          setUserInfo(userInfo);
-
           // when running locally, please update the .env file to point it to the stack you want
           // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
           const apiPrefix = await httpRawGet('/deployment/api');
@@ -52,10 +50,11 @@ function App() {
           distpach(fetchLocations());
         }
       }
+      setLoaded(true);
     })();
   }, [distpach]);
 
-  if (getBearerToken() === '') {
+  if (!loaded || getBearerToken() === '') {
     return null;
   }
   return (
