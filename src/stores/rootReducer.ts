@@ -5,6 +5,7 @@ import { LocationReducer } from './reducers/location.reducer';
 import { SessionsReducer } from './reducers/sessons.reducer';
 import { ThemeReducer } from './reducers/theme.reducer';
 import { TransactionsReducer } from './reducers/transactions.reducer';
+import { StatsReducer } from './reducers/stats.reducer';
 
 const rootReducer = combineReducers({
   navigator: appNavigationReducer,
@@ -13,5 +14,6 @@ const rootReducer = combineReducers({
   locations: LocationReducer,
   chargers: ChargerReducer,
   transactions: TransactionsReducer,
+  stats: StatsReducer,
 });
 export default rootReducer;
