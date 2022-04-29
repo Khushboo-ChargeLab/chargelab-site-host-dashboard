@@ -7,7 +7,6 @@ export interface SessionDetailData {
     charger?: string;
     connector: string;
     connectorSide: string,
-    connectorUrl: string,
     location: string;
     address: string;
     kwhUsed?: number;

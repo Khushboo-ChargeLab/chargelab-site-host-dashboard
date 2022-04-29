@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { alert, charging, completed, startGreen } from '../../lib';
+import { alert, charging, completed, connector, startGreen } from '../../lib';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import { formatDateTime, getDifferenceInMinutes } from '../../utils/Date.Util';
 import { convertToThousandSeperator } from '../../utils/Number.Util';
@@ -105,7 +105,7 @@ export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
     <div className='flex flex-row pt-4 pb-4'>
       <Label text='Connector' type={LabelType.H7} className='basis-2/6' />
       <Label text={sessionData.connectorSide} type={LabelType.BODY3_G5} />
-      <Label text={sessionData.connector} type={LabelType.BODY3} icon={sessionData.connectorUrl} />
+      <Label text={sessionData.connector} type={LabelType.BODY3} icon={connector} />
     </div>
     <div className='flex flex-row pt-4 pb-4'>
       <Label text='Location' type={LabelType.H7} className='basis-2/6' />
