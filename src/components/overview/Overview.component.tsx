@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Summary, ChargerStatusChart, DataReport } from '.';
+import { ChargerStatusChart, DataReport, Summary } from '.';
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import { fetchStatistics } from '../../stores/reducers/stats.reducer';
 import { getLocation } from '../../stores/selectors/location.selector';
 import { Sessions } from '../Session';
 import { Dropdown } from '../_ui';
@@ -36,6 +37,7 @@ export const Overview = () => {
 
   const locationChanged = (location:any) => {
     dispatch(fetchSessions({ locations: location }));
+    dispatch(fetchStatistics({ locationId: location?.id, currency: 'CAD' }));
   };
 
   useEffect(() => {
