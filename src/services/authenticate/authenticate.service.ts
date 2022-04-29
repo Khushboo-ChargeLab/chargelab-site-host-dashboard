@@ -1,4 +1,19 @@
-import { Auth } from 'aws-amplify';
+import { Auth, Amplify } from 'aws-amplify';
+import { httpRawGet } from '../http/http.service';
+
+export const setupCognito = async () => {
+    const dep = await httpRawGet('/deployment/cognito').catch((e) => e);
+    console.log('dep', dep);
+    Amplify.configure({
+        Auth: {
+            region: dep.region,
+            userPoolId: dep.userPoolId,
+            userPoolWebClientId: dep.clientId,
+            mandatorySignIn: false,
+            authenticationFlowType: 'CUSTOM_AUTH',
+        },
+    });
+};
 
 export const setUserInfo = (user: any) => {
     localStorage.setItem('DASHBOARD-USER-INFO', JSON.stringify(user));

@@ -15,9 +15,9 @@ import { Chargers } from './components/Charger';
 import {
   getUserInfo,
   setBearerToken,
+  setupCognito,
   setUserInfo,
 } from './services/authenticate/authenticate.service';
-import { Login } from './components/Login/Login.component';
 
 function App() {
   const distpach = useDispatch();
@@ -32,17 +32,7 @@ function App() {
       // 2. ./path/to/chargelab-aws/scripts/add-given-family-name.sh [STACK VERSION] [GIVEN NAME] [FAMILY NAME] [FILTER]
       // eg: ./add-given-family-name.sh 11-jer Jerome Dogillo 'email = "jerome.dogillo@chargelab.co"'
       // 3. Try logging in again
-      const dep = await httpRawGet('/deployment/cognito').catch((e) => e);
-      console.log('dep', dep);
-      Amplify.configure({
-        Auth: {
-          region: dep.region,
-          userPoolId: dep.userPoolId,
-          userPoolWebClientId: dep.clientId,
-          mandatorySignIn: false,
-          authenticationFlowType: 'CUSTOM_AUTH',
-        },
-      });
+      await setupCognito();
 
       if (document.location.href.indexOf('/login') === -1) {
         const user = await Auth.currentSession().catch(() => null);
@@ -67,11 +57,7 @@ function App() {
   }, [distpach]);
 
   if (getBearerToken() === '') {
-    return (
-      <div className='flex h-screen bg-[#f5f6fa]'>
-        <Login />
-      </div>
-    );
+    return null;
   }
   return (
     <div className='App'>
