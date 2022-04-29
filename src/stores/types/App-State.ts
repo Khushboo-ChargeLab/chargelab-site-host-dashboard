@@ -1,6 +1,7 @@
 import { AppNavigator, Theme, RecentSessions, Location } from '.';
 import { Charger } from './sessions.interface';
 import { ChargerList } from './chargers.interface';
+import { StatisticsObject } from './stats.interface';
 
 export interface AppState {
     navigation: AppNavigator;
@@ -8,4 +9,5 @@ export interface AppState {
     sessions: RecentSessions;
     locations: Location[];
     chargers: ChargerList;
+    stats: StatisticsObject;
 }
