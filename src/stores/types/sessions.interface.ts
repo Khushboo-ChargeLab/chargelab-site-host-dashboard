@@ -8,7 +8,7 @@ export interface Charger {
     startTime?: Date;
     stopTime?: Date;
     billedTotalAmount?: number;
-    consumedEnergyJoules?: number;
+    consumedEnergyKwh?: number;
     status: string;
     transactionId?: string;
     name?: string;

@@ -31,7 +31,7 @@ const initState = {
       },
       pluggedInTimeSeconds: 631.5359999999998,
       effectiveChargingTimeSeconds: 620,
-      consumedEnergyJoules: 4464000,
+      consumedEnergyKwh: 0.06,
       startTime: '2022-02-02T23:08:04.402-05:00',
       stopTime: '2022-02-02T23:18:35.938-05:00',
       billedTotalAmount: 0,

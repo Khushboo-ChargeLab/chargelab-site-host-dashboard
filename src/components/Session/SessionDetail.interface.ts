@@ -3,7 +3,6 @@ import { TimelineData } from "../_ui/time-line/types/Timeline.interface";
 export interface SessionDetailData {
     startTime?: Date;
     endTime?: Date;
-    duration?: string;
     authenticationType: string;
     charger?: string;
     connector: string;
@@ -13,5 +12,7 @@ export interface SessionDetailData {
     address: string;
     kwhUsed?: number;
     cost?: number;
+    currency?: string,
+    sessionStatus?:string,
     statusHistory: TimelineData[];
 }
