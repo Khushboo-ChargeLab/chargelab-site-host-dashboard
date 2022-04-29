@@ -6,6 +6,7 @@ import {
   fetchSessions,
   fetchSimpleStat,
 } from '../../stores/reducers/sessons.reducer';
+import { selectChargerStatuses } from '../../stores/selectors/charger.selector';
 import { getLocation } from '../../stores/selectors/location.selector';
 import { Sessions } from '../Session';
 import { Dropdown } from '../_ui';
@@ -13,6 +14,7 @@ import { Dropdown } from '../_ui';
 export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
+  const chargerStatus = useSelector(selectChargerStatuses);
 
   const locationChanged = (location: any) => {
     dispatch(fetchSessions({ locations: location }));
@@ -37,7 +39,7 @@ export const Overview = () => {
       </div>
       <div className='flex w-full mt-6'>
         <div className='inline-block w-2/5 pr-3'>
-          <ChargerStatusChart />
+          <ChargerStatusChart data={chargerStatus} />
         </div>
         <div className='inline-block w-3/5 pl-3'>
           <Summary />
