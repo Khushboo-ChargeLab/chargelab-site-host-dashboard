@@ -6,18 +6,10 @@ import { selectChargers } from '../../stores/selectors/charger.selector';
 import { selectRecentSessions } from '../../stores/selectors/session.selector';
 import { convertToDate } from '../../utils/Date.Util';
 import {
-  Card,
-  Grid,
-  Pill,
-  PILL_BG_COLOR,
   Button,
-  ButtonType,
-  Label,
-  LabelType,
-  Dropdown,
-  CustomDatePicker,
-  ModalForm,
-  DropdownType,
+  ButtonType, Card, CustomDatePicker, Dropdown, DropdownType, Grid, Label,
+  LabelType, ModalForm, Pill,
+  PILL_BG_COLOR,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
@@ -143,17 +135,28 @@ export const Sessions = () => {
   );
 
   const rowClick = useCallback((rowData: any) => {
-    const chargerStatusHistory = [
-      { title: 'Alert', date: new Date() },
-      { title: 'Completed', date: new Date() },
-      { title: 'Charging', date: new Date() },
-      { title: 'Start', date: new Date() },
-    ];
+    const generateChargerStatusHistory = (status: any, startTime: any, endTime: any) => {
+      const chargerStatusHistory = [];
+      if (status === 'FAILED') {
+        chargerStatusHistory.push({ title: 'Failed', date: convertToDate(startTime) });
+      } else if (status === 'PREPARING' || status === 'IN_PROGRESS') {
+        chargerStatusHistory.push(
+          { title: 'Charging' },
+          { title: 'Start', date: convertToDate(startTime) },
+        );
+      } else {
+        chargerStatusHistory.push(
+          { title: 'Completed', date: convertToDate(endTime) },
+          { title: 'Charging' },
+          { title: 'Start', date: convertToDate(startTime) },
+        );
+      }
+      return chargerStatusHistory;
+    };
 
     const SessionDetailInfo = {
-      startTime: convertToDate(rowData.createTime),
-      endTime: convertToDate(rowData.completeTime),
-      duration: '40 mins',
+      startTime: convertToDate(rowData.startTime || rowData.createTime),
+      endTime: convertToDate(rowData.stopTime || rowData.completeTime),
       authenticationType: 'N/A',
       charger: rowData.port?.charger?.name,
       connector: rowData.port?.charger?.type,
@@ -161,15 +164,16 @@ export const Sessions = () => {
       connectorUrl: 'N/A',
       location: rowData.port?.charger?.location?.name,
       address: rowData.port?.charger?.location?.streetAddress,
-      kwhUsed: rowData.consumedEnergyJoules || 0,
-      cost: rowData.billedTotalAmount || 0,
-      statusHistory: chargerStatusHistory,
+      kwhUsed: rowData.consumedEnergyKwh,
+      cost: rowData.billedTotalAmount,
+      currency: rowData.billedCurrency,
+      sessionStatus: rowData.status,
+      statusHistory: generateChargerStatusHistory(rowData.status, rowData.startTime || rowData.createTime, rowData.stopTime || rowData.completeTime),
     };
     ModalForm.show({
       title: 'Session detail',
       body: <SessionDetail sessionData={SessionDetailInfo} />,
     });
-    console.log(rowData);
   }, []);
 
   useEffect(() => {
@@ -246,7 +250,7 @@ export const Sessions = () => {
               />
             ),
           },
-          { key: 'consumedEnergyJoules', title: 'Energy used' },
+          { key: 'consumedEnergyKwh', title: 'Energy used' },
           {
             key: 'billedTotalAmount',
             title: 'Cost',

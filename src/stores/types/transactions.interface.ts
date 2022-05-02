@@ -9,7 +9,7 @@ export interface Transaction {
   };
   pluggedInTimeSeconds: number;
   effectiveChargingTimeSeconds: number;
-  consumedEnergyJoules: number;
+  consumedEnergyKwh: number;
   startTime: Date;
   stopTime: Date;
   billedTotalAmount: number;

@@ -47,6 +47,44 @@ export interface Charger {
     status: string;
     connectorTypes: string[];
   }[];
+      completeTime?: Date;
+    createTime?: Date;
+    startTime?: Date;
+    stopTime?: Date;
+    billedTotalAmount?: number;
+    consumedEnergyKwh?: number;
+    status: string;
+    transactionId?: string;
+    name?: string;
+    type?: string;
+    usageNotes?: string;
+    access?: string;
+    location?: Location;
+    model?: string;
+    autoStartEnabled: boolean;
+    currentPrice: {
+        currency: string;
+        flatRate: number;
+        ratePerEffectiveHour: number;
+        ratePerHourPluggedIn: number;
+        ratePerKilowattHour: number;
+    };
+    free: boolean;
+    maxPowerKW: number;
+
+    imageUrl: string;
+    installInfo: string;
+    installationVoltage: NumberLiteralType;
+    port: {
+        id: string;
+        physicalLocation: string;
+        charger: {
+            id: string;
+            model: string;
+            name: string;
+            type: string;
+            location: Location;
+        };
   directions?: string;
   parkingSpot?: string;
   associatedBuildingUnit?: string;
@@ -64,8 +102,9 @@ export interface ChargerSummary {
   value: string;
 }
 export interface RecentSessions {
-  chargers: Charger[];
-  chargerStatus: ChargerStatus[];
-  chargerSummary: ChargerSummary[];
-  filter: any;
+    chargers: Charger[];
+    chargerStatus: ChargerStatus[];
+    chargerSummary: ChargerSummary[];
+    filter: any;
+    stats: any[];
 }
