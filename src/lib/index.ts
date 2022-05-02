@@ -39,6 +39,7 @@ import completed from '../assets/icons/completed.svg';
 import sun from '../assets/icons/sun.svg';
 import moon from '../assets/icons/moon.svg';
 import halfsun from '../assets/icons/halfsun.svg';
+import connector from '../assets/icons/connector.svg';
 
 export {
   chargelab,
@@ -82,4 +83,5 @@ export {
   sun,
   moon,
   halfsun,
+  connector,
 };
