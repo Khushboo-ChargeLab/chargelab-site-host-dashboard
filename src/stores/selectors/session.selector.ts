@@ -12,3 +12,8 @@ export const selectRecentSessionFilter = createSelector(
     [SessionSelectors],
     (state) => state?.sessions?.filter || [],
 );
+
+export const selectSimpleStats = createSelector(
+    [SessionSelectors],
+    (state) => state?.sessions?.stats || [],
+);
