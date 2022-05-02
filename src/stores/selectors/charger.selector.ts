@@ -1,56 +1,116 @@
 import { createSelector } from 'reselect';
 import { CHARGER_STATUS } from '../../components/Charger/Constants';
-import { AppState } from '../types/App-State';
+import { ChargerList } from '../types/chargers.interface';
 
-const ChargerSelectors = (state: any) => state.chargers as AppState;
-export const selectChargers = createSelector(
-    [ChargerSelectors],
-    (state) => state?.chargers || [],
-);
+const key = 'chargers';
+const ChargerSelectors = (state: any) => state[key] as ChargerList;
 
-export const selectChargerStatuses = createSelector(
+// Available: charger status is online and at least 1 port is available
+// Charging: charger status is online and all ports are in an idle or charging state
+// Coming Soon: charger status is coming soon
+// Out of Order: charger status is out of order
+// Offline: charger status is offline
+const getChargerStatus = (status?: string, ports?: any) => {
+  switch (status) {
+    case 'ONLINE': {
+      return ports?.some((port: any) => port.status === 'AVAILABLE')
+        ? CHARGER_STATUS.CHARGING
+        : CHARGER_STATUS.AVAILABLE;
+    }
+    case 'COMING_SOON':
+      return CHARGER_STATUS.COMING_SOON;
+    case 'OUT_OF_ORDER':
+      return CHARGER_STATUS.OUT_OF_ORDER;
+    case 'CHARGING':
+      return CHARGER_STATUS.CHARGING;
+    case 'OFFLINE':
+      return CHARGER_STATUS.OFFLINE;
+    case 'PREPARING':
+      return CHARGER_STATUS.PREPARING;
+    case 'SCHEDULED':
+      return CHARGER_STATUS.SCHEDULED;
+    default:
+      console.warn('unknown charger status:', status);
+      return status;
+  }
+};
+
+export const selectChargers = createSelector([ChargerSelectors], (chargers) => {
+  return (
+    chargers?.entities?.map((charger) => {
+      return {
+        ...charger,
+        status: getChargerStatus(charger.status, charger.ports),
+      };
+    }) || []
+  );
+});
+
+export const selectChargerStatuses = (locationId?: string) =>
+createSelector(
     [selectChargers],
-    (chargers) => [
+    (chargers) => {
+      const filteredChargers = chargers.filter((charger) => !locationId || charger.location?.id === locationId);
+      return [
         {
             label: 'Available',
-            value: chargers.filter(
+            value: filteredChargers.filter(
                 (c) =>
-                    c.status === 'ONLINE' &&
-                    c.ports.some((d) => d.status === 'AVAILABLE'),
+                    c.status === CHARGER_STATUS.AVAILABLE,
             ).length,
             color: '#7CB342',
         },
         {
             label: 'Charging',
-            value: chargers.filter(
+            value: filteredChargers.filter(
                 (c) =>
-                    c.status === 'ONLINE' &&
-                    (c.ports.every((d) => d.status === 'IDLE') ||
-                        c.ports.every((d) => d.status === 'CHARGING')),
+                    c.status === CHARGER_STATUS.CHARGING,
             ).length,
             color: '#039BE5',
         },
         {
             label: 'Offline',
-            value: chargers.filter((c) => c.status === 'OFFLINE').length,
+            value: filteredChargers.filter((c) => c.status === CHARGER_STATUS.OFFLINE).length,
             color: '#FFB300',
         },
         {
             label: 'Coming soon',
-            value: chargers.filter((c) => c.status === 'COMING_SOON').length,
+            value: filteredChargers.filter((c) => c.status === CHARGER_STATUS.COMING_SOON).length,
             color: '#B0B8C1',
         },
-    ],
+    ];
+    },
+
 );
 
 export const getTroubleChargerNum = createSelector(
-    selectChargers,
-    (chargers) =>
-        chargers?.reduce((accumulator: number, charger: any) => {
-            // eslint-disable-next-line no-return-assign
-            return charger.status === CHARGER_STATUS.OFFLINE ||
-                charger.status === CHARGER_STATUS.OUT_OF_ORDER
-                ? (accumulator += 1)
-                : accumulator;
-        }, 0) || 0,
+  [ChargerSelectors],
+  (chargers) => {
+    return chargers?.troubleCount || 0;
+  },
 );
+
+export const getChargerNumber = createSelector(
+  [ChargerSelectors],
+  (chargers) => {
+    return chargers.totalCount;
+  },
+);
+
+export const getFilteredChargers = (statusFilter: any[], locationFilter?: string, page: number = 0, count: number = 10) =>
+  createSelector(selectChargers, getChargerNumber, (entities, totalCount) => {
+    const isAnyStatusSelected = statusFilter.some((item) => item.selected);
+    const startIndex = page * count;
+    const endIndex =
+      startIndex + count > entities.length
+        ? entities.length
+        : startIndex + count;
+    const filteredChargers = entities.filter((charger) => !locationFilter || charger.location?.id === locationFilter)
+            .filter((charger) => !isAnyStatusSelected || statusFilter.some(
+                (item) => item.label === charger.status && item.selected,
+              ));
+    return {
+        chargers: filteredChargers.slice(startIndex, endIndex),
+        count: totalCount,
+    };
+  });

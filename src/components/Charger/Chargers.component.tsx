@@ -20,6 +20,11 @@ import { ChargerStatus } from './ChargerStatus.component';
 
 // Actions
 import { fetchTransactions } from '../../stores/reducers/transactions.reducer';
+import {
+  fetchChargers,
+  fetchTroubleChargers,
+  ChargerOptions,
+} from '../../stores/reducers/charger.reducer';
 
 // Selectors
 
@@ -39,28 +44,34 @@ import { getLocation } from '../../stores/selectors/location.selector';
 import {
   getTroubleChargerNum,
   selectChargers,
+  getFilteredChargers,
 } from '../../stores/selectors/charger.selector';
 
+const ROW_PER_PAGE = 20;
+
 export const Chargers = () => {
-  // const dispatch = useDispatch();
-  // dispatch(fetchChargers);
-  // dispatch(fetchTroubleChargers);
-  // dispatch(fetchTransactions);
-
-  const chargers = useSelector(selectChargers);
-  const troubleCount = useSelector(getTroubleChargerNum);
-  const locations = useSelector(getLocation);
-  const transactions = useSelector(getTransactions, shallowEqual);
-
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(0);
   const [statusList, setStatusList] = useState(() =>
     Object.values(CHARGER_STATUS).map((status) => ({
       label: t(`${status}`),
       selected: false,
     })),
   );
-  const [locationFilter, setLocationFilter] = useState(null);
+  const [locationFilter, setLocationFilter] = useState<string | undefined>();
+
+  const { chargers, count } = useSelector(
+    getFilteredChargers(
+      statusList,
+      locationFilter,
+      currentPage - 1,
+      ROW_PER_PAGE,
+    ),
+  );
+  const troubleCount = useSelector(getTroubleChargerNum);
+  const locations = useSelector(getLocation);
+  const transactions = useSelector(getTransactions, shallowEqual);
 
   const renderChargerOverview = () => {
     const text =
@@ -112,14 +123,27 @@ export const Chargers = () => {
 
   const handleLocationSelected = (location: any) => {
     setLocationFilter(location.id);
+    setCurrentPage(1);
   };
 
   const rowClick = () => {};
-  const refreshGrid = (page: number) => {};
+
+  const handleLoadPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
-    refreshGrid(0);
-  }, [currentPage]);
+    dispatch(fetchTroubleChargers({ limit: 0, filter_hasTrouble: true }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const offset = (currentPage - 1) * ROW_PER_PAGE;
+    const payload: ChargerOptions = { offset, limit: ROW_PER_PAGE };
+    if (locationFilter) {
+      payload['filter_eq[locationId]'] = locationFilter;
+    }
+    dispatch(fetchChargers(payload));
+  }, [currentPage, dispatch, locationFilter]);
 
   const getColumnTitle = () => {
     return [
@@ -186,35 +210,19 @@ export const Chargers = () => {
         );
   };
 
-  const getGridData = () => {
-    const row: Array<Object> = [];
-    chargers?.forEach((charger) => {
-      const isAnyStatusSelected = statusList.some((item) => item.selected);
-      const isStatusSelected = statusList.some(
-        (item) => item.label === charger.status && item.selected,
-      );
-
-      if (
-        (!locationFilter || charger.location?.id === locationFilter) &&
-        (!isAnyStatusSelected || isStatusSelected)
-      ) {
-        row.push({
-          charger: charger.name,
-          location: charger.location?.name,
-          status: charger.status,
-          lastUsed:
-            transactions?.entries.find(
-              (transaction) => transaction.port.charger.id === charger.id,
-            )?.startTime || '',
-          pricing: getPrice(charger),
-          access: charger.access,
-          note: charger.usageNotes,
-        });
-      }
-    });
-
-    return row;
-  };
+  const getGridData = () =>
+    chargers.map((charger) => ({
+      charger: charger.name,
+      location: charger.location?.name,
+      status: charger.status,
+      lastUsed:
+        transactions?.entries.find(
+          (transaction) => transaction.port.charger.id === charger.id,
+        )?.startTime || '',
+      pricing: getPrice(charger),
+      access: charger.access,
+      note: charger.usageNotes,
+    }));
 
   const handlePillClick = (clickedItem: any) => {
     setStatusList(
@@ -225,6 +233,7 @@ export const Chargers = () => {
         };
       }),
     );
+    setCurrentPage(1);
   };
 
   const renderSelectedStatus = () => {
@@ -279,10 +288,11 @@ export const Chargers = () => {
             <Grid
               onRowClick={rowClick}
               pageIndex={currentPage}
-              loadPage={refreshGrid}
+              loadPage={handleLoadPage}
               columns={getColumnTitle()}
               data={getGridData()}
               primaryKey='charger'
+              totalPage={Math.ceil(count / ROW_PER_PAGE)}
             />
           </div>
         )}

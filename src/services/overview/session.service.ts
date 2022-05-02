@@ -1,9 +1,10 @@
 import { formatDate, formatIso, getLastWeek, addMonths } from '../../utils/Date.Util';
 import { get } from '../http/http.service';
+import { getUserScope } from '../authenticate/authenticate.service';
 
 export const getRecentSessions = async (filter: any): Promise<any[]> => {
-    let transactionsQuery = 'historical/transactions?scope=company';
-    let sessionsQuery = 'sessions?scope=company';
+    let transactionsQuery = `historical/transactions?scope=${getUserScope()}`;
+    let sessionsQuery = `sessions?scope=${getUserScope()}`;
 
     if (filter?.locations?.id) {
         transactionsQuery += `&filter_eq%5BlocationId%5D=${filter?.locations?.id}`;
