@@ -46,12 +46,15 @@ export const selectChargers = createSelector([ChargerSelectors], (chargers) => {
   );
 });
 
-export const selectChargerStatuses = createSelector(
+export const selectChargerStatuses = (locationId?: string) =>
+createSelector(
     [selectChargers],
-    (chargers) => [
+    (chargers) => {
+      const filteredChargers = chargers.filter((charger) => !locationId || charger.location?.id === locationId);
+      return [
         {
             label: 'Available',
-            value: chargers.filter(
+            value: filteredChargers.filter(
                 (c) =>
                     c.status === CHARGER_STATUS.AVAILABLE,
             ).length,
@@ -59,7 +62,7 @@ export const selectChargerStatuses = createSelector(
         },
         {
             label: 'Charging',
-            value: chargers.filter(
+            value: filteredChargers.filter(
                 (c) =>
                     c.status === CHARGER_STATUS.CHARGING,
             ).length,
@@ -67,15 +70,17 @@ export const selectChargerStatuses = createSelector(
         },
         {
             label: 'Offline',
-            value: chargers.filter((c) => c.status === CHARGER_STATUS.OFFLINE).length,
+            value: filteredChargers.filter((c) => c.status === CHARGER_STATUS.OFFLINE).length,
             color: '#FFB300',
         },
         {
             label: 'Coming soon',
-            value: chargers.filter((c) => c.status === CHARGER_STATUS.COMING_SOON).length,
+            value: filteredChargers.filter((c) => c.status === CHARGER_STATUS.COMING_SOON).length,
             color: '#B0B8C1',
         },
-    ],
+    ];
+    },
+
 );
 
 export const getTroubleChargerNum = createSelector(
