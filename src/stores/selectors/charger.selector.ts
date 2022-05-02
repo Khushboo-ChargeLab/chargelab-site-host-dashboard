@@ -14,8 +14,8 @@ const getChargerStatus = (status?: string, ports?: any) => {
   switch (status) {
     case 'ONLINE': {
       return ports?.some((port: any) => port.status === 'AVAILABLE')
-        ? CHARGER_STATUS.CHARGING
-        : CHARGER_STATUS.AVAILABLE;
+        ? CHARGER_STATUS.AVAILABLE
+        : CHARGER_STATUS.CHARGING;
     }
     case 'COMING_SOON':
       return CHARGER_STATUS.COMING_SOON;
