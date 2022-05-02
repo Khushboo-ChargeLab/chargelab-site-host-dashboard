@@ -16,7 +16,7 @@ const renderItem = (
 ) =>
   data.map((row: TimelineData) => (
     <div
-      key={`${row.title}-${row.date.getTime()}`}
+      key={`${row.title}-${row?.date?.getTime()}`}
       className='flex items-center relative '
     >
       <div className='border-r-2 border-black absolute h-full left-1 top-2 mb-10' />
@@ -35,7 +35,7 @@ const renderItem = (
         {renderContent ? (
           renderContent(row.date)
         ) : (
-          <Label text={formatDate(row.date)} type={LabelType.LABEL_M} />
+          <Label text={row.date ? formatDate(row.date) : ''} type={LabelType.LABEL_M} />
         )}
       </div>
     </div>

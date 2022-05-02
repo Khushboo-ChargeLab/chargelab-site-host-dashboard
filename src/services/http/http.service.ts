@@ -17,6 +17,7 @@ export const post = async (url: string, body: any) => {
       method: 'POST',
       headers: {
         ...header,
+        accept: 'application/json',
         Authorization: `Bearer ${getBearerToken()}`,
       },
       body: JSON.stringify(body),

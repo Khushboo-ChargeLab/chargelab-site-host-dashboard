@@ -3,6 +3,8 @@ import {
   addMonths as addMonthsfns, differenceInDays as differenceInDaysfns,
   startOfMonth, startOfWeek, endOfWeek, endOfMonth, formatISO,
   toDate,
+  parseISO,
+  differenceInMinutes,
 } from 'date-fns';
 
 export const formatDate = (date: Date, dateFormat: string = 'LLL dd, yyyy') => {
@@ -43,6 +45,20 @@ export const getLastWeek = (date?: Date) => {
   return [startOfWeek(result), endOfWeek(result)];
 };
 
-export const getShortMonth = (date: Date) => formatTime(date, 'LLL');
+export const getShortMonth = (date: Date) => {
+  if (!isValid(date)) {
+    return formatTime(new Date(`${date}-10`), 'LLL');
+  }
+
+  return formatTime(date, 'LLL');
+};
+
 export const formatIso = (date: Date) => formatISO(date);
-export const convertToDate = (date: any) => toDate(date);
+export const convertToDate = (date: any) => parseISO(date);
+
+export const getDifferenceInMinutes = (laterDate: Date, earlierDate: Date, options?: {}) => {
+  if (isValid(laterDate) && isValid(earlierDate)) {
+    return differenceInMinutes(laterDate, earlierDate, options);
+  }
+  return '';
+};

@@ -14,10 +14,10 @@ export const ChargerStatus = memo(({ status, className }: InputProps) => {
   let color;
   switch (status) {
     case CHARGER_STATUS.COMING_SOON:
-      color = PILL_BG_COLOR.PURPLE;
+      color = PILL_BG_COLOR.GREY4;
       break;
     case CHARGER_STATUS.AVAILABLE:
-      color = PILL_BG_COLOR.LIGHT_FREEN;
+      color = PILL_BG_COLOR.LIGHT_GREEN;
       break;
     case CHARGER_STATUS.PREPARING:
       color = PILL_BG_COLOR.GREEN;
@@ -26,10 +26,10 @@ export const ChargerStatus = memo(({ status, className }: InputProps) => {
       color = PILL_BG_COLOR.BLUE;
       break;
     case CHARGER_STATUS.SCHEDULED:
-      color = PILL_BG_COLOR.YELLOW;
+      color = PILL_BG_COLOR.PURPLE;
       break;
     case CHARGER_STATUS.OFFLINE:
-      color = PILL_BG_COLOR.GREY;
+      color = PILL_BG_COLOR.YELLOW;
       break;
     case CHARGER_STATUS.OUT_OF_ORDER:
       color = PILL_BG_COLOR.RED;
@@ -38,6 +38,7 @@ export const ChargerStatus = memo(({ status, className }: InputProps) => {
       color = PILL_BG_COLOR.GREEN;
       break;
   }
+
   return (
     <Pill
       className={className}

@@ -1,8 +1,12 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChargerStatusChart, DataReport, Summary } from '.';
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
-import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import {
+  fetchSessions,
+  fetchSimpleStat,
+} from '../../stores/reducers/sessons.reducer';
+import { selectChargerStatuses } from '../../stores/selectors/charger.selector';
 import { fetchStatistics } from '../../stores/reducers/stats.reducer';
 import { getLocation } from '../../stores/selectors/location.selector';
 import { Sessions } from '../Session';
@@ -11,32 +15,12 @@ import { Dropdown } from '../_ui';
 export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
-
-  const chargerStatus = [
-    {
-      label: 'Available',
-      value: 4,
-      color: '#7CB342',
-    },
-    {
-      label: 'Charging',
-      value: 1,
-      color: '#039BE5',
-    },
-    {
-      label: 'Offline',
-      value: 3,
-      color: '#FFB300',
-    },
-    {
-      label: 'Coming soon',
-      value: 2,
-      color: '#B0B8C1',
-    },
-  ];
-
-  const locationChanged = (location:any) => {
+  const [locationId, setLocation] = useState<string | undefined>();
+  const chargerStatus = useSelector(selectChargerStatuses(locationId));
+  const locationChanged = (location: any) => {
+    setLocation(location?.id);
     dispatch(fetchSessions({ locations: location }));
+    dispatch(fetchSimpleStat({ locations: location }));
     dispatch(fetchStatistics({ locationId: location?.id, currency: 'CAD' }));
   };
 
@@ -52,7 +36,7 @@ export const Overview = () => {
           headerWidth='auto'
           items={locations}
           white
-          label="name"
+          label='name'
           onItemClick={locationChanged}
         />
       </div>
@@ -71,5 +55,5 @@ export const Overview = () => {
         <Sessions />
       </div>
     </>
-    );
-  };
+  );
+};

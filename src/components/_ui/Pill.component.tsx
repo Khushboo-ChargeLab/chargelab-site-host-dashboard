@@ -3,14 +3,15 @@ import { Label, LabelType } from './Label.component';
 
 export enum PILL_BG_COLOR {
   DEFAULT = 'bg-grey-light',
-  LIGHT_FREEN = 'bg-green-light',
+  LIGHT_GREEN = 'bg-alert_positive',
   GREEN = 'bg-green',
-  YELLOW = 'bg-yellow',
+  YELLOW = 'bg-alerts_warning',
   RED = 'bg-red',
   PURPLE = 'bg-purple',
-  BLUE = 'bg-blue',
+  BLUE = 'bg-alerts_accent',
   GREY = 'bg-grey-dark',
-  LIGHT ='bg-grey2',
+  LIGHT = 'bg-grey2',
+  GREY4 = 'bg-grey4',
 }
 
 interface InputProps {

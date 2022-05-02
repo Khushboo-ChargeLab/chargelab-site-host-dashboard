@@ -1,7 +1,14 @@
 import { Charger } from '../../stores/types/sessions.interface';
 import { get } from '../http/http.service';
+import { getUserScope } from '../authenticate/authenticate.service';
+import { ChargerList } from '../../stores/types/chargers.interface';
+import { getPath } from '../utils';
 
-export const getChargers = async (): Promise<Charger[]> => {
-    const { entities } = await get('chargers?scope=all');
-    return entities;
+const API = 'chargers';
+
+export const getChargers = async (params?: any): Promise<ChargerList> => {
+    const path = getPath(`${API}?scope=${getUserScope()}`, params);
+
+    const result = await get(path);
+    return result;
 };
