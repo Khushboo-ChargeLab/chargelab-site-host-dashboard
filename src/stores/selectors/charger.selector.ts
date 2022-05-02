@@ -53,8 +53,7 @@ export const selectChargerStatuses = createSelector(
             label: 'Available',
             value: chargers.filter(
                 (c) =>
-                    c.status === 'ONLINE' &&
-                    c.ports.some((d) => d.status === 'AVAILABLE'),
+                    c.status === CHARGER_STATUS.AVAILABLE,
             ).length,
             color: '#7CB342',
         },
@@ -62,20 +61,18 @@ export const selectChargerStatuses = createSelector(
             label: 'Charging',
             value: chargers.filter(
                 (c) =>
-                    c.status === 'ONLINE' &&
-                    (c.ports.every((d) => d.status === 'IDLE') ||
-                        c.ports.every((d) => d.status === 'CHARGING')),
+                    c.status === CHARGER_STATUS.CHARGING,
             ).length,
             color: '#039BE5',
         },
         {
             label: 'Offline',
-            value: chargers.filter((c) => c.status === 'OFFLINE').length,
+            value: chargers.filter((c) => c.status === CHARGER_STATUS.OFFLINE).length,
             color: '#FFB300',
         },
         {
             label: 'Coming soon',
-            value: chargers.filter((c) => c.status === 'COMING_SOON').length,
+            value: chargers.filter((c) => c.status === CHARGER_STATUS.COMING_SOON).length,
             color: '#B0B8C1',
         },
     ],
