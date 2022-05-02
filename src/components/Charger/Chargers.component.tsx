@@ -23,6 +23,7 @@ import { fetchTransactions } from '../../stores/reducers/transactions.reducer';
 import {
   fetchChargers,
   fetchTroubleChargers,
+  ChargerOptions,
 } from '../../stores/reducers/charger.reducer';
 
 // Selectors
@@ -43,8 +44,7 @@ import { getLocation } from '../../stores/selectors/location.selector';
 import {
   getTroubleChargerNum,
   selectChargers,
-  getChargerNumber,
-  getChargersByOffset,
+  getFilteredChargers,
 } from '../../stores/selectors/charger.selector';
 
 const ROW_PER_PAGE = 20;
@@ -59,15 +59,19 @@ export const Chargers = () => {
       selected: false,
     })),
   );
-  const [locationFilter, setLocationFilter] = useState(null);
+  const [locationFilter, setLocationFilter] = useState<string | undefined>();
 
-  const chargers = useSelector(
-    getChargersByOffset(currentPage - 1, ROW_PER_PAGE),
+  const { chargers, count } = useSelector(
+    getFilteredChargers(
+      statusList,
+      locationFilter,
+      currentPage - 1,
+      ROW_PER_PAGE,
+    ),
   );
   const troubleCount = useSelector(getTroubleChargerNum);
   const locations = useSelector(getLocation);
   const transactions = useSelector(getTransactions, shallowEqual);
-  const chargerCount = useSelector(getChargerNumber);
 
   const renderChargerOverview = () => {
     const text =
@@ -119,9 +123,11 @@ export const Chargers = () => {
 
   const handleLocationSelected = (location: any) => {
     setLocationFilter(location.id);
+    setCurrentPage(1);
   };
 
   const rowClick = () => {};
+
   const handleLoadPage = (page: number) => {
     setCurrentPage(page);
   };
@@ -132,8 +138,12 @@ export const Chargers = () => {
 
   useEffect(() => {
     const offset = (currentPage - 1) * ROW_PER_PAGE;
-    dispatch(fetchChargers({ offset, limit: ROW_PER_PAGE }));
-  }, [currentPage]);
+    const payload: ChargerOptions = { offset, limit: ROW_PER_PAGE };
+    if (locationFilter) {
+      payload['filter_eq[locationId]'] = locationFilter;
+    }
+    dispatch(fetchChargers(payload));
+  }, [currentPage, dispatch, locationFilter]);
 
   const getColumnTitle = () => {
     return [
@@ -200,35 +210,19 @@ export const Chargers = () => {
         );
   };
 
-  const getGridData = () => {
-    const row: Array<Object> = [];
-    chargers?.forEach((charger) => {
-      const isAnyStatusSelected = statusList.some((item) => item.selected);
-      const isStatusSelected = statusList.some(
-        (item) => item.label === charger.status && item.selected,
-      );
-
-      if (
-        (!locationFilter || charger.location?.id === locationFilter) &&
-        (!isAnyStatusSelected || isStatusSelected)
-      ) {
-        row.push({
-          charger: charger.name,
-          location: charger.location?.name,
-          status: charger.status,
-          lastUsed:
-            transactions?.entries.find(
-              (transaction) => transaction.port.charger.id === charger.id,
-            )?.startTime || '',
-          pricing: getPrice(charger),
-          access: charger.access,
-          note: charger.usageNotes,
-        });
-      }
-    });
-
-    return row;
-  };
+  const getGridData = () =>
+    chargers.map((charger) => ({
+      charger: charger.name,
+      location: charger.location?.name,
+      status: charger.status,
+      lastUsed:
+        transactions?.entries.find(
+          (transaction) => transaction.port.charger.id === charger.id,
+        )?.startTime || '',
+      pricing: getPrice(charger),
+      access: charger.access,
+      note: charger.usageNotes,
+    }));
 
   const handlePillClick = (clickedItem: any) => {
     setStatusList(
@@ -239,6 +233,7 @@ export const Chargers = () => {
         };
       }),
     );
+    setCurrentPage(1);
   };
 
   const renderSelectedStatus = () => {
@@ -297,7 +292,7 @@ export const Chargers = () => {
               columns={getColumnTitle()}
               data={getGridData()}
               primaryKey='charger'
-              totalPage={Math.ceil(chargerCount / ROW_PER_PAGE)}
+              totalPage={Math.ceil(count / ROW_PER_PAGE)}
             />
           </div>
         )}

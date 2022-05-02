@@ -1,11 +1,10 @@
 import { createAction, createReducer, current } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { chargers } from '../../lib';
 import { Charger } from '../types/sessions.interface';
 import { ChargerList } from '../types/chargers.interface';
 
 export interface ChargerOptions {
-  locationId?: string;
+  'filter_eq[locationId]'?: string;
   offset?: number;
   limit?: number;
   filter_hasTrouble?: boolean;

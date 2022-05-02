@@ -4,5 +4,5 @@ export const getPath = (path:string, params?:string) => {
             path += `&${key}=${value}`;
         });
     }
-    return path;
+    return path.replaceAll('[', '%5B').replaceAll(']', '%5D');
 };

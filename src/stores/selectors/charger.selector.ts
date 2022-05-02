@@ -56,17 +56,24 @@ export const getTroubleChargerNum = createSelector(
 export const getChargerNumber = createSelector(
   [ChargerSelectors],
   (chargers) => {
-    return chargers?.totalCount || 0;
+    return chargers.totalCount;
   },
 );
 
-export const getChargersByOffset = (page: number = 0, count: number = 10) =>
-  createSelector([selectChargers], (chargers) => {
+export const getFilteredChargers = (statusFilter: any[], locationFilter?: string, page: number = 0, count: number = 10) =>
+  createSelector(selectChargers, getChargerNumber, (entities, totalCount) => {
+    const isAnyStatusSelected = statusFilter.some((item) => item.selected);
     const startIndex = page * count;
     const endIndex =
-      startIndex + count > chargers.length
-        ? chargers.length
+      startIndex + count > entities.length
+        ? entities.length
         : startIndex + count;
-
-    return chargers.slice(startIndex, endIndex);
+    const filteredChargers = entities.filter((charger) => !locationFilter || charger.location?.id === locationFilter)
+            .filter((charger) => !isAnyStatusSelected || statusFilter.some(
+                (item) => item.label === charger.status && item.selected,
+              ));
+    return {
+        chargers: filteredChargers.slice(startIndex, endIndex),
+        count: totalCount,
+    };
   });
