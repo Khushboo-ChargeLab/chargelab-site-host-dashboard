@@ -6,6 +6,7 @@ import { SessionsReducer } from './reducers/sessons.reducer';
 import { ThemeReducer } from './reducers/theme.reducer';
 import { TransactionsReducer } from './reducers/transactions.reducer';
 import { StatsReducer } from './reducers/stats.reducer';
+import { TransactionReportReducer } from './reducers/transactionReport.reducer';
 
 const rootReducer = combineReducers({
   navigator: appNavigationReducer,
@@ -15,5 +16,6 @@ const rootReducer = combineReducers({
   chargers: ChargerReducer,
   transactions: TransactionsReducer,
   stats: StatsReducer,
+  transactionReport: TransactionReportReducer,
 });
 export default rootReducer;

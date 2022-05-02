@@ -79,3 +79,25 @@ export const httpRawGet = async (url: string) => {
     console.log('err - ', err);
   }
 };
+
+export const getBlob = async (url: string, extraHeader?: {}) => {
+  try {
+    const request = await fetch(new URL(url, baseUrl).href, {
+      method: 'GET',
+      headers: {
+        ...header,
+        ...extraHeader,
+        Authorization: `Bearer ${getBearerToken()}`,
+      },
+    });
+
+    if (request.ok) {
+      console.log('request', request);
+      return request;
+    }
+    throw new Error('Something went wrong');
+  } catch (err) {
+    console.log('err - ', err);
+    return Promise.reject(err);
+  }
+};
