@@ -12,4 +12,3 @@ export const getChargers = async (params?: any): Promise<ChargerList> => {
     const result = await get(path);
     return result;
 };
-
