@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { alert, completed } from '../../lib';
+import { downloadCSV } from '../../services/utils';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import { fetchTransactionReport } from '../../stores/reducers/transactionReport.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
@@ -47,17 +48,16 @@ export const Sessions = () => {
   const recentSessions = useSelector(selectRecentSessions);
   const chargers = useSelector(selectChargers);
   const transactionReport = useSelector(getTransactionReport);
-
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [chargerData, setChargerData] = useState(chargerDummyData);
+  const [downloadReport, setDownloadReport] = useState(false);
 
   const refreshGrid = useCallback(
     async (page: number) => {
       setCurrentPage(page);
       if (page === 1) {
         dispatch(fetchSessions({ page, ...filter }));
-        dispatch(fetchTransactionReport());
       }
       // Fetch data
     },
@@ -180,34 +180,19 @@ export const Sessions = () => {
     });
   }, []);
 
-  // Dummy data
-  const downloadCSV = () => {
-    const data = [
-      'Authentication type', 'Location,Charger,Time zone,Start time,End time,kWh used,Cost currency,Cost',
-      'XYZ,ChargeLab UAT,CSF-FREE,ET,2022-05-02T14:29:07,2022-05-02T14:29:33,0.04,USD,0.0',
-      'ABC,ChargeLab UAT,CSF-FREE,ET,2022-05-02T14:29:07,2022-05-02T14:29:33,0.04,USD,0.0',
-  ].join('\n');
-    console.log('Inside downloadCSV :>> ', data);
-    const blobObj = new Blob([data]);
-    const a = document.createElement('a');
-    a.download = 'test.csv';
-    a.href = window.URL.createObjectURL(blobObj);
-    const clickEvt = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    a.dispatchEvent(clickEvt);
-    a.remove();
-  };
+  useEffect(() => {
+    if (downloadReport && transactionReport.transactionReport) {
+      downloadCSV(transactionReport.transactionReport, 'Export Transactions');
+    }
+  }, [transactionReport.transactionReport, downloadReport]);
 
   useEffect(() => {
     refreshGrid(1);
   }, [refreshGrid]);
 
   const handleButtonClick = () => {
-    console.log('Export CSV clicked');
-    downloadCSV();
+    dispatch(fetchTransactionReport({ ...filter }));
+    setDownloadReport(true);
   };
 
   return (

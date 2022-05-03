@@ -93,8 +93,7 @@ export const getBlob = async (url: string, extraHeader?: {}) => {
     });
 
     if (request.ok) {
-      console.log('request', request);
-      return request;
+      return request.blob();
     }
     throw new Error('Something went wrong');
   } catch (err) {

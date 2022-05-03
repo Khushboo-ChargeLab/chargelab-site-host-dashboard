@@ -1,7 +1,8 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
-export const fetchTransactionReport = createAction('TRANSACTION-FETCH-REPORT-REQUEST');
+export const fetchTransactionReport = createAction<any>('TRANSACTION-FETCH-REPORT-REQUEST');
 export const fetchTransactionReportSuccess = createAction<any>('TRANSACTION-FETCH-REPORT-SUCCESS');
+export const addFilterForExportTransaction = createAction<any>('TRANSACTION-REPORT-ADD-FILTER');
 
 export const TransactionReportReducer = createReducer({}, (builder) => {
     builder
@@ -9,6 +10,14 @@ export const TransactionReportReducer = createReducer({}, (builder) => {
       ...state,
       filter: {
         ...state.filter,
+        ...action.payload,
+      },
+    }))
+    .addCase(addFilterForExportTransaction, (state: any, action) => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        ...action.payload,
       },
     }))
     .addCase(fetchTransactionReportSuccess, (state, action) => ({

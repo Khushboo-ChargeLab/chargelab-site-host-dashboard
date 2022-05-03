@@ -1,10 +1,11 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { getTransactionReport } from '../../services/overview/transaction.service';
 import { fetchTransactionReport, fetchTransactionReportSuccess } from '../reducers/transactionReport.reducer';
+import { getTransactionReportFilter } from '../selectors/transactionReport.selector';
 
 function* fetchTransactionReportAsCSV(): any {
-    const response = yield call(getTransactionReport);
-    console.log('response in saga :>> ', response);
+    const filter = yield select(getTransactionReportFilter);
+    const response = yield call(getTransactionReport, filter);
     yield put(fetchTransactionReportSuccess(response));
 }
 
