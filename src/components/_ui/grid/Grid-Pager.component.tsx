@@ -31,7 +31,7 @@ export const GridPager = memo(
           <img src={chevpre} alt='' />
         </div>
 
-        {[...Array(totalPage)].map(
+        {Array.from(Array(totalPage).keys()).map(
           (value, index) =>
             index >= start &&
             index < end && (
