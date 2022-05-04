@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Amplify, Auth } from 'aws-amplify';
 import {
   getBearerToken,
   httpRawGet,
@@ -13,13 +12,13 @@ import { Overview } from './components/overview';
 import { fetchLocations } from './stores/reducers/location.reducer';
 import { Chargers } from './components/Charger';
 import {
-  getUserInfo,
-  setBearerToken,
-  setUserInfo,
+  refreshToken,
+  setupCognito,
 } from './services/authenticate/authenticate.service';
-import { Login } from './components/Login/Login.component';
 
 function App() {
+  const [loaded, setLoaded] = useState<boolean>(false);
+
   const distpach = useDispatch();
 
   useEffect(() => {
@@ -32,29 +31,14 @@ function App() {
       // 2. ./path/to/chargelab-aws/scripts/add-given-family-name.sh [STACK VERSION] [GIVEN NAME] [FAMILY NAME] [FILTER]
       // eg: ./add-given-family-name.sh 11-jer Jerome Dogillo 'email = "jerome.dogillo@chargelab.co"'
       // 3. Try logging in again
-      const dep = await httpRawGet('/deployment/cognito').catch((e) => e);
-      console.log('dep', dep);
-      Amplify.configure({
-        Auth: {
-          region: dep.region,
-          userPoolId: dep.userPoolId,
-          userPoolWebClientId: dep.clientId,
-          mandatorySignIn: false,
-          authenticationFlowType: 'CUSTOM_AUTH',
-        },
-      });
+      await setupCognito();
 
       if (document.location.href.indexOf('/login') === -1) {
-        const user = await Auth.currentSession().catch(() => null);
+        const validToken = await refreshToken();
 
-        if (!user) {
+        if (!validToken) {
           document.location.href = '/login';
         } else {
-          setBearerToken(user.getAccessToken().getJwtToken());
-
-          const userInfo = await Auth.currentUserInfo();
-          setUserInfo(userInfo);
-
           // when running locally, please update the .env file to point it to the stack you want
           // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
           const apiPrefix = await httpRawGet('/deployment/api');
@@ -63,15 +47,12 @@ function App() {
           distpach(fetchLocations());
         }
       }
+      setLoaded(true);
     })();
   }, [distpach]);
 
-  if (getBearerToken() === '') {
-    return (
-      <div className='flex h-screen bg-[#f5f6fa]'>
-        <Login />
-      </div>
-    );
+  if (!loaded || getBearerToken() === '') {
+    return null;
   }
   return (
     <div className='App'>

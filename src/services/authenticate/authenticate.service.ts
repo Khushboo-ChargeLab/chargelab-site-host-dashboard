@@ -1,4 +1,9 @@
-import { Auth } from 'aws-amplify';
+import { Auth, Amplify } from 'aws-amplify';
+import { httpRawGet } from '../http/http.service';
+
+export const setBearerToken = (token: string) => {
+    localStorage.setItem('DASHBOARD-TOKEN', token);
+};
 
 export enum USER_ROLE {
     SUPPORT,
@@ -7,6 +12,34 @@ export enum USER_ROLE {
 
 export const setUserInfo = (user: any) => {
     localStorage.setItem('DASHBOARD-USER-INFO', JSON.stringify(user));
+};
+
+export const setupCognito = async () => {
+    const dep = await httpRawGet('/deployment/cognito').catch((e) => e);
+    console.log('dep', dep);
+    Amplify.configure({
+        Auth: {
+            region: dep.region,
+            userPoolId: dep.userPoolId,
+            userPoolWebClientId: dep.clientId,
+            mandatorySignIn: false,
+            authenticationFlowType: 'CUSTOM_AUTH',
+        },
+    });
+};
+
+export const refreshToken = async () => {
+    const user = await Auth.currentSession().catch(() => null);
+
+    if (user) {
+        setBearerToken(user.getAccessToken().getJwtToken());
+
+        const userInfo = await Auth.currentUserInfo();
+        setUserInfo(userInfo);
+        return true;
+    }
+
+    return false;
 };
 
 export const getUserInfo = () => {
@@ -41,10 +74,6 @@ export const getUserRole = () => {
 export const getUserScope = () => {
     // FIXME: Should get this from BE or something else.
     return 'company';
-};
-
-export const setBearerToken = (token: string) => {
-    localStorage.setItem('DASHBOARD-TOKEN', token);
 };
 
 const getIsEmail = (phoneNumberOrEmailLogin: string) => phoneNumberOrEmailLogin.indexOf('@') > -1;

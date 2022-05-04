@@ -26,7 +26,8 @@ export const Switch = memo(
 
     const selectedClass =
       'font-semibold bg-white h-9 flex items-center pl-8 pr-8 ml-1 mr-1 text-black text-sm box-shadow-switch';
-    const otherOptions = 'text-sm flex items-center pl-8 pr-8 text-grey5 font-semibold';
+    const otherOptions =
+      'text-sm flex items-center pl-8 pr-8 text-grey5 font-semibold';
 
     const updateChecked = () => {
       setChecked(!checked);
@@ -48,6 +49,7 @@ export const Switch = memo(
         >
           {options.map((op, index) => (
             <div
+              key={op}
               onClick={() => itemSelected(op)}
               className={
                 selected === op || (!selected && index === 0)

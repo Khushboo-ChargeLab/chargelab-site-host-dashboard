@@ -36,7 +36,7 @@ export const GridPager = memo(
             index >= start &&
             index < end && (
               <div
-                key={value}
+                key={`${index + 1}`}
                 onClick={() => loadPage && loadPage(index + 1)}
                 className={`flex pager-span w-8 items-center justify-center text-sm font-normal cursor-pointer ${
                   index + 1 === currentPage ? 'current-page' : 'text-grey5'
