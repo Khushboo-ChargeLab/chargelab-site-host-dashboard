@@ -14,6 +14,7 @@ import {
   Grid,
   Pill,
   DropdownType,
+  ModalForm,
 } from '../_ui';
 import { infoRed, completed } from '../../lib';
 import { ChargerStatus } from './ChargerStatus.component';
@@ -46,6 +47,7 @@ import {
   selectChargers,
   getFilteredChargers,
 } from '../../stores/selectors/charger.selector';
+import { ChargerDetail } from './ChargerDetail.component';
 
 const ROW_PER_PAGE = 20;
 
@@ -126,7 +128,12 @@ export const Chargers = () => {
     setCurrentPage(1);
   };
 
-  const rowClick = () => {};
+  const rowClick = (rowData: any) => {
+    ModalForm.show({
+      title: rowData.charger,
+      body: <ChargerDetail chargerId={rowData.id} />,
+    });
+  };
 
   const handleLoadPage = (page: number) => {
     setCurrentPage(page);
@@ -212,6 +219,7 @@ export const Chargers = () => {
 
   const getGridData = () =>
     chargers.map((charger) => ({
+      id: charger.id,
       charger: charger.name,
       location: charger.location?.name,
       status: charger.status,
@@ -291,7 +299,7 @@ export const Chargers = () => {
               loadPage={handleLoadPage}
               columns={getColumnTitle()}
               data={getGridData()}
-              primaryKey='charger'
+              primaryKey='id'
               totalPage={Math.ceil(count / ROW_PER_PAGE)}
             />
           </div>
