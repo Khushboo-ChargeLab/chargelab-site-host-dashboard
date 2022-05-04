@@ -55,6 +55,7 @@
         "react/jsx-props-no-spreading":0,
         "eol-last":0,
         "import/no-unresolved":0,
+        "no-confusing-arrow":0,
         "react/no-unstable-nested-components": [
             "off",
             { "allowAsProps": true }
