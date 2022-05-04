@@ -1,6 +1,10 @@
 import { Auth, Amplify } from 'aws-amplify';
 import { httpRawGet } from '../http/http.service';
 
+export const setBearerToken = (token: string) => {
+    localStorage.setItem('DASHBOARD-TOKEN', token);
+};
+
 export enum USER_ROLE {
     SUPPORT,
     NORMAL,
@@ -70,10 +74,6 @@ export const getUserRole = () => {
 export const getUserScope = () => {
     // FIXME: Should get this from BE or something else.
     return 'company';
-};
-
-export const setBearerToken = (token: string) => {
-    localStorage.setItem('DASHBOARD-TOKEN', token);
 };
 
 const getIsEmail = (phoneNumberOrEmailLogin: string) => phoneNumberOrEmailLogin.indexOf('@') > -1;

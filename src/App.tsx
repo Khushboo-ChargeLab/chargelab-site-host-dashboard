@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Auth } from 'aws-amplify';
 import {
   getBearerToken,
   httpRawGet,
@@ -14,9 +13,7 @@ import { fetchLocations } from './stores/reducers/location.reducer';
 import { Chargers } from './components/Charger';
 import {
   refreshToken,
-  setBearerToken,
   setupCognito,
-  setUserInfo,
 } from './services/authenticate/authenticate.service';
 
 function App() {
