@@ -96,7 +96,7 @@ export const get = async (url: string): Promise<any> => {
   }
 };
 
-export const getBlob = async (url: string, extraHeader?: {}) => {
+export const getBlob = async (url: string, extraHeader?: {}): Promise<any> => {
   try {
     const request = await fetch(new URL(url, await baseUrl()).href, {
       method: 'GET',
