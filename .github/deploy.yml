@@ -6,7 +6,7 @@ on:
       - closed
 
 env:
-  STACK: 1-bin
+  # STACK: 1-bin
   ZIP_NAME: site-host-dashboard.tar.gz
   PROJECT_BRANCH: release/0.1.0
   PROJECT_CHARGELAB_AWS_BRANCH: developer
