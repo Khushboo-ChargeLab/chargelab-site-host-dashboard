@@ -19,6 +19,7 @@ export const Summary = () => {
       fromDate: formatDate(date, 'yyyy-MM'),
       toDate: formatDate(date, 'yyyy-MM'),
       currency: 'CAD',
+      getBlob: false,
     }));
   }, [dispatch]);
 
@@ -41,6 +42,7 @@ export const Summary = () => {
       toDate: formatDate(new Date(), 'yyyy-MM'),
       locationId: null,
       currency: 'CAD',
+      getBlob: false,
     }));
   }, [dispatch]);
 
