@@ -1,4 +1,9 @@
 import { memo } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { chargers, chargerSelected, overview, overviewSelected } from '../../lib';
+import { setCurrentNavigation } from '../../stores/reducers/app-navigation.reducer';
+import { AppNavigator } from '../../stores/types/App-Navigator.interface';
 import {
   Card,
   DoughnutChart,
@@ -13,7 +18,21 @@ import { ChartData } from '../_ui/chart/types/Chart-Data.interface';
 interface InputProps {
   data?: ChartData[];
 }
+
 export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const chargerPageNavigation: AppNavigator = {
+    selectedIcon: chargerSelected,
+    header: 'CHARGER MANAGEMENT',
+    path: '/chargers',
+    title: 'Chargers',
+    icon: chargers,
+  };
+  const handleViewChargersClick = () => {
+    dispatch(setCurrentNavigation(chargerPageNavigation));
+    history.push(chargerPageNavigation.path || '/');
+  };
   return (
     <Card className='h-full'>
       <div className='flex w-full mb-4'>
@@ -25,6 +44,7 @@ export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
             size={ButtonSize.SMALL}
             label='View chargers'
             type={ButtonType.Cancel}
+            onClick={() => handleViewChargersClick()}
           />
         </div>
       </div>

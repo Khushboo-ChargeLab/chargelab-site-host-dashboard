@@ -36,6 +36,11 @@
     color: white;
 }
 
+.react-datepicker__month--disabled{
+    color: #D1D6DB;
+    border: none;
+}
+
 .react-datepicker__input-container-button {
     height: 40px;
     border-radius: 4px;
