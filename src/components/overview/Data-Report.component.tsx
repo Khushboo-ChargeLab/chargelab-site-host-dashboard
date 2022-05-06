@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSimpleStat } from '../../stores/reducers/sessons.reducer';
-import { selectSimpleStats } from '../../stores/selectors/session.selector';
+import { getFormattedSimpleStats } from '../../stores/selectors/session.selector';
 import { Button, Card, DateTimePicker, Switch, VerticalBarChart } from '../_ui';
 import { ButtonSize, ButtonType } from '../_ui/Button.component';
 import './Data-Report.component.scss';
@@ -10,7 +10,7 @@ import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 export const DataReport = () => {
   const dispatch = useDispatch();
   const [valueField, setValueField] = useState('revenue');
-  const stats = useSelector(selectSimpleStats);
+  const stats = useSelector(getFormattedSimpleStats);
 
   const switchChanges = (checked: string) => {
     switch (checked) {
@@ -18,7 +18,6 @@ export const DataReport = () => {
         setValueField('revenue');
         break;
       }
-
       case 'Energy used': {
         setValueField('energyDeliveredKWh');
         break;
