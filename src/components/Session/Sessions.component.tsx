@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { alert, completed } from '../../lib';
+import { downloadCSV } from '../../services/utils';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import { fetchTransactionReport } from '../../stores/reducers/transactionReport.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
 import { selectRecentSessions } from '../../stores/selectors/session.selector';
+import { getTransactionReport } from '../../stores/selectors/transactionReport.selector';
 import { convertToDate } from '../../utils/Date.Util';
 import {
   Button,
@@ -44,10 +47,11 @@ export const Sessions = () => {
   const dispatch = useDispatch();
   const recentSessions = useSelector(selectRecentSessions);
   const chargers = useSelector(selectChargers);
-
+  const transactionReport = useSelector(getTransactionReport);
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [chargerData, setChargerData] = useState(chargerDummyData);
+  const [downloadReport, setDownloadReport] = useState(false);
 
   const refreshGrid = useCallback(
     async (page: number) => {
@@ -177,8 +181,19 @@ export const Sessions = () => {
   }, []);
 
   useEffect(() => {
+    if (downloadReport && transactionReport.transactionReport) {
+      downloadCSV(transactionReport.transactionReport, 'Export Transactions');
+    }
+  }, [transactionReport.transactionReport, downloadReport]);
+
+  useEffect(() => {
     refreshGrid(1);
   }, [refreshGrid]);
+
+  const handleButtonClick = () => {
+    dispatch(fetchTransactionReport({ ...filter }));
+    setDownloadReport(true);
+  };
 
   return (
     <Card title='Recent sessions'>
@@ -203,6 +218,7 @@ export const Sessions = () => {
             size={ButtonSize.SMALL}
             label='Export CSV'
             type={ButtonType.Cancel}
+            onClick={handleButtonClick}
           />
         </div>
       </div>
