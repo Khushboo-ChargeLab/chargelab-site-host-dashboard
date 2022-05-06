@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { close } from '../../lib';
 import { Label, LabelType } from './Label.component';
 
 export enum PILL_BG_COLOR {
@@ -37,8 +38,8 @@ export const Pill = memo(
     className = '',
   }: InputProps) => {
     const renderButton = () => (
-      <button type='button' className='flex' onClick={onClick!}>
-        <Label type={LabelType.PILL_DROPDOWN_BTN} text='x' />
+      <button type='button' className='flex items-center' onClick={onClick!}>
+        <Label type={LabelType.PILL_DROPDOWN_BTN} text='' icon={close} style={{ 'max-width': '23px' }} />
       </button>
     );
 

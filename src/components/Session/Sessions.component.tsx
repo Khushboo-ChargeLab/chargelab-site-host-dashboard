@@ -116,7 +116,7 @@ export const Sessions = () => {
             onClick={() => handlePillClick(c)}
             label={c.name}
             isButton
-            width='auto'
+            autoWidth
             labelType={LabelType.PILL_DROPDOWN}
           />
         );
