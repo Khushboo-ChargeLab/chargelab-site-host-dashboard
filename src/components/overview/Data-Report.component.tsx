@@ -5,6 +5,7 @@ import { selectSimpleStats } from '../../stores/selectors/session.selector';
 import { Button, Card, DateTimePicker, Switch, VerticalBarChart } from '../_ui';
 import { ButtonSize, ButtonType } from '../_ui/Button.component';
 import './Data-Report.component.scss';
+import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 
 export const DataReport = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,24 @@ export const DataReport = () => {
     dispatch(fetchSimpleStat(null));
   }, [dispatch]);
 
+  const getFormattedText = (val: any) => {
+    switch (valueField) {
+      case 'revenue': {
+        return convertToLocaleCurrency(val);
+      }
+      case 'energyDeliveredKWh': {
+        return `${val} kWh`;
+      }
+      default:
+        return val;
+    }
+  };
+  const onTooltipTitle = (value: any) => {
+    return getFormattedText(value);
+  };
+
+  const onTickLabel = (tickValue: any) => getFormattedText(tickValue);
+
   return (
     <Card>
       <div className='flex mt-3 mb-8 w-full'>
@@ -75,6 +94,8 @@ export const DataReport = () => {
         className='flex h-52 w-full'
         dateField='date'
         valueField={valueField}
+        onTickLabel={onTickLabel}
+        onTooltipTitle={onTooltipTitle}
       />
     </Card>
   );
