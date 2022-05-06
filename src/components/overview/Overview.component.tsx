@@ -15,13 +15,48 @@ import { Dropdown } from '../_ui';
 export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
+  const [locationsDropdown, setlocationsDropdown] = useState<
+    {
+      id?: string;
+      label: string;
+      selected: Boolean;
+    }[]
+  >();
+
+  useEffect(() => {
+    const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
+    arr.push({
+      label: 'All',
+      selected: false,
+    });
+    const locationArr = locations.map((location) => {
+      return {
+        id: location.id,
+        label: location.name,
+        selected: false,
+      };
+    });
+    setlocationsDropdown(arr.concat(locationArr));
+  }, [locations]);
+
   const [locationId, setLocation] = useState<string | undefined>();
   const chargerStatus = useSelector(selectChargerStatuses(locationId));
-  const locationChanged = (location: any) => {
-    setLocation(location?.id);
+  const locationChanged = (selectedlocation: any) => {
+    setLocation(selectedlocation?.id);
+    const location = locations.find(
+      (_location) => _location.id === selectedlocation.id,
+    );
     dispatch(fetchSessions({ locations: location }));
     dispatch(fetchSimpleStat({ locations: location }));
     dispatch(fetchStatistics({ locationId: location?.id, currency: 'CAD' }));
+    setlocationsDropdown(
+      locationsDropdown?.map((data) => {
+        return {
+          ...data,
+          selected: data.id === selectedlocation.id,
+        };
+      }),
+    );
   };
 
   useEffect(() => {
@@ -34,9 +69,8 @@ export const Overview = () => {
         <Dropdown
           title='Location'
           headerWidth='auto'
-          items={locations}
+          items={locationsDropdown}
           white
-          label='name'
           onItemClick={locationChanged}
         />
       </div>
