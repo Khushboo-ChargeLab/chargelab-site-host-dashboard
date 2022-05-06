@@ -67,7 +67,13 @@ export const Sessions = () => {
   );
 
   const handleClearAllClick = () => {
-    setChargerData([]);
+    setChargerData(
+      chargers.map((charger) => ({
+        id: charger.id,
+        label: charger.name,
+        selected: false,
+      })),
+    );
     setFilter({
       ...filter,
       charger: [],
