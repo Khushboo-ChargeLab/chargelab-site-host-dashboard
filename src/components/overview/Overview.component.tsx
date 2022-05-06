@@ -1,20 +1,30 @@
+// React
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// Hooks
+import { useTranslation } from 'react-i18next';
+
+// Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
+import { Sessions } from '../Session';
+import { Dropdown } from '../_ui';
+
+// Actions
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
 import {
   fetchSessions,
   fetchSimpleStat,
 } from '../../stores/reducers/sessons.reducer';
+
+// Selectors
 import { selectChargerStatuses } from '../../stores/selectors/charger.selector';
 import { fetchStatistics } from '../../stores/reducers/stats.reducer';
 import { getLocation } from '../../stores/selectors/location.selector';
-import { Sessions } from '../Session';
-import { Dropdown } from '../_ui';
 
 export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
+  const { t } = useTranslation();
   const [locationsDropdown, setlocationsDropdown] = useState<
     {
       id?: string;
@@ -26,7 +36,7 @@ export const Overview = () => {
   useEffect(() => {
     const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
     arr.push({
-      label: 'All',
+      label: t('all_location'),
       selected: false,
     });
     const locationArr = locations.map((location) => {
@@ -86,7 +96,7 @@ export const Overview = () => {
         <DataReport />
       </div>
       <div className='mt-6 block'>
-        <Sessions />
+        <Sessions locationId={locationId} />
       </div>
     </>
   );
