@@ -7,8 +7,16 @@ import { selectRecentSessions } from '../../stores/selectors/session.selector';
 import { convertToDate } from '../../utils/Date.Util';
 import {
   Button,
-  ButtonType, Card, CustomDatePicker, Dropdown, DropdownType, Grid, Label,
-  LabelType, ModalForm, Pill,
+  ButtonType,
+  Card,
+  CustomDatePicker,
+  Dropdown,
+  DropdownType,
+  Grid,
+  Label,
+  LabelType,
+  ModalForm,
+  Pill,
   PILL_BG_COLOR,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
@@ -16,43 +24,31 @@ import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
 
 export const Sessions = () => {
-  const chargerDummyData = [
-    { label: 'AD-21', selected: false },
-    { label: 'AD-22', selected: false },
-    { label: 'AD-23', selected: false },
-    { label: 'AD-24', selected: false },
-    { label: 'AD-25', selected: false },
-    { label: 'AD-26', selected: false },
-    { label: 'AD-27', selected: false },
-    { label: 'AD-28', selected: false },
-    { label: 'AD-29', selected: false },
-    { label: 'AD-30', selected: false },
-    { label: 'AD-31', selected: false },
-    { label: 'AD-32', selected: false },
-    { label: 'AD-25', selected: false },
-    { label: 'AD-26', selected: false },
-    { label: 'AD-27', selected: false },
-    { label: 'AD-28', selected: false },
-    { label: 'AD-29', selected: false },
-    { label: 'AD-30', selected: false },
-    { label: 'AD-31', selected: false },
-    { label: 'AD-32', selected: false },
-    { label: 'AD-33', selected: false },
-    { label: 'AD-34', selected: false },
-    { label: 'AD-35', selected: false },
-  ];
   const dispatch = useDispatch();
   const recentSessions = useSelector(selectRecentSessions);
   const chargers = useSelector(selectChargers);
 
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [chargerData, setChargerData] = useState(chargerDummyData);
+  const [chargerData, setChargerData] = useState<
+    { id: string; label: string | undefined; selected: boolean }[]
+  >([]);
+
+  useEffect(() => {
+    setChargerData(
+      chargers.map((charger) => ({
+        id: charger.id,
+        label: charger.name,
+        selected: false,
+      })),
+    );
+  }, [chargers]);
 
   const refreshGrid = useCallback(
     async (page: number) => {
       setCurrentPage(page);
       if (page === 1) {
+        console.log('filter:', filter);
         dispatch(fetchSessions({ page, ...filter }));
       }
       // Fetch data
@@ -71,7 +67,13 @@ export const Sessions = () => {
   );
 
   const handleClearAllClick = () => {
-    setChargerData(chargerDummyData);
+    setChargerData(
+      chargers.map((charger) => ({
+        id: charger.id,
+        label: charger.name,
+        selected: false,
+      })),
+    );
     setFilter({
       ...filter,
       charger: [],
@@ -79,7 +81,7 @@ export const Sessions = () => {
   };
 
   const renderClearAllButton = () => {
-    const foundSelectedCharger = chargerData.find(
+    const foundSelectedCharger = chargerData.some(
       (charger) => charger.selected,
     );
     if (foundSelectedCharger) {
@@ -102,6 +104,14 @@ export const Sessions = () => {
       }
       return cd;
     });
+    setFilter({
+      ...filter,
+      charger: newChargerList
+        .filter((data: any) => data.selected)
+        .map((selectedData: any) => {
+          return chargers.find((charger) => charger.id === selectedData.id);
+        }),
+    });
     setChargerData(newChargerList);
   };
 
@@ -112,9 +122,9 @@ export const Sessions = () => {
         return (
           <Pill
             // eslint-disable-next-line react/no-array-index-key
-            key={`${c.name}-${index}`}
+            key={`${c.label}-${index}`}
             onClick={() => handlePillClick(c)}
-            label={c.name}
+            label={c.label}
             isButton
             autoWidth
             labelType={LabelType.PILL_DROPDOWN}
@@ -123,22 +133,30 @@ export const Sessions = () => {
       });
   };
 
-  const chargerSelected = useCallback(
-    (item: any) => {
-      setFilter({
-        ...filter,
-        charger: item.filter((charger: any) => charger.selected),
-      });
-      setChargerData(item);
-    },
-    [filter],
-  );
+  const chargerSelected = (item: any) => {
+    setFilter({
+      ...filter,
+      charger: item
+        .filter((data: any) => data.selected)
+        .map((selectedData: any) => {
+          return chargers.find((charger) => charger.id === selectedData.id);
+        }),
+    });
+    setChargerData(item);
+  };
 
   const rowClick = useCallback((rowData: any) => {
-    const generateChargerStatusHistory = (status: any, startTime: any, endTime: any) => {
+    const generateChargerStatusHistory = (
+      status: any,
+      startTime: any,
+      endTime: any,
+    ) => {
       const chargerStatusHistory = [];
       if (status === 'FAILED') {
-        chargerStatusHistory.push({ title: 'Failed', date: convertToDate(startTime) });
+        chargerStatusHistory.push({
+          title: 'Failed',
+          date: convertToDate(startTime),
+        });
       } else if (status === 'PREPARING' || status === 'IN_PROGRESS') {
         chargerStatusHistory.push(
           { title: 'Charging' },
@@ -168,7 +186,11 @@ export const Sessions = () => {
       cost: rowData.billedTotalAmount,
       currency: rowData.billedCurrency,
       sessionStatus: rowData.status,
-      statusHistory: generateChargerStatusHistory(rowData.status, rowData.startTime || rowData.createTime, rowData.stopTime || rowData.completeTime),
+      statusHistory: generateChargerStatusHistory(
+        rowData.status,
+        rowData.startTime || rowData.createTime,
+        rowData.stopTime || rowData.completeTime,
+      ),
     };
     ModalForm.show({
       title: 'Session detail',
@@ -180,6 +202,7 @@ export const Sessions = () => {
     refreshGrid(1);
   }, [refreshGrid]);
 
+  console.log('chargerData:', chargerData);
   return (
     <Card title='Recent sessions'>
       <div className='flex mt-3 mb-8 w-full'>
@@ -188,8 +211,7 @@ export const Sessions = () => {
             title='Charger'
             headerWidth='auto'
             type={DropdownType.CHECKBOX}
-            items={chargers}
-            label='name'
+            items={chargerData}
             onItemClick={chargerSelected}
           />
           <CustomDatePicker

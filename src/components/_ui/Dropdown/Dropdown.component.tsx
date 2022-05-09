@@ -261,7 +261,7 @@ export const Dropdown = memo(
     const renderItems = () => {
       switch (type) {
         case DropdownType.SELECT:
-          return [{ [label]: 'All' }].concat(items).map((item, index) => {
+          return _items.map((item, index) => {
             const key = `${item[label]}-${index}`;
             return (
               <button

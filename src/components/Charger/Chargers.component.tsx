@@ -72,6 +72,29 @@ export const Chargers = () => {
   const troubleCount = useSelector(getTroubleChargerNum);
   const locations = useSelector(getLocation);
   const transactions = useSelector(getTransactions, shallowEqual);
+  const [locationsDropdown, setlocationsDropdown] = useState<
+    {
+      id?: string;
+      label: string;
+      selected: Boolean;
+    }[]
+  >();
+
+  useEffect(() => {
+    const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
+    arr.push({
+      label: t('All Locations'),
+      selected: false,
+    });
+    const locationArr = locations.map((location) => {
+      return {
+        id: location.id,
+        label: location.name,
+        selected: false,
+      };
+    });
+    setlocationsDropdown(arr.concat(locationArr));
+  }, [locations]);
 
   const renderChargerOverview = () => {
     const text =
@@ -261,8 +284,7 @@ export const Chargers = () => {
             <Dropdown
               title={t('location')}
               headerWidth='auto'
-              items={locations}
-              label='name'
+              items={locationsDropdown}
               onItemClick={handleLocationSelected}
             />
           )}
