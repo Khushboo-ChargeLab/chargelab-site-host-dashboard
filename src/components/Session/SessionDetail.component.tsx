@@ -135,7 +135,7 @@ export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
     </div>
     <div className='flex flex-row pt-4 pb-4'>
       <Label text='Charger' type={LabelType.H7} className='basis-2/6' />
-      <Pill label={sessionData.charger} labelType={LabelType.LABEL_S_G6} />
+      <Pill label={sessionData.charger} labelType={LabelType.PILL_DROPDOWN} autoWidth />
     </div>
     <div className='flex flex-row pt-4 pb-4'>
       <Label text='Connector' type={LabelType.H7} className='basis-2/6' />
