@@ -24,10 +24,7 @@ export const Switch = memo(
     const [checked, setChecked] = useState(defaultValue);
     const [selected, setSelected] = useState('');
 
-    const selectedClass =
-      'font-semibold bg-white h-9 flex items-center pl-8 pr-8 ml-1 mr-1 text-black text-sm box-shadow-switch';
-    const otherOptions =
-      'text-sm flex items-center pl-8 pr-8 text-grey5 font-semibold';
+    const otherOptions = 'h-9 w-32 flex items-center mx-1 place-content-center';
 
     const updateChecked = () => {
       setChecked(!checked);
@@ -47,19 +44,27 @@ export const Switch = memo(
         <div
           className={`flex items-center bg-silver h-11 cursor-pointer rounded-3xl ${className}`}
         >
-          {options.map((op, index) => (
-            <div
-              key={op}
-              onClick={() => itemSelected(op)}
-              className={
-                selected === op || (!selected && index === 0)
-                  ? selectedClass
-                  : otherOptions
-              }
-            >
-              {op}
-            </div>
-          ))}
+          {options.map((op, index) => {
+            const isSelected = selected === op || (!selected && index === 0);
+            console.log('isSelected:', isSelected);
+            return (
+              <div
+                key={op}
+                onClick={() => itemSelected(op)}
+                className={`${otherOptions} ${
+                  isSelected && 'bg-white box-shadow-switch'
+                }`}
+              >
+                <span
+                  className={`text-sm font-semibold ${
+                    isSelected ? 'text-black' : 'text-grey5'
+                  }`}
+                >
+                  {op}
+                </span>
+              </div>
+            );
+          })}
         </div>
       );
     }
