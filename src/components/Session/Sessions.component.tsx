@@ -126,7 +126,7 @@ export const Sessions = () => {
             onClick={() => handlePillClick(c)}
             label={c.label}
             isButton
-            width='auto'
+            autoWidth
             labelType={LabelType.PILL_DROPDOWN}
           />
         );
@@ -259,7 +259,7 @@ export const Sessions = () => {
             key: 'createTime|startTime',
             title: 'Start Time',
             type: GridColumnType.DATETIME,
-            format: 'LLL dd, HH:mm a',
+            format: 'LLL dd, h:mm a',
           },
           {
             key: 'status',
@@ -272,7 +272,18 @@ export const Sessions = () => {
               />
             ),
           },
-          { key: 'consumedEnergyKwh', title: 'Energy used' },
+          {
+            key: 'consumedEnergyKwh',
+            title: 'Energy used',
+            component: (row: any) => (
+              <Label
+                text={
+                  row.consumedEnergyKwh ? `${row.consumedEnergyKwh} kWh` : ''
+                }
+                type={LabelType.BODY3}
+              />
+            ),
+          },
           {
             key: 'billedTotalAmount',
             title: 'Cost',
