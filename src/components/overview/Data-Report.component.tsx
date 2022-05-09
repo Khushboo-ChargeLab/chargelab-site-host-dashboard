@@ -111,7 +111,7 @@ export const DataReport = () => {
             white
             dateRange
             dateRangeMove
-            format='LLL dd yyyy'
+            format='LLL yyyy'
             onChange={dateChanged}
             defaultDate={new Date()}
           />
