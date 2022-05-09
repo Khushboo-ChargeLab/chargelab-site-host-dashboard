@@ -20,10 +20,20 @@ interface DoughnutChartProps {
 }
 
 export const DoughnutChart = memo(
-  ({ items = [], className = 'flex h-40', valueField = 'value', labelField = 'label', colorField = 'color' }: DoughnutChartProps) => {
-    const sortedItems = items.sort((a, b) => (a[valueField] > b[valueField] ? -1 : 1));
+  ({
+    items = [],
+    className = 'flex h-40',
+    valueField = 'value',
+    labelField = 'label',
+    colorField = 'color',
+  }: DoughnutChartProps) => {
+    const sortedItems = items.sort((a, b) =>
+      a[valueField] > b[valueField] ? -1 : 1,
+    );
     const getLabels = () =>
-      sortedItems.map((item: any) => `${item[labelField]} (${item[valueField]})`);
+      sortedItems.map(
+        (item: any) => `${item[labelField]} (${item[valueField]})`,
+      );
     const getData = () => sortedItems.map((item: any) => item[valueField]);
     const getColors = () => sortedItems.map((item: any) => item[colorField]);
     return (
@@ -52,6 +62,7 @@ export const DoughnutChart = memo(
             },
             plugins: {
               legend: {
+                onClick: (e) => {},
                 display: true,
                 position: 'right',
                 labels: {
