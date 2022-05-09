@@ -1,11 +1,22 @@
+// React
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// Hooks
+import { useTranslation } from 'react-i18next';
+
+// Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
+import { Sessions } from '../Session';
+import { Dropdown } from '../_ui';
+
+// Actions
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
 import {
   fetchSessions,
   fetchSimpleStat,
 } from '../../stores/reducers/sessons.reducer';
+
+// Selectors
 import { selectChargerStatuses } from '../../stores/selectors/charger.selector';
 import { fetchStatistics } from '../../stores/reducers/stats.reducer';
 import { getLocation } from '../../stores/selectors/location.selector';
@@ -16,14 +27,50 @@ import { addFilterForExportTransaction } from '../../stores/reducers/transaction
 export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
+  const { t } = useTranslation();
+  const [locationsDropdown, setlocationsDropdown] = useState<
+    {
+      id?: string;
+      label: string;
+      selected: Boolean;
+    }[]
+  >();
+
+  useEffect(() => {
+    const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
+    arr.push({
+      label: t('all_location'),
+      selected: false,
+    });
+    const locationArr = locations.map((location) => {
+      return {
+        id: location.id,
+        label: location.name,
+        selected: false,
+      };
+    });
+    setlocationsDropdown(arr.concat(locationArr));
+  }, [locations]);
+
   const [locationId, setLocation] = useState<string | undefined>();
   const chargerStatus = useSelector(selectChargerStatuses(locationId));
-  const locationChanged = (location: any) => {
-    setLocation(location?.id);
+  const locationChanged = (selectedlocation: any) => {
+    setLocation(selectedlocation?.id);
+    const location = locations.find(
+      (_location) => _location.id === selectedlocation.id,
+    );
     dispatch(fetchSessions({ locations: location }));
     dispatch(fetchSimpleStat({ locations: location }));
     dispatch(fetchStatistics({ locationId: location?.id, currency: 'CAD' }));
     dispatch(addFilterForExportTransaction({ locations: location }));
+    setlocationsDropdown(
+      locationsDropdown?.map((data) => {
+        return {
+          ...data,
+          selected: data.id === selectedlocation.id,
+        };
+      }),
+    );
   };
 
   useEffect(() => {
@@ -36,9 +83,8 @@ export const Overview = () => {
         <Dropdown
           title='Location'
           headerWidth='auto'
-          items={locations}
+          items={locationsDropdown}
           white
-          label='name'
           onItemClick={locationChanged}
         />
       </div>
@@ -54,7 +100,7 @@ export const Overview = () => {
         <DataReport />
       </div>
       <div className='mt-6 block'>
-        <Sessions />
+        <Sessions locationId={locationId} />
       </div>
     </>
   );
