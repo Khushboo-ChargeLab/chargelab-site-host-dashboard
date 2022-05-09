@@ -55,17 +55,15 @@ export const Summary = () => {
   }, [dispatch]);
 
   return (
-    <Card title=''>
-      <div className='block'>
-        <DateTimePicker
-          showMonthYearPicker
-          onChange={dateChanged}
-          defaultDate={new Date()}
-          maxDate={new Date()}
-        />
-      </div>
+    <Card className='flex flex-col' title=''>
+      <DateTimePicker
+        showMonthYearPicker
+        onChange={dateChanged}
+        defaultDate={new Date()}
+        maxDate={new Date()}
+      />
       <div className='flex items-center mt-4'>
-        <div className='block text-center w-60  h-36'>
+        <div className='block text-center flex-grow h-36'>
           <Label
             type={LabelType.BODY1}
             text='Fees collected'
@@ -78,7 +76,7 @@ export const Summary = () => {
           />
         </div>
         <div className='block ml-1 mr-1 divider'>&nbsp;</div>
-        <div className='block text-center w-60  h-36'>
+        <div className='block text-center flex-grow  h-36'>
           <Label
             type={LabelType.BODY1}
             text='Energy used'
@@ -91,7 +89,7 @@ export const Summary = () => {
           />
         </div>
         <div className='block ml-1 mr-1 divider'>&nbsp;</div>
-        <div className='block text-center w-60  h-36'>
+        <div className='block text-center flex-grow  h-36'>
           <Label
             type={LabelType.BODY1}
             text='Sessions'
