@@ -278,7 +278,7 @@ export const Sessions = () => {
             component: (row: any) => (
               <Label
                 text={
-                  row.consumedEnergyKwh ? `${row.consumedEnergyKwh} kWh` : ''
+                  row.consumedEnergyKwh ? `${row.consumedEnergyKwh} kWh` : '0 kWh'
                 }
                 type={LabelType.BODY3}
               />
