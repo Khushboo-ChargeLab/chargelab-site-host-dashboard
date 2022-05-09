@@ -30,3 +30,6 @@ chargers_price_free,Free,Free,Free
 vertical_bar_chart_no_data,No Data,No Data,No Data
 vertical_bar_chart_no_data_desc,Monthly charging history will be shown here,Monthly charging history will be shown here,Monthly charging history will be shown here
 overview_charger_status,Charger status,Charger status,Charger status
+date_picker_last_week,Last week,Last week,Last week
+date_picker_last_month,Last month,Last month,Last month
+date_picker_custom_range,Custom range,Custom range,Custom range
