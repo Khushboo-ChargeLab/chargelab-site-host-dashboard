@@ -83,7 +83,7 @@ export const Chargers = () => {
   useEffect(() => {
     const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
     arr.push({
-      label: t('All Locations'),
+      label: t('all_location'),
       selected: false,
     });
     const locationArr = locations.map((location) => {

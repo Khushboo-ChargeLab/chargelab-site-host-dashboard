@@ -14,7 +14,8 @@ export const AppHeader = () => {
         <Label text={current.title} type={LabelType.H3} />
       </div>
       <div className='flex justify-end items-center w-1/2 text-right pr-10'>
-        <Badge label="8" icon={bell} />
+        {/* hide for sprint 1
+        <Badge label="8" icon={bell} /> */}
         <ImageViewer circle className='w-10 h-10 ml-3' />
       </div>
     </div>

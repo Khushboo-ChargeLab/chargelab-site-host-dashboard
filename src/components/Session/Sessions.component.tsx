@@ -23,7 +23,11 @@ import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
 
-export const Sessions = () => {
+interface SessionsProps {
+  locationId?: string | undefined;
+}
+
+export const Sessions = ({ locationId }: SessionsProps) => {
   const dispatch = useDispatch();
   const recentSessions = useSelector(selectRecentSessions);
   const chargers = useSelector(selectChargers);
@@ -33,22 +37,28 @@ export const Sessions = () => {
   const [chargerData, setChargerData] = useState<
     { id: string; label: string | undefined; selected: boolean }[]
   >([]);
-
+  const [_locationId, setLocationId] = useState(locationId);
   useEffect(() => {
-    setChargerData(
-      chargers.map((charger) => ({
+    setLocationId(locationId);
+  }, [locationId]);
+  const getDefaultChargerData = (_id: any) => {
+    return chargers
+      .filter((charger) => !_id || charger.location?.id === _id)
+      .map((charger: any) => ({
         id: charger.id,
         label: charger.name,
         selected: false,
-      })),
-    );
-  }, [chargers]);
+      }));
+  };
+
+  useEffect(() => {
+    setChargerData(getDefaultChargerData(_locationId));
+  }, [chargers, _locationId]);
 
   const refreshGrid = useCallback(
     async (page: number) => {
       setCurrentPage(page);
       if (page === 1) {
-        console.log('filter:', filter);
         dispatch(fetchSessions({ page, ...filter }));
       }
       // Fetch data
@@ -67,13 +77,7 @@ export const Sessions = () => {
   );
 
   const handleClearAllClick = () => {
-    setChargerData(
-      chargers.map((charger) => ({
-        id: charger.id,
-        label: charger.name,
-        selected: false,
-      })),
-    );
+    setChargerData(getDefaultChargerData(_locationId));
     setFilter({
       ...filter,
       charger: [],
@@ -202,7 +206,6 @@ export const Sessions = () => {
     refreshGrid(1);
   }, [refreshGrid]);
 
-  console.log('chargerData:', chargerData);
   return (
     <Card title='Recent sessions'>
       <div className='flex mt-3 mb-8 w-full'>

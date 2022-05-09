@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { fetchSimpleStat } from '../../stores/reducers/sessons.reducer';
 import { getFormattedSimpleStats } from '../../stores/selectors/session.selector';
-import { Button, Card, DateTimePicker, Switch, VerticalBarChart } from '../_ui';
+import { Button, Card, DateTimePicker, Label, LabelType, Switch, VerticalBarChart } from '../_ui';
 import { ButtonSize, ButtonType } from '../_ui/Button.component';
 import './Data-Report.component.scss';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
+import { noData } from '../../lib';
 
 export const DataReport = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [valueField, setValueField] = useState('revenue');
   const stats = useSelector(getFormattedSimpleStats);
@@ -62,6 +65,34 @@ export const DataReport = () => {
 
   const onTickLabel = (tickValue: any) => getFormattedText(tickValue);
 
+  const renderVerticalBarChart = () => {
+    if (stats?.length > 0) {
+      return (
+        <VerticalBarChart
+          items={stats}
+          className='flex h-52 w-full'
+          dateField='date'
+          valueField={valueField}
+          onTickLabel={onTickLabel}
+          onTooltipTitle={onTooltipTitle}
+        />
+      );
+    }
+    return (
+      <div className='flex flex-col justify-center h-52'>
+        <div className='flex justify-center'>
+          <img className='w-8 h-7 grey5' src={noData} alt='' />
+        </div>
+        <div className='flex justify-center my-2'>
+          <Label text={t('vertical_bar_chart_no_data')} type={LabelType.H4} />
+        </div>
+        <div className='flex justify-center mt-2'>
+          <Label text={t('vertical_bar_chart_no_data_desc')} type={LabelType.BODY3_G5} className='text-base' />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Card>
       <div className='flex mt-3 mb-8 w-full'>
@@ -91,14 +122,7 @@ export const DataReport = () => {
           />
         </div>
       </div>
-      <VerticalBarChart
-        items={stats}
-        className='flex h-52 w-full'
-        dateField='date'
-        valueField={valueField}
-        onTickLabel={onTickLabel}
-        onTooltipTitle={onTooltipTitle}
-      />
+      {renderVerticalBarChart()}
     </Card>
   );
 };
