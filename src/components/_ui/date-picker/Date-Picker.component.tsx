@@ -25,7 +25,7 @@ export interface InputProps {
 
 export const DateTimePicker = memo(
   ({
-    defaultDate,
+    defaultDate = new Date(),
     onChange,
     showMonthYearPicker = false,
     format = 'MMM yyyy',

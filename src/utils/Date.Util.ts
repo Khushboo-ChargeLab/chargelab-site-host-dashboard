@@ -5,6 +5,7 @@ import {
   toDate,
   parseISO,
   differenceInMinutes,
+  getYear, getMonth,
 } from 'date-fns';
 
 export const formatDate = (date: Date, dateFormat: string = 'LLL dd, yyyy') => {
@@ -61,4 +62,16 @@ export const getDifferenceInMinutes = (laterDate: Date, earlierDate: Date, optio
     return differenceInMinutes(laterDate, earlierDate, options);
   }
   return '';
+};
+
+export const formatDateRange = (dates: Date[]) => {
+  if (!dates || dates.length < 2 || dates[0] >= dates[1]) return '';
+
+  if (getYear(dates[0]) === getYear(dates[1])) {
+    if (getMonth(dates[0]) === getMonth(dates[1])) {
+      return `${format(dates[0], 'LLL dd')} - ${format(dates[1], 'dd, yyyy')}`;
+    }
+      return `${format(dates[0], 'LLL dd')} - ${format(dates[1], 'LLL dd, yyyy')}`;
+  }
+    return `${format(dates[0], 'LLL dd, yyyy')} - ${format(dates[1], 'LLL dd, yyyy')}`;
 };
