@@ -27,6 +27,7 @@
   "pricing": "Pricing",
   "access": "Access",
   "chargers_price_free": "Free",
-  "vertical_bar_chart_no_data":"No Data",
-  "vertical_bar_chart_no_data_desc":"Monthly charging history will be shown here"
+  "vertical_bar_chart_no_data": "No Data",
+  "vertical_bar_chart_no_data_desc": "Monthly charging history will be shown here",
+  "overview_charger_status": "Charger status"
 }
