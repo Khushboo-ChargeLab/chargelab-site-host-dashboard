@@ -47,7 +47,10 @@ export const DataReport = () => {
         return convertToLocaleCurrency(val);
       }
       case 'energyDeliveredKWh': {
-        return `${val} kWh`;
+        return `${val.toFixed(1)} kWh`;
+      }
+      case 'transactions': {
+        return val.toFixed(0);
       }
       default:
         return val;
