@@ -84,11 +84,11 @@ export const Overview = () => {
           onItemClick={locationChanged}
         />
       </div>
-      <div className='flex w-full mt-6'>
-        <div className='inline-block w-2/5 pr-3'>
+      <div className='flex flex-row mt-6 gap-6'>
+        <div className='inline-block w-96'>
           <ChargerStatusChart data={chargerStatus} />
         </div>
-        <div className='inline-block w-3/5 pl-3'>
+        <div className='flex-grow'>
           <Summary />
         </div>
       </div>
