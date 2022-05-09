@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { alert, completed } from '../../lib';
+import { alert, charging, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
 import { selectRecentSessions } from '../../stores/selectors/session.selector';
@@ -268,13 +268,23 @@ export const Sessions = ({ locationId }: SessionsProps) => {
           {
             key: 'status',
             title: 'Status',
-            component: (row: any) => (
-              <Label
-                text={(row.status || 'Completed').replace('ENDED', 'Completed')}
-                type={LabelType.BODY3}
-                icon={row.status === 'Failed' ? alert : completed}
-              />
-            ),
+            component: (row: any) => {
+              let statusIcon = '';
+                if (row?.status?.toLowerCase() === 'preparing' || row?.status?.toLowerCase() === 'in_progress') {
+                  statusIcon = charging;
+                } else if (row?.status?.toLowerCase() === 'failed') {
+                  statusIcon = alert;
+                } else {
+                  statusIcon = completed;
+                }
+              return (
+                <Label
+                  text={(row.status || 'Completed').replace('ENDED', 'Completed').replace('FAILED', 'Failed').replace('PREPARING', 'Preparing').replace('IN_PROGRESS', 'Charging')}
+                  type={LabelType.BODY3}
+                  icon={statusIcon}
+                />
+              );
+            },
           },
           {
             key: 'consumedEnergyKwh',
