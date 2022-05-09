@@ -10,8 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
-import { convertToLocaleCurrency } from '../../../utils/Currency.Util';
-import { getShortMonth, formatDate } from '../../../utils/Date.Util';
+import { getShortMonth, formatDate, convertToDate } from '../../../utils/Date.Util';
 import { getCurrentTheme } from '../../../stores/selectors/theme.selector';
 
 ChartJS.register(
@@ -51,7 +50,7 @@ export const VerticalBarChart = memo(
     const getData = () => items.map((item: any) => item[valueField]);
 
     const getTooltipLabel = (context: any) =>
-      formatDate(items[context.dataIndex][dateField], 'MMM, yyyy');
+      formatDate(convertToDate(items[context.dataIndex][dateField]), 'MMM, yyyy');
 
     const data = getData();
     const max = Math.max(...data);
@@ -99,6 +98,7 @@ export const VerticalBarChart = memo(
             },
             plugins: {
               tooltip: {
+                displayColors: false,
                 boxHeight: 0,
                 boxWidth: 0,
                 xAlign: 'center',
