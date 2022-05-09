@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { alert, charging, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
-import { selectRecentSessions } from '../../stores/selectors/session.selector';
+import { getSortedRecentSessions } from '../../stores/selectors/session.selector';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import { convertToDate } from '../../utils/Date.Util';
 import {
@@ -30,7 +30,7 @@ interface SessionsProps {
 
 export const Sessions = ({ locationId }: SessionsProps) => {
   const dispatch = useDispatch();
-  const recentSessions = useSelector(selectRecentSessions);
+  const recentSessions = useSelector(getSortedRecentSessions);
   const chargers = useSelector(selectChargers);
 
   const [filter, setFilter] = useState({});
@@ -292,7 +292,9 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             component: (row: any) => (
               <Label
                 text={
-                  row.consumedEnergyKwh || row.consumedEnergyKwh === 0 ? `${row.consumedEnergyKwh.toFixed(1)} kWh` : ''
+                  row.consumedEnergyKwh || row.consumedEnergyKwh === 0
+                    ? `${row.consumedEnergyKwh.toFixed(1)} kWh`
+                    : ''
                 }
                 type={LabelType.BODY3}
               />
@@ -304,7 +306,12 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             component: (row: any) => (
               <Label
                 text={
-                  row.billedTotalAmount || row.billedTotalAmount === 0 ? `${convertToLocaleCurrency(row.billedTotalAmount, row.billedCurrency)}` : ''
+                  row.billedTotalAmount || row.billedTotalAmount === 0
+                    ? `${convertToLocaleCurrency(
+                        row.billedTotalAmount,
+                        row.billedCurrency,
+                      )}`
+                    : ''
                 }
                 type={LabelType.BODY3}
               />
