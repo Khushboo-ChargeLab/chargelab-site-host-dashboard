@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   chargers,
   chargerSelected,
@@ -25,6 +26,8 @@ interface InputProps {
 }
 
 export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const chargerPageNavigation: AppNavigator = {
@@ -42,7 +45,7 @@ export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
     <Card className='h-full'>
       <div className='flex w-full mb-4'>
         <div className='flex w-1/2 items-center'>
-          <Label type={LabelType.H4} text='Charger Status' className='pl-4' />
+          <Label type={LabelType.H4} text=t('overview_charger_status') className='pl-4' />
         </div>
         <div className='flex justify-end w-1/2'>
           <Button
