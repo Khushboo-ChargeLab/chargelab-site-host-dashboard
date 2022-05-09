@@ -34,6 +34,7 @@ interface VerticalBarChartProps {
 }
 
 const MAX_TICKS_LIMIT = 6;
+const MIN_BAR_NUMBER = 12;
 
 export const VerticalBarChart = memo(
   ({
@@ -46,8 +47,14 @@ export const VerticalBarChart = memo(
     onTooltipTitle,
   }: VerticalBarChartProps) => {
     const theme = useSelector(getCurrentTheme);
-    const getLabels = () =>
-      items.map((item: any) => getShortMonth(item[dateField]));
+    const getLabels = () => {
+      const labels = items.map((item: any) => getShortMonth(item[dateField]));
+
+      // Chart.js doesn't have a param can make bar left align, so we fill empty data to push it to the left.
+      return labels.length < MIN_BAR_NUMBER
+        ? labels.concat(Array(MIN_BAR_NUMBER - labels.length).fill(''))
+        : labels;
+    };
     const getData = () => items.map((item: any) => item[valueField]);
 
     const getTooltipLabel = (context: any) =>
