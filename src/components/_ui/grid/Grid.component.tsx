@@ -45,8 +45,8 @@ export const Grid = ({
     setCurrentPage(pageIndex);
   }, [pageIndex]);
   return (
-    <>
-      <div className='table w-full'>
+    <div className='flex flex-col'>
+      <table className='table-auto min-w-full'>
         <GridHeader columns={columns} />
 
         <GridBody
@@ -57,13 +57,13 @@ export const Grid = ({
           pageIndex={pageIndex}
           primaryKey={primaryKey}
         />
-      </div>
+      </table>
 
       <GridPager
         totalPage={totalPage || 1}
         currentPage={currentPage}
         loadPage={loadMoreData}
       />
-    </>
+    </div>
   );
 };
