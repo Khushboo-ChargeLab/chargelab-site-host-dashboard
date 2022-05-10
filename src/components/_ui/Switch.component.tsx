@@ -46,7 +46,6 @@ export const Switch = memo(
         >
           {options.map((op, index) => {
             const isSelected = selected === op || (!selected && index === 0);
-            console.log('isSelected:', isSelected);
             return (
               <div
                 key={op}
