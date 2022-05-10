@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
-import { Sessions } from '../Session';
+import { Sessions } from '../Session/Sessions.component';
 import { Dropdown } from '../_ui';
 
 // Actions
