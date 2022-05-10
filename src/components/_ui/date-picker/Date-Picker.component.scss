@@ -1,4 +1,9 @@
 .react-datepicker-year-header{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
     background-color: white;
     border-bottom: none;
     display: flex;
@@ -19,7 +24,9 @@
     border-radius: 8px;
 }
 .react-datepicker__month-text{
-    width: 78px;
+    font-family: 'Inter';
+    font-style: normal;
+    width: 78px!important;
     height: 40px;
     border-radius: 4px;
     padding-top: 10px;
