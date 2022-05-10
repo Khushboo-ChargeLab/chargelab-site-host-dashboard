@@ -108,6 +108,9 @@ export class ModalForm extends React.Component {
               marginRight: '-50%',
               transform: 'translate(-50%, -50%)',
             },
+            overlay: {
+              backgroundColor: 'rgba(32,34,35,0.5)',
+            },
           }}
         >
           {type === 'MODAL' ? (
