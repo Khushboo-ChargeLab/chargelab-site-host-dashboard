@@ -41,7 +41,7 @@ const MIN_BAR_NUMBER = 12;
 
 export const VerticalBarChart = memo(
   ({
-    barBgColor = '#3DBAE3',
+    barBgColor = '#18A0D7',
     items = [],
     className = 'flex w-full h-60',
     dateField = 'date',
