@@ -18,6 +18,7 @@
   "chargers_trouble_desc": "The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:",
   "chargers_trouble_solution_1": "Confirm that the charger that needs attention is powered on",
   "chargers_trouble_solition_2": "If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router",
+  "chargers_trouble_solution_3": "Try rebooting your charger",
   "location": "Location",
   "status": "Status",
   "all_location": "All Locations",
