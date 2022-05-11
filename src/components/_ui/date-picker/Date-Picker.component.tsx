@@ -1,7 +1,7 @@
 import React, { forwardRef, memo, useCallback, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { chevdown, chevnext, chevpre } from '../../../lib';
+import { arrowLeft, arrowRight, chevdown, chevnext, chevpre, close } from '../../../lib';
 import {
   formatDate,
   addMonths,
@@ -173,6 +173,17 @@ export const DateTimePicker = memo(
           endDate={endDateRange}
           onChange={(update: any) => updateDateRangeData(update)}
           customInput={<DateRangeCustomInput />}
+          useWeekdaysShort
+          previousMonthButtonLabel={
+            (
+              <img src={arrowLeft} alt='' style={{ 'width': '16px', 'height': '12px' }} />
+            )
+          }
+          nextMonthButtonLabel={
+            (
+              <img src={arrowRight} alt='' style={{ 'width': '16px', 'height': '12px' }} />
+            )
+          }
         />
       );
     }
@@ -185,6 +196,16 @@ export const DateTimePicker = memo(
         selectsRange={dateRange}
         customInput={<DateCustomInput />}
         maxDate={maxDate}
+        previousYearButtonLabel={
+          (
+            <img src={arrowLeft} alt='' style={{ 'width': '16px', 'height': '12px' }} />
+          )
+        }
+        nextYearButtonLabel={
+          (
+            <img src={arrowRight} alt='' style={{ 'width': '16px', 'height': '12px' }} />
+          )
+        }
       />
     );
   },

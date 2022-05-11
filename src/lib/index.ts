@@ -40,6 +40,8 @@ import sun from '../assets/icons/sun.svg';
 import moon from '../assets/icons/moon.svg';
 import halfsun from '../assets/icons/halfsun.svg';
 import connector from '../assets/icons/connector.svg';
+import arrowLeft from '../assets/icons/arrow-left.svg';
+import arrowRight from '../assets/icons/arrow-right.svg';
 
 export {
   chargelab,
@@ -84,4 +86,6 @@ export {
   moon,
   halfsun,
   connector,
+  arrowLeft,
+  arrowRight,
 };
