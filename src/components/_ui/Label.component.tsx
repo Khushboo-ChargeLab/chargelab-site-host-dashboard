@@ -27,6 +27,7 @@ export enum LabelType {
   BUTTON_INFO = 'text-sm font-semibold font-sans text-[#18A0D7]',
   BUTTON_ALERT = 'text-sm font-semibold font-sans text-white',
   DROPDOWN_HEADER = 'text-sm font-medium font-sans text-grey6',
+  DROPDOWN_HEADER_SELECTED = 'text-sm font-medium font-sans text-white',
   DROPDOWN_ITEM_SELECTED = 'text-sm font-normal font-sans text-blue-light',
   PLACE_HOLDER = 'text-base font-semibold font-sans text-grey4',
 }

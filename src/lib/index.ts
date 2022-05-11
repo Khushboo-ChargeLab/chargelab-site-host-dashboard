@@ -17,6 +17,7 @@ import alert from '../assets/icons/alert.svg';
 import warning from '../assets/icons/warning.svg';
 import info from '../assets/icons/info.svg';
 import chevdown from '../assets/icons/chevron_down.svg';
+import chevdownSelected from '../assets/icons/chevron_down_selected.svg';
 import chevnext from '../assets/icons/chev-next.svg';
 import chevpre from '../assets/icons/chev-pre.svg';
 import bell from '../assets/icons/bell.svg';
@@ -61,6 +62,7 @@ export {
   warning,
   info,
   chevdown,
+  chevdownSelected,
   chevnext,
   chevpre,
   bell,

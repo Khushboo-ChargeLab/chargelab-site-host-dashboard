@@ -217,6 +217,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             type={DropdownType.CHECKBOX}
             items={chargerData}
             onItemClick={chargerSelected}
+            headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
           />
           <CustomDatePicker
             format='MMM d,yyyy'
