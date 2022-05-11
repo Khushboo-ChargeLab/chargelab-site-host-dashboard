@@ -14,9 +14,13 @@ export const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [email, setEmail] = useState<string>('');
+  // the country code is coming from the dropdown
   const [phoneNumberCountryCode, setPhoneNumberCountryCode] = useState<string>('+1');
+  // the one time code sent to email / phone
   const [otp, setOtp] = useState<string>('');
+  // the timer on the OTP page
   const [otpTimer, setOtpTimer] = useState<string>('');
+  // state to check if the resend code was clicked
   const [resendOtpClicked, setResendOtpClicked] = useState<boolean>(false);
   const theme = useSelector(getCurrentTheme);
   // checks for 2 or more consecutive numeric characters
@@ -51,13 +55,18 @@ export const Login = () => {
 
   const otpChanged = async (evt: any) => {
     setOtp(evt);
+    if (step === 1 && evt.length >= 5) {
+      setLoading(true);
+      await codeVerification(evt);
+    }
   };
 
-  const formatPhoneNumberInternational = () => {
+  // Outputs in this format: +1 (647) 594-2080, else +1 6475942080
+  const formatPhoneNumberNational = () => {
     try {
-      return parsePhoneNumber(`${phoneNumberCountryCode}${email}`).formatInternational();
+      return `${phoneNumberCountryCode} ${parsePhoneNumber(`${phoneNumberCountryCode}${email}`).formatNational()}`;
     } catch (e) {
-      return `${phoneNumberCountryCode}${email}`;
+      return `${phoneNumberCountryCode} ${email}`;
     }
   };
 
@@ -105,6 +114,7 @@ export const Login = () => {
       await codeVerification(otp);
     }
   };
+  // timer function used in resend OTP state reset
   const timer = (remaining: number) => {
     const m = Math.floor(remaining / 60);
     const s = remaining % 60;
@@ -187,7 +197,7 @@ export const Login = () => {
                 <div className='text-base text-grey font-normal mt-1'>
                   We sent a 5-digit code to
                   <span className='text-blue2'>
-                    {!isPhoneNumber() ? ` ${email}. ` : ` ${formatPhoneNumberInternational()}. `}
+                    {!isPhoneNumber() ? ` ${email}. ` : ` ${formatPhoneNumberNational()}. `}
                   </span>
                   Code expires in 1 minute.
                 </div>
