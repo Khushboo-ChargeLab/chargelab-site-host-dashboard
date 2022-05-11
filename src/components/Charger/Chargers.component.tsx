@@ -135,6 +135,12 @@ export const Chargers = () => {
                       type={LabelType.BODY3_GREY6}
                     />
                   </li>
+                  <li>
+                    <Label
+                      text={t('chargers_trouble_solution_3')}
+                      type={LabelType.BODY3_GREY6}
+                    />
+                  </li>
                 </ul>
               )}
             </div>
