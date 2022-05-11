@@ -116,6 +116,38 @@ export const CustomDatePicker = memo(
       }
     };
 
+    const renderDateTimePicker = () => {
+      const selectedOptionId = options.find((o) => o.selected)?.id;
+      if (selectedOptionId === DATE_RANGE.CUSTOM_RANGE) {
+        return (
+          <div className='flex p-1'>
+            <DateTimePicker
+              dateRange={dataRange}
+              className='min-width-190'
+              defaulttext='Choose a range'
+              onChange={customDateChanged}
+              format={format}
+            />
+          </div>
+        );
+      }
+      return (
+        <div className='flex p-1'>
+          <div className="react-datepicker-wrapper">
+            <div className="react-datepicker__input-container">
+              <button className='date-range-selector bg-silver min-width-190'>
+                <div className='block'>
+                  <div className='text-left ml-2 text-grey4 text-[12px] font-normal'>
+                    Choose a range
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
     return (
       <div ref={ref}>
         <div
@@ -140,15 +172,7 @@ export const CustomDatePicker = memo(
             onChange={optionChanged}
             defaultItems={options}
           />
-          <div className='flex p-1'>
-            <DateTimePicker
-              dateRange={dataRange}
-              className='min-width-190'
-              defaulttext='Choose a range'
-              onChange={customDateChanged}
-              format={format}
-            />
-          </div>
+          {renderDateTimePicker()}
         </div>
       </div>
     );
