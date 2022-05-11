@@ -260,43 +260,47 @@ export const Chargers = () => {
   };
 
   const renderSelectedStatus = () => {
-    return statusList
-      .filter((item) => item.selected)
-      .map((item) => {
-        return (
-          <Pill
-            key={item.label}
-            label={item.label}
-            labelType={LabelType.PILL_DROPDOWN}
-            isButton
-            onClick={() => handlePillClick(item)}
-            autoWidth
-          />
-        );
-      });
+    if (!statusList.some((item) => item.selected)) {
+      return <div className='mt-5' />;
+    }
+    return (
+      <div className='flex flex-row gap-2 mt-5 mb-6'>
+        {statusList
+          .filter((item) => item.selected)
+          .map((item) => {
+            return (
+              <Pill
+                key={item.label}
+                label={item.label}
+                labelType={LabelType.PILL_DROPDOWN}
+                isButton
+                onClick={() => handlePillClick(item)}
+                autoWidth
+              />
+            );
+          })}
+      </div>
+    );
   };
 
   const renderDropdown = () => {
     return (
-      <div className='flex flex-col gap-5'>
-        <div className='flex gap-3'>
-          {locations && (
-            <Dropdown
-              title={t('location')}
-              headerWidth='auto'
-              items={locationsDropdown}
-              onItemClick={handleLocationSelected}
-            />
-          )}
+      <div className='flex gap-3'>
+        {locations && (
           <Dropdown
-            title={t('status')}
-            type={DropdownType.CHECKBOX}
+            title={t('location')}
             headerWidth='auto'
-            items={statusList}
-            onItemClick={(items: any) => setStatusList(items)}
+            items={locationsDropdown}
+            onItemClick={handleLocationSelected}
           />
-        </div>
-        <div className='flex flex-row gap-5'>{renderSelectedStatus()}</div>
+        )}
+        <Dropdown
+          title={t('status')}
+          type={DropdownType.CHECKBOX}
+          headerWidth='auto'
+          items={statusList}
+          onItemClick={(items: any) => setStatusList(items)}
+        />
       </div>
     );
   };
@@ -305,8 +309,9 @@ export const Chargers = () => {
     return (
       <div>
         {chargers && (
-          <div className='flex flex-col gap-6 mt-6'>
-            <div className='flex gap-3'>{renderDropdown()}</div>
+          <div className='flex flex-col mt-6'>
+            {renderDropdown()}
+            {renderSelectedStatus()}
             <Grid
               onRowClick={rowClick}
               pageIndex={currentPage}
