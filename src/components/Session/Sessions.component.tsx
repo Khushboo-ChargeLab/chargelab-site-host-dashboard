@@ -234,7 +234,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
       </div>
 
       {chargerData.some((c: any) => c.selected) && (
-        <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
+        <div className='mt-3 mb-8 inline-flex flex-wrap gap-2'>
           {renderSelectedCharger()}
           {renderClearAllButton()}
         </div>
@@ -270,16 +270,23 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             title: 'Status',
             component: (row: any) => {
               let statusIcon = '';
-                if (row?.status?.toLowerCase() === 'preparing' || row?.status?.toLowerCase() === 'in_progress') {
-                  statusIcon = charging;
-                } else if (row?.status?.toLowerCase() === 'failed') {
-                  statusIcon = alert;
-                } else {
-                  statusIcon = completed;
-                }
+              if (
+                row?.status?.toLowerCase() === 'preparing' ||
+                row?.status?.toLowerCase() === 'in_progress'
+              ) {
+                statusIcon = charging;
+              } else if (row?.status?.toLowerCase() === 'failed') {
+                statusIcon = alert;
+              } else {
+                statusIcon = completed;
+              }
               return (
                 <Label
-                  text={(row.status || 'Completed').replace('ENDED', 'Completed').replace('FAILED', 'Failed').replace('PREPARING', 'Preparing').replace('IN_PROGRESS', 'Charging')}
+                  text={(row.status || 'Completed')
+                    .replace('ENDED', 'Completed')
+                    .replace('FAILED', 'Failed')
+                    .replace('PREPARING', 'Preparing')
+                    .replace('IN_PROGRESS', 'Charging')}
                   type={LabelType.BODY3}
                   icon={statusIcon}
                 />
