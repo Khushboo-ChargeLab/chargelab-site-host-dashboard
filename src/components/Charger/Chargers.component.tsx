@@ -329,9 +329,11 @@ export const Chargers = () => {
   };
 
   return (
-    <Card>
-      {renderChargerOverview()}
-      {renderChargerTable()}
-    </Card>
+    <div className='pb-12'>
+      <Card>
+        {renderChargerOverview()}
+        {renderChargerTable()}
+      </Card>
+    </div>
   );
 };
