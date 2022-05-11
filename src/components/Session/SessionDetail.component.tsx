@@ -57,7 +57,7 @@ const checkSessionStatusForDivVisiblity = (status: any) => {
 
 const renderStartTimeDiv = (startTime: any) => {
   return (
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Start time' type={LabelType.H7} className='basis-2/6' />
       <Label
         text={startTime ? formatDateTime(startTime, 'LLL dd, yyyy h:mm a') : ''}
@@ -69,7 +69,7 @@ const renderStartTimeDiv = (startTime: any) => {
 
 const renderEndTimeDiv = (endTime: any) => {
   return (
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='End time' type={LabelType.H7} className='basis-2/6' />
       <Label
         text={endTime ? formatDateTime(endTime, 'LLL dd, yyyy h:mm a') : ''}
@@ -83,7 +83,7 @@ const renderDurationDiv = (endTime: any, startTime: any) => {
   const mins = getDifferenceInMinutes(endTime, startTime);
   const unit = mins > 1 ? 'mins' : 'min';
   return (
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Duration' type={LabelType.H7} className='basis-2/6' />
       <Label
         text={endTime && startTime ? `${mins} ${unit}` : ''}
@@ -95,7 +95,7 @@ const renderDurationDiv = (endTime: any, startTime: any) => {
 
 const renderEnergyUsedDiv = (kWhUsed: any) => {
   return (
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='kWh used' type={LabelType.H7} className='basis-2/6' />
       <Label
         text={!kWhUsed ? '0 kWh' : `${convertToThousandSeperator(kWhUsed)} kWh`}
@@ -107,7 +107,7 @@ const renderEnergyUsedDiv = (kWhUsed: any) => {
 
 const renderCostDiv = (amount: any, currency: any) => {
   return (
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Cost' type={LabelType.H7} className='basis-2/6' />
       <Label
         text={convertToLocaleCurrency(amount || 0, currency)}
@@ -118,14 +118,14 @@ const renderCostDiv = (amount: any, currency: any) => {
 };
 
 export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
-  <div className='flex flex-col'>
+  <div className='flex flex-col py-2 gap-5'>
     {sessionData.sessionStatus !== 'FAILED' &&
       renderStartTimeDiv(sessionData.startTime)}
     {checkSessionStatusForDivVisiblity(sessionData.sessionStatus) &&
       renderEndTimeDiv(sessionData.endTime)}
     {checkSessionStatusForDivVisiblity(sessionData.sessionStatus) &&
       renderDurationDiv(sessionData.endTime, sessionData.startTime)}
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label
         text='Authentication type'
         type={LabelType.H7}
@@ -133,11 +133,15 @@ export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
       />
       <Label text={sessionData.authenticationType} type={LabelType.BODY3} />
     </div>
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Charger' type={LabelType.H7} className='basis-2/6' />
-      <Pill label={sessionData.charger} labelType={LabelType.PILL_DROPDOWN} autoWidth />
+      <Pill
+        label={sessionData.charger}
+        labelType={LabelType.PILL_DROPDOWN}
+        autoWidth
+      />
     </div>
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Connector' type={LabelType.H7} className='basis-2/6' />
       <Label text={sessionData.connectorSide} type={LabelType.BODY3_G5} />
       <Label
@@ -146,11 +150,11 @@ export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
         icon={connector}
       />
     </div>
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Location' type={LabelType.H7} className='basis-2/6' />
       <Label text={sessionData.location} type={LabelType.BODY3} />
     </div>
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Address' type={LabelType.H7} className='basis-2/6' />
       <Label text={sessionData.address} type={LabelType.BODY3} />
     </div>
@@ -158,7 +162,7 @@ export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
       renderEnergyUsedDiv(sessionData.kwhUsed)}
     {checkSessionStatusForDivVisiblity(sessionData.sessionStatus) &&
       renderCostDiv(sessionData.cost, sessionData.currency)}
-    <div className='flex flex-row pt-4 pb-4'>
+    <div className='flex flex-row'>
       <Label text='Status history' type={LabelType.H7} className='basis-2/6' />
       <Timeline
         data={sessionData.statusHistory || []}
