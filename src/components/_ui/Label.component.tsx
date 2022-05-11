@@ -9,9 +9,10 @@ export enum LabelType {
   H5 = 'text-lg text-black font-semibold',
   H6 = 'text-base text-black font-semibold',
   H7 = 'text-sm text-grey font-semibold',
-  BODY1='text-lg font-normal text-grey6',
+  BODY1 = 'text-lg font-normal text-grey6',
   BODY2 = 'text-base text-grey font-normal',
   BODY3 = 'text-sm text-black font-normal',
+  BODY3_GREY6 = 'text-sm font-normal text-grey6',
   BODY3_G5 = 'text-sm text-grey5 font-normal',
   LABEL_S = 'text-sm text-grey5 font-medium',
   LABEL_S_BLUE2 = 'text-sm text-blue2 font-semibold',
@@ -34,18 +35,20 @@ interface InputProps {
   text: any;
   type?: LabelType;
   className?: string;
-  icon?:any;
-  style?:any;
+  icon?: any;
+  style?: any;
 }
 
-export const Label = memo(({
- text, type, className = '', icon = null,
- style = {},
-}: InputProps) => (
-  <div style={style} className={`${type || LabelType.LABEL_M} ${className} ${icon ? 'flex items-center' : ''}`}>
-    {icon && (
-      <img src={icon} alt="" className="pr-2" />
-    )}
-    {text}
-  </div>
-));
+export const Label = memo(
+  ({ text, type, className = '', icon = null, style = {} }: InputProps) => (
+    <div
+      style={style}
+      className={`${type || LabelType.LABEL_M} ${className} ${
+        icon ? 'flex items-center' : ''
+      }`}
+    >
+      {icon && <img src={icon} alt='' className='pr-2' />}
+      {text}
+    </div>
+  ),
+);

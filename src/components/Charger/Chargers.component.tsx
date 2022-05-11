@@ -112,13 +112,13 @@ export const Chargers = () => {
           {chargers && (
             <div className='flex flex-col gap-3'>
               <div className='flex flex-row items-center gap-2'>
-                <img className='w-8 h-8' src={icon} alt='' />
+                <img className='w-7 h-7' src={icon} alt='' />
                 <Label text={text} type={LabelType.H4} />
               </div>
               {troubleCount > 0 && (
                 <Label
                   text={t('chargers_trouble_desc')}
-                  type={LabelType.BODY3}
+                  type={LabelType.BODY3_GREY6}
                 />
               )}
               {troubleCount > 0 && (
@@ -126,13 +126,13 @@ export const Chargers = () => {
                   <li>
                     <Label
                       text={t('chargers_trouble_solution_1')}
-                      type={LabelType.BODY3}
+                      type={LabelType.BODY3_GREY6}
                     />
                   </li>
                   <li>
                     <Label
                       text={t('chargers_trouble_solition_2')}
-                      type={LabelType.BODY3}
+                      type={LabelType.BODY3_GREY6}
                     />
                   </li>
                 </ul>
