@@ -94,6 +94,9 @@ export const VerticalBarChart = memo(
                   callback: (tickValue: any) =>
                     (onTickLabel && onTickLabel(tickValue)) || tickValue,
                 },
+                grid: {
+                  drawBorder: false,
+                },
               },
               x: {
                 grid: {
