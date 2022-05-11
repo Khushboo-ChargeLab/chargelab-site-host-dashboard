@@ -18,7 +18,7 @@ export const Card = memo(
     <div
       className={`bg-white rounded-lg pl-5 pr-5 pt-4 pb-4 w-full ${className}`}
     >
-      {title && <Label type={titleType} text={title} className='pb-6' />}
+      {title && <Label type={titleType} text={title} className='pb-4' />}
       {children}
     </div>
   ),

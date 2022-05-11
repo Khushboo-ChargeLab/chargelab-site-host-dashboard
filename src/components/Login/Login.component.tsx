@@ -176,7 +176,7 @@ export const Login = () => {
                         onItemClick={(items: any, item: any, index: number) =>
                             setPhoneNumberCountryCode(item.label)
                         }
-                        className='h-12 mr-1.5'
+                        headerHighLightClassName='bg-silver border-grey-light2 rounded h-12 mr-1.5'
                       />
                     )}
                 {/* eslint-disable-next-line jsx-a11y/no-autofocus */}

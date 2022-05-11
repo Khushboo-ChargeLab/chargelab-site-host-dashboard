@@ -28,6 +28,7 @@ import { VerticalBarChart } from './chart/VerticalBarChart.component';
 import { SessionDetail } from '../Session/SessionDetail.component';
 import { Badge } from './Badge.component';
 import { Spinner } from './Spinner.component';
+import { DateSelector } from './date-picker/DateSelector.component';
 
 export {
   AppSideBar,
@@ -63,6 +64,7 @@ export {
   SessionDetail,
   Badge,
   Spinner,
+  DateSelector,
 };
 
 export type { CheckBoxData };
