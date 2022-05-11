@@ -56,6 +56,17 @@ export const Dropdown = memo(
       }
       return defaultTitle;
     });
+    const [_icon, setIcon] = useState(() => {
+      let defaultIcon = null;
+      if (type === DropdownType.SELECT) {
+        items.forEach((item) => {
+          if (item.selected) {
+            defaultIcon = item.icon;
+          }
+        });
+      }
+      return defaultIcon;
+    });
     const { t } = useTranslation();
     const [_items, setItems] = useState(_.cloneDeep(items));
     const [isOpen, setOpen] = useState(false);
@@ -79,6 +90,7 @@ export const Dropdown = memo(
       }));
       setItems(newItems);
       setTitle(item[label] === 'All' ? title : item[label]);
+      setIcon(item.icon || null);
 
       if (type === DropdownType.SELECT) {
         onItemClick && onItemClick(item, index);
@@ -220,7 +232,7 @@ export const Dropdown = memo(
               onClick={handleHeaderClick}
               style={{ width: headerWidth }}
             >
-              <Label text={_title} type={LabelType.DROPDOWN_HEADER} />
+              <Label text={_title} type={LabelType.DROPDOWN_HEADER} icon={_icon} />
             </button>
           </div>
         );
@@ -234,7 +246,7 @@ export const Dropdown = memo(
           onClick={handleHeaderClick}
           style={{ width: headerWidth }}
         >
-          <Label text={_title} type={LabelType.DROPDOWN_HEADER} />
+          <Label text={_title} type={LabelType.DROPDOWN_HEADER} icon={_icon} />
           <img className='pl-4' src={chevdown} alt='' />
         </button>
       );
@@ -279,6 +291,7 @@ export const Dropdown = memo(
                       : LabelType.BODY3
                   }
                   text={item[label]}
+                  icon={item.icon}
                 />
               </button>
             );
