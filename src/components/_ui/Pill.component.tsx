@@ -39,7 +39,12 @@ export const Pill = memo(
   }: InputProps) => {
     const renderButton = () => (
       <button type='button' className='flex items-center' onClick={onClick!}>
-        <Label type={LabelType.PILL_DROPDOWN_BTN} text='' icon={close} style={{ 'max-width': '23px' }} />
+        <Label
+          type={LabelType.PILL_DROPDOWN_BTN}
+          text=''
+          icon={close}
+          style={{ maxWidth: '23px' }}
+        />
       </button>
     );
 

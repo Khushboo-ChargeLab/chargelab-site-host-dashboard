@@ -5,7 +5,7 @@ import {
   toDate,
   parseISO,
   differenceInMinutes,
-  getYear, getMonth,
+  getYear, getMonth, subDays, subMonths,
 } from 'date-fns';
 
 export const formatDate = (date: Date, dateFormat: string = 'LLL dd, yyyy') => {
@@ -36,14 +36,14 @@ export const addDays = (date: Date | number, days: number) => addDaysfns(date, d
 export const addMonths = (date: Date | number, amount: number) => addMonthsfns(date, amount);
 export const differenceInDays = (startDate: Date | number, endDate: Date | number) => differenceInDaysfns(startDate, endDate);
 
-export const getLastMonth = (date?: Date) => {
-  const result = addMonths(date || new Date(), -1);
-  return [startOfMonth(result), endOfMonth(result)];
+export const getLastMonth = (date: Date = new Date()) => {
+  const startDate = subMonths(date, 1);
+  return [startDate, date];
 };
 
-export const getLastWeek = (date?: Date) => {
-  const result = addDays(date || new Date(), -7);
-  return [startOfWeek(result), endOfWeek(result)];
+export const getLastWeek = (date: Date = new Date()) => {
+  const startDate = subDays(date, 6);
+  return [startDate, date];
 };
 
 export const getShortMonth = (date: Date) => {

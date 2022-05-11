@@ -58,7 +58,7 @@ function App() {
     <div className='App'>
       <AppSideBar />
       <AppHeader />
-      <div className='absolute left-60 right-0 top-20  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
+      <div className='absolute left-60 right-0 top-16  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
         <Route exact path='/'>
           <Overview />
         </Route>
