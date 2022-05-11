@@ -217,6 +217,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             type={DropdownType.CHECKBOX}
             items={chargerData}
             onItemClick={chargerSelected}
+            headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
           />
           <CustomDatePicker
             format='MMM d,yyyy'
@@ -270,16 +271,23 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             title: 'Status',
             component: (row: any) => {
               let statusIcon = '';
-                if (row?.status?.toLowerCase() === 'preparing' || row?.status?.toLowerCase() === 'in_progress') {
-                  statusIcon = charging;
-                } else if (row?.status?.toLowerCase() === 'failed') {
-                  statusIcon = alert;
-                } else {
-                  statusIcon = completed;
-                }
+              if (
+                row?.status?.toLowerCase() === 'preparing' ||
+                row?.status?.toLowerCase() === 'in_progress'
+              ) {
+                statusIcon = charging;
+              } else if (row?.status?.toLowerCase() === 'failed') {
+                statusIcon = alert;
+              } else {
+                statusIcon = completed;
+              }
               return (
                 <Label
-                  text={(row.status || 'Completed').replace('ENDED', 'Completed').replace('FAILED', 'Failed').replace('PREPARING', 'Preparing').replace('IN_PROGRESS', 'Charging')}
+                  text={(row.status || 'Completed')
+                    .replace('ENDED', 'Completed')
+                    .replace('FAILED', 'Failed')
+                    .replace('PREPARING', 'Preparing')
+                    .replace('IN_PROGRESS', 'Charging')}
                   type={LabelType.BODY3}
                   icon={statusIcon}
                 />

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
-import { Sessions } from '../Session';
+import { Sessions } from '../Session/Sessions.component';
 import { Dropdown } from '../_ui';
 
 // Actions
@@ -80,8 +80,9 @@ export const Overview = () => {
           title='Location'
           headerWidth='auto'
           items={locationsDropdown}
-          white
           onItemClick={locationChanged}
+          headerClassName='bg-white border border-solid border-silver5 rounded'
+          headerHighLightClassName='bg-white border border-solid border-silver5 rounded'
         />
       </div>
       <div className='flex flex-row mt-6 gap-6'>
