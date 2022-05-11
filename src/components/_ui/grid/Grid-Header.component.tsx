@@ -9,7 +9,7 @@ export const GridHeader = memo(({ columns }: InputProps) => (
   <thead className='border-t border-b border-grey2'>
     <tr>
       {columns.map((col: GridColumn) => (
-        <div key={col.key} className='th pl-2 py-2'>
+        <div key={col.key} className='th py-2'>
           <Label type={LabelType.H7} text={col.title} />
         </div>
       ))}

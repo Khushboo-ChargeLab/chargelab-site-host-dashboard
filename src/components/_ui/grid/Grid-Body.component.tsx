@@ -61,7 +61,7 @@ export const GridBody = memo(
       }
       return (
         <Label
-          className='pt-2 pb-2 pl-3'
+          className='pt-2 pb-2'
           type={LabelType.BODY3}
           text={formatData(col, dataRow)}
         />
