@@ -74,7 +74,7 @@ export const Overview = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className='pb-12'>
       <div className='block'>
         <Dropdown
           title='Location'
@@ -98,6 +98,6 @@ export const Overview = () => {
       <div className='mt-6 block'>
         <Sessions locationId={locationId} />
       </div>
-    </>
+    </div>
   );
 };
