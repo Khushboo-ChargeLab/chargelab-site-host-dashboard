@@ -207,9 +207,21 @@ export const Sessions = ({ locationId }: SessionsProps) => {
     refreshGrid(1);
   }, [refreshGrid]);
 
+  const renderSelectedChargers = () => {
+    if (!chargerData.some((c: any) => c.selected)) {
+      return <div className='mt-5' />;
+    }
+    return (
+      <div className='gap-2 mt-5 mb-6 inline-flex flex-wrap'>
+        {renderSelectedCharger()}
+        {renderClearAllButton()}
+      </div>
+    );
+  };
+
   return (
     <Card title='Recent sessions'>
-      <div className='flex mt-3 mb-8 w-full'>
+      <div className='flex mt-3 w-full'>
         <div className='flex w-4/5'>
           <Dropdown
             title='Charger'
@@ -234,12 +246,8 @@ export const Sessions = ({ locationId }: SessionsProps) => {
         </div>
       </div>
 
-      {chargerData.some((c: any) => c.selected) && (
-        <div className='mt-3 mb-8 inline-flex flex-wrap gap-2'>
-          {renderSelectedCharger()}
-          {renderClearAllButton()}
-        </div>
-      )}
+      {renderSelectedChargers()}
+
       <Grid
         onRowClick={rowClick}
         pageIndex={currentPage}
