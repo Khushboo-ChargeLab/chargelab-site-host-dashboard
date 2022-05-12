@@ -205,7 +205,9 @@ export const CustomDatePicker = memo(
 
     const renderHeaderInput = () => {
       const selectedOptionId = options.find((o) => o.selected)?.id;
-      const isHighLight = selectedOptionId === DATE_RANGE.CUSTOM_RANGE;
+      const isHighLight =
+        selectedOptionId === DATE_RANGE.CUSTOM_RANGE ||
+        selectedOptionId === DATE_RANGE.LAST_MONTH;
       return (
         <div
           onClick={toggleMenu}
