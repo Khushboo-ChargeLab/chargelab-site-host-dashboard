@@ -230,6 +230,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             items={chargerData}
             onItemClick={chargerSelected}
             headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
+            inputWidth='15.3rem'
           />
           <CustomDatePicker
             format='MMM d,yyyy'
