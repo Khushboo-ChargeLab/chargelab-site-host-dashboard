@@ -12,19 +12,12 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
-import 'chartjs-plugin-style';
 import {
   getShortMonth,
   formatDate,
   convertToDate,
 } from '../../../utils/Date.Util';
 import { getCurrentTheme } from '../../../stores/selectors/theme.selector';
-
-declare module 'chart.js' {
-  interface TooltipPositionerMap {
-    myCustomPositioner: TooltipPositionerFunction<ChartType>;
-  }
-}
 
 ChartJS.register(
   CategoryScale,
@@ -69,16 +62,6 @@ export const VerticalBarChart = memo(
     };
     const getData = () => items.map((item: any) => item[valueField]);
 
-    Tooltip.positioners.myCustomPositioner = function (
-      elements,
-      eventPosition,
-    ) {
-      return {
-        x: elements[0]?.element?.x || 0,
-        y: elements[0]?.element?.y ? elements[0].element.y - 4 : 0,
-      };
-    };
-
     const getTooltipLabel = (context: any) =>
       formatDate(
         convertToDate(items[context.dataIndex][dateField]),
@@ -89,19 +72,38 @@ export const VerticalBarChart = memo(
     const max = Math.max(...data);
 
     const getOrCreateTooltip = (chart: any) => {
-      let tooltipEl = chart.canvas.parentNode.querySelector('div');
+      let tooltipRoot = chart.canvas.parentNode.querySelector('div');
 
-      if (!tooltipEl) {
-        tooltipEl = document.createElement('div');
+      if (!tooltipRoot) {
+        tooltipRoot = document.createElement('div');
+        tooltipRoot.style.display = 'flex';
+        tooltipRoot.style.flexDirection = 'column';
+        tooltipRoot.style.justifyContent = 'center';
+        tooltipRoot.style.alignItems = 'center';
+        tooltipRoot.style.width = '91px';
+        tooltipRoot.style.height = '60px';
+        tooltipRoot.style.position = 'absolute';
+        tooltipRoot.style.transform = 'translate(-50%, -100%)';
+        tooltipRoot.style.pointerEvents = 'none';
+        tooltipRoot.style.margin = 0;
+        tooltipRoot.style.padding = 0;
+        const triangleShape = document.createElement('div');
+        triangleShape.style.width = '0px';
+        triangleShape.style.height = '0px';
+        triangleShape.style.borderWidth = '0 8px 8px';
+        triangleShape.style.borderColor = 'transparent transparent #202223';
+        triangleShape.style.borderStyle = 'solid';
+        triangleShape.style.transform = 'rotate(-180deg)';
+
+        const tooltipEl = document.createElement('div');
         tooltipEl.style.width = '91px';
-        tooltipEl.style.height = '60px';
-        tooltipEl.style.background = 'black';
+        tooltipEl.style.height = '52px';
+        tooltipEl.style.background = '#202223';
         tooltipEl.style.borderRadius = '8px';
         tooltipEl.style.color = 'white';
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.pointerEvents = 'none';
-        tooltipEl.style.position = 'absolute';
-        tooltipEl.style.transform = 'translate(-50%, -100%)';
+        tooltipEl.style.opacity = '1';
+        tooltipEl.style.padding = '0px';
+        tooltipEl.style.margin = '0px';
         tooltipEl.style.filter =
           'drop-shadow(0px 8px 24px rgba(0, 0, 0, 0.15))';
         const table = document.createElement('table');
@@ -110,25 +112,29 @@ export const VerticalBarChart = memo(
         table.style.paddingRight = '12px';
         table.style.paddingBottom = '4px';
         table.style.paddingLeft = '12px';
+        table.style.display = 'flex';
+        table.style.flexDirection = 'column';
+        table.style.justifyContent = 'center';
+        table.style.alignItems = 'center';
         tooltipEl.appendChild(table);
-        console.log('tooltipEl:', tooltipEl);
-        chart.canvas.parentNode.appendChild(tooltipEl);
+        tooltipRoot.appendChild(tooltipEl);
+        tooltipRoot.appendChild(triangleShape);
+        chart.canvas.parentNode.appendChild(tooltipRoot);
       }
 
-      return tooltipEl;
+      return tooltipRoot;
     };
 
     const externalTooltipHandler = (context: any) => {
       // Tooltip Element
       const { chart, tooltip } = context;
-      const tooltipEl = getOrCreateTooltip(chart);
-
+      const tooltipRoot = getOrCreateTooltip(chart);
       // Hide if no tooltip
       if (tooltip.opacity === 0) {
-        tooltipEl.style.opacity = 0;
+        tooltipRoot.style.opacity = 0;
         return;
       }
-
+      const tooltipEl = tooltipRoot.querySelector('div');
       // Set Text
       if (tooltip.body) {
         const titleLines = tooltip.title || [];
@@ -139,9 +145,9 @@ export const VerticalBarChart = memo(
         titleLines.forEach((title: any) => {
           const tr = document.createElement('tr');
           tr.style.borderWidth = '0';
-
           const th = document.createElement('th');
           th.style.borderWidth = '0';
+          th.style.fontSize = '16px';
           const text = document.createTextNode(title);
 
           th.appendChild(text);
@@ -152,12 +158,11 @@ export const VerticalBarChart = memo(
         const tableBody = document.createElement('tbody');
         bodyLines.forEach((body: any, i: number) => {
           const tr = document.createElement('tr');
-          tr.style.backgroundColor = 'inherit';
           tr.style.borderWidth = '0';
 
           const td = document.createElement('td');
           td.style.borderWidth = '0';
-
+          td.style.fontSize = '12px';
           const text = document.createTextNode(body);
 
           td.appendChild(text);
@@ -180,11 +185,9 @@ export const VerticalBarChart = memo(
       const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
       // Display, position, and set styles for font
-      tooltipEl.style.opacity = 1;
-      tooltipEl.style.left = `${positionX + tooltip.caretX}px`;
-      tooltipEl.style.top = `${positionY + tooltip.caretY}px`;
-      tooltipEl.style.font = tooltip.options.bodyFont.string;
-      tooltipEl.style.padding = `${tooltip.options.padding}px ${tooltip.options.padding}px`;
+      tooltipRoot.style.opacity = 1;
+      tooltipRoot.style.left = `${positionX + tooltip.caretX}px`;
+      tooltipRoot.style.top = `${positionY + tooltip.caretY - 4}px`;
     };
 
     return (
@@ -235,7 +238,6 @@ export const VerticalBarChart = memo(
             },
             plugins: {
               tooltip: {
-                position: 'myCustomPositioner',
                 displayColors: false,
                 boxHeight: 0,
                 boxWidth: 0,
