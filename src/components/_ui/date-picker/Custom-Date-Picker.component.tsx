@@ -42,7 +42,6 @@ export const CustomDatePicker = memo(
     const { t } = useTranslation();
 
     useOnClickOutside(ref, () => {
-      console.log('custom useOnClickOutside');
       setIsDropDownOpen(false);
       setIsPickerOpen(false);
     });
@@ -66,13 +65,11 @@ export const CustomDatePicker = memo(
     ]);
 
     const toggleMenu = () => {
-      console.log('custom toggleMenu');
       setIsDropDownOpen(!isDropDownOpen);
       setIsPickerOpen(false);
     };
 
     const openPicker = () => {
-      console.log('custom openPicker');
       setIsDropDownOpen(false);
       setIsPickerOpen(true);
     };
@@ -190,7 +187,6 @@ export const CustomDatePicker = memo(
 
     const renderDateRangePicker = () => {
       const selectedOptionId = options.find((o) => o.selected)?.id;
-      console.log('selectedOptionId:', selectedOptionId);
       return (
         <div
           className='absolute py-2 -ml-4 z-50'
@@ -234,9 +230,7 @@ export const CustomDatePicker = memo(
         </div>
       );
     };
-    console.log('custom render');
-    console.log('custom isPickerOpen:', isPickerOpen);
-    console.log('custom isDropDownOpen:', isDropDownOpen);
+
     return (
       <div ref={ref}>
         {renderHeaderInput()}

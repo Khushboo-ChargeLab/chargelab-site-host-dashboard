@@ -91,7 +91,7 @@ export const DateRangePicker = memo(
         <img src={arraw} alt='' style={{ width: '16px', height: '12px' }} />
       );
     };
-    console.log('dateRange:', dateRange);
+
     return (
       <DatePicker
         selectsRange
