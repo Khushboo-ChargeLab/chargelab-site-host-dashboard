@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
+import 'chartjs-plugin-style';
 import {
   getShortMonth,
   formatDate,
@@ -68,6 +69,106 @@ export const VerticalBarChart = memo(
 
     const data = getData();
     const max = Math.max(...data);
+
+    const getOrCreateTooltip = (chart: any) => {
+      let tooltipEl = chart.canvas.parentNode.querySelector('div');
+
+      if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.style.width = '91px';
+        tooltipEl.style.height = '60px';
+        tooltipEl.style.background = 'black';
+        tooltipEl.style.borderRadius = '8px';
+        tooltipEl.style.color = 'white';
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.pointerEvents = 'none';
+        tooltipEl.style.position = 'absolute';
+        tooltipEl.style.transform = 'translate(-50%, -100%)';
+        tooltipEl.style.filter =
+          'drop-shadow(0px 8px 24px rgba(0, 0, 0, 0.15))';
+        const table = document.createElement('table');
+        table.style.margin = '0px';
+        table.style.paddingTop = '4px';
+        table.style.paddingRight = '12px';
+        table.style.paddingBottom = '4px';
+        table.style.paddingLeft = '12px';
+        tooltipEl.appendChild(table);
+        console.log('tooltipEl:', tooltipEl);
+        chart.canvas.parentNode.appendChild(tooltipEl);
+      }
+
+      return tooltipEl;
+    };
+
+    const externalTooltipHandler = (context: any) => {
+      // Tooltip Element
+      const { chart, tooltip } = context;
+      const tooltipEl = getOrCreateTooltip(chart);
+
+      // Hide if no tooltip
+      if (tooltip.opacity === 0) {
+        tooltipEl.style.opacity = 0;
+        return;
+      }
+
+      // Set Text
+      if (tooltip.body) {
+        const titleLines = tooltip.title || [];
+        const bodyLines = tooltip.body.map((b: any) => b.lines);
+
+        const tableHead = document.createElement('thead');
+
+        titleLines.forEach((title: any) => {
+          const tr = document.createElement('tr');
+          tr.style.borderWidth = '0';
+
+          const th = document.createElement('th');
+          th.style.borderWidth = '0';
+          const text = document.createTextNode(title);
+
+          th.appendChild(text);
+          tr.appendChild(th);
+          tableHead.appendChild(tr);
+        });
+
+        const tableBody = document.createElement('tbody');
+        bodyLines.forEach((body: any, i: number) => {
+          const tr = document.createElement('tr');
+          tr.style.backgroundColor = 'inherit';
+          tr.style.borderWidth = '0';
+
+          const td = document.createElement('td');
+          td.style.borderWidth = '0';
+
+          const text = document.createTextNode(body);
+
+          td.appendChild(text);
+          tr.appendChild(td);
+          tableBody.appendChild(tr);
+        });
+
+        const tableRoot = tooltipEl.querySelector('table');
+
+        // Remove old children
+        while (tableRoot.firstChild) {
+          tableRoot.firstChild.remove();
+        }
+
+        // Add new children
+        tableRoot.appendChild(tableHead);
+        tableRoot.appendChild(tableBody);
+      }
+
+      const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
+
+      // Display, position, and set styles for font
+      tooltipEl.style.opacity = 1;
+      tooltipEl.style.left = `${positionX + tooltip.caretX}px`;
+      tooltipEl.style.top = `${positionY + tooltip.caretY}px`;
+      tooltipEl.style.font = tooltip.options.bodyFont.string;
+      tooltipEl.style.padding = `${tooltip.options.padding}px ${tooltip.options.padding}px`;
+    };
+
     return (
       <div className={className}>
         <Bar
@@ -128,6 +229,8 @@ export const VerticalBarChart = memo(
                     (onTooltipTitle && onTooltipTitle(context[0].raw)) ||
                     context[0].raw,
                 },
+                enabled: false,
+                external: externalTooltipHandler,
               },
               legend: {
                 display: false,
