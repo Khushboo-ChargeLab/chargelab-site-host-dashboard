@@ -101,7 +101,6 @@ export const Chargers = () => {
       troubleCount === 0
         ? t('chargers_status_all_online')
         : `${troubleCount} ${t('chargers_status_has_trouble')}`;
-    const icon = troubleCount > 0 ? infoRed : completed;
     return (
       <div>
         <Card
@@ -109,10 +108,14 @@ export const Chargers = () => {
           title={t('chargers_overview')}
           titleType={LabelType.H7}
         >
-          {chargers && (
+          {chargers && troubleCount !== undefined && (
             <div className='flex flex-col gap-3'>
               <div className='flex flex-row items-center gap-2'>
-                <img className='w-7 h-7' src={icon} alt='' />
+                <img
+                  className='w-7 h-7'
+                  src={troubleCount > 0 ? infoRed : completed}
+                  alt=''
+                />
                 <Label text={text} type={LabelType.H4} />
               </div>
               {troubleCount > 0 && (

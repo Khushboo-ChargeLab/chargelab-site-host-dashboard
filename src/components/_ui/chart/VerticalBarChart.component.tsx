@@ -7,6 +7,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  TooltipPositionerFunction,
+  ChartType,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
@@ -17,6 +19,12 @@ import {
   convertToDate,
 } from '../../../utils/Date.Util';
 import { getCurrentTheme } from '../../../stores/selectors/theme.selector';
+
+declare module 'chart.js' {
+  interface TooltipPositionerMap {
+    myCustomPositioner: TooltipPositionerFunction<ChartType>;
+  }
+}
 
 ChartJS.register(
   CategoryScale,
@@ -60,6 +68,16 @@ export const VerticalBarChart = memo(
         : labels;
     };
     const getData = () => items.map((item: any) => item[valueField]);
+
+    Tooltip.positioners.myCustomPositioner = function (
+      elements,
+      eventPosition,
+    ) {
+      return {
+        x: elements[0]?.element?.x || 0,
+        y: elements[0]?.element?.y ? elements[0].element.y - 4 : 0,
+      };
+    };
 
     const getTooltipLabel = (context: any) =>
       formatDate(
@@ -170,7 +188,7 @@ export const VerticalBarChart = memo(
     };
 
     return (
-      <div className={className}>
+      <div className={`${className}`}>
         <Bar
           data={{
             labels: getLabels(),
@@ -209,7 +227,7 @@ export const VerticalBarChart = memo(
             maintainAspectRatio: false,
             layout: {
               padding: {
-                top: 2,
+                top: 50,
                 bottom: 2,
                 left: 2,
                 right: 2,
@@ -217,6 +235,7 @@ export const VerticalBarChart = memo(
             },
             plugins: {
               tooltip: {
+                position: 'myCustomPositioner',
                 displayColors: false,
                 boxHeight: 0,
                 boxWidth: 0,

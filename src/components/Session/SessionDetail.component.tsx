@@ -143,12 +143,16 @@ export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
     </div>
     <div className='flex flex-row'>
       <Label text='Connector' type={LabelType.H7} className='basis-2/6' />
-      <Label text={sessionData.connectorSide} type={LabelType.BODY3_G5} />
-      <Label
-        text={sessionData.connector}
-        type={LabelType.BODY3}
-        icon={connector}
-      />
+      <div className='flex flex-row gap-4'>
+        <Label text={sessionData.connectorSide} type={LabelType.BODY3_G5} />
+        <div className='flex flex-row gap-1'>
+          <img src={connector} alt='Connector Icon' />
+          <Label
+            text={sessionData.connector}
+            type={LabelType.BODY3}
+          />
+        </div>
+      </div>
     </div>
     <div className='flex flex-row'>
       <Label text='Location' type={LabelType.H7} className='basis-2/6' />

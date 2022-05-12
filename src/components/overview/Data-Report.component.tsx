@@ -117,7 +117,7 @@ export const DataReport = () => {
 
   return (
     <Card>
-      <div className='flex mt-3 mb-8 w-full'>
+      <div className='flex mt-3 w-full'>
         <div className='flex w-3/5'>
           <Switch
             className='whitespace-nowrap'
@@ -128,7 +128,7 @@ export const DataReport = () => {
             onChange={switchChanges}
           />
         </div>
-        <div className='flex justify-end w-3/5 gap-8'>
+        <div className='flex justify-end w-3/5 gap-8 '>
           <DateSelector onChange={dateChanged} endDate={selectedRange[1]} />
           <Button
             size={ButtonSize.SMALL}
