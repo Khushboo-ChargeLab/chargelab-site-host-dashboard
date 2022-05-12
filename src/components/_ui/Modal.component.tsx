@@ -112,6 +112,7 @@ export class ModalForm extends React.Component {
               overflow: 'hidden',
             },
             overlay: {
+              zIndex: 60,
               backgroundColor: 'rgba(32,34,35,0.5)',
             },
           }}
