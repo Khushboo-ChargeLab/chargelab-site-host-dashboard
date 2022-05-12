@@ -229,6 +229,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             type={DropdownType.CHECKBOX}
             items={chargerData}
             onItemClick={chargerSelected}
+            inputWidth='15.3rem'
           />
           <CustomDatePicker format='MMM d,yyyy' onChange={dateChanged} />
         </div>

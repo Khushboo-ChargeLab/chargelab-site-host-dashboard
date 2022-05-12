@@ -32,6 +32,7 @@ interface DropdownProps {
   label?: string;
   headerClassName?: string;
   headerHighLightClassName?: string;
+  inputWidth?: string;
 }
 
 export const Dropdown = memo(
@@ -44,6 +45,7 @@ export const Dropdown = memo(
     label = 'label',
     headerClassName = 'bg-silver border-grey-light2 rounded',
     headerHighLightClassName = 'bg-grey6 border-grey-light2 rounded',
+    inputWidth = '',
   }: DropdownProps) => {
     const [_title, setTitle] = useState(() => {
       let defaultTitle = title;
@@ -271,6 +273,7 @@ export const Dropdown = memo(
         placeholder={t('search')}
         iconType={InputIconType.SEARCH}
         onChange={handleSearch}
+        props={{ style: { 'width': inputWidth } }}
       />
     );
 

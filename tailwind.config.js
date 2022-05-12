@@ -6,6 +6,7 @@ module.exports = {
       serif: ['Inter'],
     },
     colors: {
+      dashboard: '#F5F6FA',
       white: '#ffffff',
       black: '#202223',
       silver: '#F2F4F6',
