@@ -1,6 +1,7 @@
 import React, { forwardRef, memo, useCallback, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { subWeeks, subMonths } from 'date-fns';
 import {
   arrowLeft,
   arrowRight,
@@ -22,11 +23,7 @@ export interface InputProps {
   format?: string;
   onChange?: (date: any) => void;
   showMonthYearPicker?: boolean;
-  dateRange?: boolean;
-  white?: boolean;
-  dateRangeMove?: boolean;
-  className?: string;
-  defaulttext?: string;
+  inputBG?: string;
   maxDate?: Date | null;
 }
 
@@ -36,106 +33,15 @@ export const DateTimePicker = memo(
     onChange,
     showMonthYearPicker = false,
     format = 'MMM yyyy',
-    dateRange = false,
-    white = false,
-    dateRangeMove = false,
-    className = '',
-    defaulttext = 'Choose a range',
+    inputBG = 'bg-silver',
     maxDate = null,
   }: InputProps) => {
-    const [startDate, setStartDate] = useState(defaultDate);
-    const [dateRangeData, setDateRange] = useState([
-      defaultDate,
-      addMonths(defaultDate || 0, 1),
-    ]);
-    const [startDateRange, endDateRange] = dateRangeData;
-
-    const nextMonth = useCallback(() => {
-      const newDate = [
-        endDateRange,
-        addDays(
-          endDateRange || 0,
-          differenceInDays(endDateRange || 0, startDateRange || 0),
-        ),
-      ];
-      setDateRange(newDate);
-      onChange && onChange(newDate);
-    }, [endDateRange, startDateRange]);
-
-    const preMonth = useCallback(() => {
-      const newDate = [
-        addDays(
-          startDateRange || 0,
-          -differenceInDays(endDateRange || 0, startDateRange || 0),
-        ),
-        startDateRange,
-      ];
-
-      setDateRange(newDate);
-      onChange && onChange(newDate);
-    }, [startDateRange, endDateRange]);
-
-    const hasStartAndEndDate = (dates: any) => dates.length === 2;
-    const DateRangeCustomInput = forwardRef(
-      ({ value, onClick }: any, ref: any) => {
-        const dates = value.split('-');
-        let result = defaulttext;
-
-        if (hasStartAndEndDate(dates)) {
-          result = `${formatDate(new Date(dates[0]), format)} - ${formatDate(
-            new Date(dates[1]),
-            format,
-          )}`;
-        }
-
-        return (
-          <button
-            className={`date-range-selector ${
-              white ? 'bg-white' : 'bg-silver'
-            } ${className}`}
-          >
-            <div className='block'>
-              {dateRangeMove && (
-                <div
-                  className='inline-block align-middle pl-4 pr-3'
-                  onClick={preMonth}
-                >
-                  <img src={chevpre} alt='' />
-                </div>
-              )}
-
-              <div
-                className={`inline-block align-middle ${
-                  defaulttext && !defaultDate
-                    ? 'text-grey4 text-xs'
-                    : 'text-grey6 text-sm'
-                }`}
-                onClick={onClick}
-                ref={ref}
-              >
-                {result}
-              </div>
-
-              {dateRangeMove && (
-                <div
-                  className='inline-block align-middle pl-3 pr-4'
-                  onClick={nextMonth}
-                >
-                  <img src={chevnext} alt='' />
-                </div>
-              )}
-            </div>
-          </button>
-        );
-      },
-    );
+    const [selectedDate, setSelectedDate] = useState(defaultDate);
 
     const DateCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
       return (
         <button
-          className={`react-datepicker__input-container-button ${
-            white ? 'bg-white' : 'bg-silver'
-          }`}
+          className={`react-datepicker__input-container-button ${inputBG}`}
           onClick={onClick}
           ref={ref}
         >
@@ -149,76 +55,30 @@ export const DateTimePicker = memo(
       );
     });
 
-    const validDateRange = (update: any) =>
-      update && update.length === 2 && update[0] && update[1];
-    const updateDateRangeData = useCallback(
-      (update: any) => {
-        setDateRange(update);
-
-        if (validDateRange(update)) {
-          onChange && onChange(update);
-        }
-      },
-      [setDateRange, onChange],
-    );
-
-    const dateChanged = useCallback(
+    const onDateChanged = useCallback(
       (date: any) => {
-        setStartDate(date);
+        setSelectedDate(date);
         onChange && onChange(date);
       },
       [onChange],
     );
 
-    if (dateRange) {
+    const renderArrow = (arraw: any) => {
       return (
-        <DatePicker
-          selectsRange
-          startDate={startDateRange}
-          endDate={endDateRange}
-          onChange={(update: any) => updateDateRangeData(update)}
-          customInput={<DateRangeCustomInput />}
-          useWeekdaysShort
-          previousMonthButtonLabel={() => (
-            <img
-              src={arrowLeft}
-              alt=''
-              style={{ width: '16px', height: '12px' }}
-            />
-          )}
-          nextMonthButtonLabel={() => (
-            <img
-              src={arrowRight}
-              alt=''
-              style={{ width: '16px', height: '12px' }}
-            />
-          )}
-        />
+        <img src={arraw} alt='' style={{ width: '16px', height: '12px' }} />
       );
-    }
+    };
+
     return (
       <DatePicker
-        selected={startDate}
-        onChange={(date: any) => dateChanged(date)}
+        selected={selectedDate}
+        onChange={(date: any) => onDateChanged(date)}
         dateFormat={format}
         showMonthYearPicker={showMonthYearPicker}
-        selectsRange={dateRange}
         customInput={<DateCustomInput />}
         maxDate={maxDate}
-        previousYearButtonLabel={() => (
-          <img
-            src={arrowLeft}
-            alt=''
-            style={{ width: '16px', height: '12px' }}
-          />
-        )}
-        nextYearButtonLabel={() => (
-          <img
-            src={arrowRight}
-            alt=''
-            style={{ width: '16px', height: '12px' }}
-          />
-        )}
+        previousYearButtonLabel={renderArrow(arrowLeft)}
+        nextYearButtonLabel={renderArrow(arrowRight)}
       />
     );
   },

@@ -222,7 +222,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
   return (
     <Card title='Recent sessions'>
       <div className='flex mt-3 w-full'>
-        <div className='flex w-4/5'>
+        <div className='flex w-4/5 gap-2'>
           <Dropdown
             title='Charger'
             headerWidth='auto'
@@ -231,11 +231,7 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             onItemClick={chargerSelected}
             headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
           />
-          <CustomDatePicker
-            format='MMM d,yyyy'
-            className='ml-2'
-            onChange={dateChanged}
-          />
+          <CustomDatePicker format='MMM d,yyyy' onChange={dateChanged} />
         </div>
         <div className='flex justify-end w-1/5'>
           <Button

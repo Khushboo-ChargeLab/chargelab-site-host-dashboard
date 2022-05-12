@@ -22,6 +22,7 @@ import {
   ImageViewer,
   DoughnutChart,
   VerticalBarChart,
+  DateRangePicker,
 } from '.';
 import { start } from '../../lib';
 import { SessionStatusHistory } from '../Session/SessionStatusHistory.component';
@@ -441,13 +442,17 @@ export const Wiki = () => {
       <div className='block mt-4 mb-4'>
         <div className='inline-block'>
           Month Picker :
-          <DateTimePicker showMonthYearPicker white defaultDate={new Date()} />
+          <DateTimePicker
+            showMonthYearPicker
+            inputBG='bg-white'
+            defaultDate={new Date()}
+          />
         </div>
 
         <div className='inline-block'>
           Date Picker :
           <DateTimePicker
-            white
+            inputBG='bg-white'
             format='LLL dd, yyyy'
             defaultDate={new Date()}
           />
@@ -455,23 +460,12 @@ export const Wiki = () => {
 
         <div className='inline-block'>
           Range Picker#1 :
-          <DateTimePicker
-            white
-            dateRange
-            format='LLL dd yyyy'
-            defaultDate={new Date()}
-          />
+          <DateRangePicker inputBG='bg-white' format='LLL dd yyyy' />
         </div>
 
         <div className='inline-block'>
           Range Picker#2:
-          <DateTimePicker
-            white
-            dateRange
-            dateRangeMove
-            format='LLL dd yyyy'
-            defaultDate={new Date()}
-          />
+          <DateRangePicker inputBG='bg-white' format='LLL dd yyyy' />
         </div>
       </div>
       <hr />
