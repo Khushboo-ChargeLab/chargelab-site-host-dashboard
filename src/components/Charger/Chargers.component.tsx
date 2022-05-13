@@ -234,7 +234,7 @@ export const Chargers = () => {
   };
 
   const getPrice = (charger: any) => {
-    return charger.currentPrice.ratePerKilowattHour === 0
+    return charger.isFree
       ? t('chargers_price_free')
       : convertToLocaleCurrency(
           charger.currentPrice.ratePerKilowattHour,
