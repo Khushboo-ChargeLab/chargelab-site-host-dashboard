@@ -79,13 +79,13 @@ export const Login = () => {
     setResendOtpClicked(true);
     const session = await resendCode(currentUser);
     setLoading(false);
+    setOtp('');
     if (!session) {
       Snackbar.show({
         message:
           "The code is no longer valid. Please click the 'Send new code' and try again.",
         position: AlertPosition.BOTTOM,
       });
-      setOtp('');
     } else {
       setCurrentUser(session);
     }
@@ -154,12 +154,10 @@ export const Login = () => {
       if (resendOtpClicked) {
         // 60 seconds to reset the resend OTP link
         timer(60);
-        // eslint-disable-next-line no-promise-executor-return
-        await new Promise((resolve) => setTimeout(resolve, 60000));
-        if (otpTimer && otpTimer === '0:00') {
+        setTimeout(() => {
           console.log('Resetting resend OTP link state');
           setResendOtpClicked(false);
-        }
+        }, 60000);
       }
     })();
   }, [resendOtpClicked]);
