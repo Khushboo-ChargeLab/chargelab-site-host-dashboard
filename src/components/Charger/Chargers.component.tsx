@@ -234,12 +234,7 @@ export const Chargers = () => {
   };
 
   const getPrice = (charger: any) => {
-    return charger.isFree
-      ? t('chargers_price_free')
-      : convertToLocaleCurrency(
-          charger.currentPrice.ratePerKilowattHour,
-          charger.currentPrice.currency,
-        );
+    return charger.isFree ? t('chargers_price_free') : t('chargers_price_paid');
   };
 
   const getGridData = () =>
