@@ -15,9 +15,10 @@
   "chargers_overview": "CHARGER OVERVIEW",
   "chargers_status_all_online": "All Chargers are online",
   "chargers_status_has_trouble": "chargers may need your attention",
-  "chargers_trouble_desc": "We are looking into the issue. Here is what you can do in the meantime",
-  "chargers_trouble_solution_1": "Check if your WiFi got disconnected",
-  "chargers_trouble_solition_2": "Try rebooting your Wi-Fi router",
+  "chargers_trouble_desc": "The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:",
+  "chargers_trouble_solution_1": "Confirm that the charger that needs attention is powered on",
+  "chargers_trouble_solition_2": "If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router",
+  "chargers_trouble_solution_3": "Try rebooting your charger",
   "location": "Location",
   "status": "Status",
   "all_location": "All Locations",
@@ -44,5 +45,12 @@
   "charger_settings": "Settings",
   "charger_pricing": "Pricing",
   "charger_access": "Access",
-  "charger_auto_start": "Auto-start"
+  "charger_auto_start": "Auto-start",
+  "vertical_bar_chart_no_data": "No Data",
+  "vertical_bar_chart_no_data_desc": "Monthly charging history will be shown here",
+  "overview_charger_status": "Charger status",
+  "date_picker_last_week": "Last week",
+  "date_picker_last_month": "Last month",
+  "date_picker_custom_range": "Custom range",
+  "chargers_price_paid": "Paid"
 }

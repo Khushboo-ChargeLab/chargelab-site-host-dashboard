@@ -86,7 +86,7 @@ createSelector(
 export const getTroubleChargerNum = createSelector(
   [ChargerSelectors],
   (chargers) => {
-    return chargers?.troubleCount || 0;
+    return chargers?.troubleCount;
   },
 );
 

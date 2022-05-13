@@ -15,9 +15,9 @@ search,Search,Search,Search
 chargers_overview,CHARGER OVERVIEW,CHARGER OVERVIEW,CHARGER OVERVIEW
 chargers_status_all_online,All Chargers are online,All Chargers are online,All Chargers are online
 chargers_status_has_trouble,chargers may need your attention,chargers may need your attention,chargers may need your attention
-chargers_trouble_desc,We are looking into the issue. Here is what you can do in the meantime,We are looking into the issue. Here is what you can do in the meantime,We are looking into the issue. Here is what you can do in the meantime
-chargers_trouble_solution_1,Check if your WiFi got disconnected,Check if your WiFi got disconnected,Check if your WiFi got disconnected
-chargers_trouble_solition_2,Try rebooting your Wi-Fi router,Try rebooting your Wi-Fi router,Try rebooting your Wi-Fi router
+chargers_trouble_desc,The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:,We are looking into the issue. Here is what you can do in the meantime,We are looking into the issue. Here is what you can do in the meantime
+chargers_trouble_solution_1,Confirm that the charger that needs attention is powered on,Check if your WiFi got disconnected,Check if your WiFi got disconnected
+chargers_trouble_solition_2,If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router,Try rebooting your Wi-Fi router,Try rebooting your Wi-Fi router
 location,Location,Location,Location
 status,Status,Status,Status
 all_location,All Locations,All Locations,All Locations
@@ -27,3 +27,9 @@ chargers_grid_note,Note,Note,Note
 pricing,Pricing,Pricing,Pricing
 access,Access,Access,Access
 chargers_price_free,Free,Free,Free
+vertical_bar_chart_no_data,No Data,No Data,No Data
+vertical_bar_chart_no_data_desc,Monthly charging history will be shown here,Monthly charging history will be shown here,Monthly charging history will be shown here
+overview_charger_status,Charger status,Charger status,Charger status
+date_picker_last_week,Last week,Last week,Last week
+date_picker_last_month,Last month,Last month,Last month
+date_picker_custom_range,Custom range,Custom range,Custom range

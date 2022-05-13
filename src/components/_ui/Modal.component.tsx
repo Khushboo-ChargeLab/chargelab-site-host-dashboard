@@ -104,19 +104,26 @@ export class ModalForm extends React.Component {
               top: '50%',
               left: '50%',
               width: `${small ? '400px' : '540px'}`,
-              height: `${type === 'MODAL' ? '600px' : '156px'}`,
-              marginRight: '-50%',
+              height: `${type === 'MODAL' ? '700px' : '156px'}`,
+              // marginRight: '-50%',
               transform: 'translate(-50%, -50%)',
+              padding: 0,
+              borderRadius: 10,
+              overflow: 'hidden',
+            },
+            overlay: {
+              zIndex: 60,
+              backgroundColor: 'rgba(32,34,35,0.5)',
             },
           }}
         >
           {type === 'MODAL' ? (
-            <>
-              <div className='flex items-center justify-center'>
+            <div className='px-4'>
+              <div className='flex items-center justify-center sticky top-0 h-16'>
                 <img
                   src={close}
                   alt=''
-                  className='absolute left-6 cursor-pointer'
+                  className='absolute left-2 cursor-pointer'
                   onClick={this.handleClose}
                 />
                 <Label text={title} type={LabelType.H5} />
@@ -125,7 +132,7 @@ export class ModalForm extends React.Component {
                 {body}
                 {footer}
               </div>
-            </>
+            </div>
           ) : (
             <>
               <div className='flex mb-1'>

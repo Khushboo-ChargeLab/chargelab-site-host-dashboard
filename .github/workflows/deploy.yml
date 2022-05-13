@@ -1,0 +1,79 @@
+name: Deploy release/0.1.0 to charger-aws/developer
+
+on:
+  pull_request_target:
+    types:
+      - closed
+
+env:
+  # STACK: 1-bin
+  ZIP_NAME: site-host-dashboard.tar.gz
+  PROJECT_BRANCH: release/0.1.0
+  PROJECT_CHARGELAB_AWS_BRANCH: developer
+  GIT_NAME: github_actions
+  GIT_EMAIL: github-actions@github.com
+
+jobs:
+  build-and-deploy:
+    if: (github.event.pull_request.merged == true && ${{ github.base_ref }} == 'release/0.1.0') # update here when PROJECT_BRANCH change
+    runs-on: ubuntu-latest # select a script machine
+    steps: # 
+      - name: Checkout 
+        uses: actions/checkout@v3  # checkout plugin
+        with:
+          ref: ${{ env.PROJECT_BRANCH }}
+          path: ${{ env.PROJECT_BRANCH }} 
+
+      - name: Install and Build project
+        run: |
+          cd main
+          npm install
+          npm run build  
+          tar -zcvf ${{ env.ZIP_NAME }} build/
+          cd ..
+
+      - name: Checkout charger-aws
+        uses: actions/checkout@v3  # checkout plugin
+        with:
+          repository: 'ChargeLab/chargelab-aws.git'
+          ref: ${{ env.PROJECT_CHARGELAB_AWS_BRANCH }}
+          token: ${{ secrets.GH_PAT }}
+          path: 'chargerlab-aws'
+          lfs: true
+
+      - name: Push build file to charger-aws
+        run: |
+          cp ${{ github.workspace }}/main/${{ env.ZIP_NAME }} ${{ github.workspace }}/chargerlab-aws/resources/prd/central/packages/${{ env.ZIP_NAME }}
+          cd ${{ github.workspace }}/chargerlab-aws
+          git config user.name ${{ env.GIT_NAME }}
+          git config user.email ${{ env.GIT_EMAIL }}
+          git add .
+          git commit -m "github actions: push build file"
+          git push
+
+      # - name: Run Deploy Script
+      #   run: |
+      #     cd ${{ github.workspace }}/chargerlab-aws
+      #     git config user.name ${{ env.GIT_NAME }}
+      #     git config user.email ${{ env.GIT_EMAIL }}
+      #     export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ID }}
+      #     export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET }}
+      #     export AWS_DEFAULT_REGION=${{ secrets.REGION }}
+      #     ./run.sh install
+      #     ./run.sh dev deploy BackendStack ${{ env.STACK }}
+
+      # - name: Enable termination protection
+      #   run: |
+      #     aws cloudformation update-termination-protection --stack-name BackendStack-v${{ env.STACK }} --enable-termination-protection
+      #     aws cloudformation update-termination-protection --stack-name StateStack-v${{ env.STACK }} --enable-termination-protection
+
+      # - name: action-slack
+      #   uses: 8398a7/action-slack@v3.12.0
+      #   with:
+      #     mention: 'here'
+      #     status: ${{ job.status }}
+      #     author_name: ${{ github.event.pull_request.title }}
+      #     fields: pullRequest,message,author,workflow,took, # selectable (default: repo,message)
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      #   if: always() # Pick up events even if the job fails or is canceled.

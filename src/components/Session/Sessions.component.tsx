@@ -1,53 +1,65 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { alert, completed } from '../../lib';
+import { downloadCSV } from '../../services/utils';
+import { alert, charging, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
+import { fetchTransactionReport } from '../../stores/reducers/transactionReport.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
-import { selectRecentSessions } from '../../stores/selectors/session.selector';
+import { getTransactionReport } from '../../stores/selectors/transactionReport.selector';
+import { getSortedRecentSessions } from '../../stores/selectors/session.selector';
+import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import { convertToDate } from '../../utils/Date.Util';
 import {
   Button,
-  ButtonType, Card, CustomDatePicker, Dropdown, DropdownType, Grid, Label,
-  LabelType, ModalForm, Pill,
+  ButtonType,
+  Card,
+  CustomDatePicker,
+  Dropdown,
+  DropdownType,
+  Grid,
+  Label,
+  LabelType,
+  ModalForm,
+  Pill,
   PILL_BG_COLOR,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
 
-export const Sessions = () => {
-  const chargerDummyData = [
-    { label: 'AD-21', selected: false },
-    { label: 'AD-22', selected: false },
-    { label: 'AD-23', selected: false },
-    { label: 'AD-24', selected: false },
-    { label: 'AD-25', selected: false },
-    { label: 'AD-26', selected: false },
-    { label: 'AD-27', selected: false },
-    { label: 'AD-28', selected: false },
-    { label: 'AD-29', selected: false },
-    { label: 'AD-30', selected: false },
-    { label: 'AD-31', selected: false },
-    { label: 'AD-32', selected: false },
-    { label: 'AD-25', selected: false },
-    { label: 'AD-26', selected: false },
-    { label: 'AD-27', selected: false },
-    { label: 'AD-28', selected: false },
-    { label: 'AD-29', selected: false },
-    { label: 'AD-30', selected: false },
-    { label: 'AD-31', selected: false },
-    { label: 'AD-32', selected: false },
-    { label: 'AD-33', selected: false },
-    { label: 'AD-34', selected: false },
-    { label: 'AD-35', selected: false },
-  ];
-  const dispatch = useDispatch();
-  const recentSessions = useSelector(selectRecentSessions);
-  const chargers = useSelector(selectChargers);
+interface SessionsProps {
+  locationId?: string | undefined;
+}
 
+export const Sessions = ({ locationId }: SessionsProps) => {
+  const dispatch = useDispatch();
+  const recentSessions = useSelector(getSortedRecentSessions);
+  const chargers = useSelector(selectChargers);
+  const transactionReport = useSelector(getTransactionReport);
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [chargerData, setChargerData] = useState(chargerDummyData);
+  const [downloadReport, setDownloadReport] = useState(false);
+
+  const [chargerData, setChargerData] = useState<
+    { id: string; label: string | undefined; selected: boolean }[]
+  >([]);
+  const [_locationId, setLocationId] = useState(locationId);
+  useEffect(() => {
+    setLocationId(locationId);
+  }, [locationId]);
+  const getDefaultChargerData = (_id: any) => {
+    return chargers
+      .filter((charger) => !_id || charger.location?.id === _id)
+      .map((charger: any) => ({
+        id: charger.id,
+        label: charger.name,
+        selected: false,
+      }));
+  };
+
+  useEffect(() => {
+    setChargerData(getDefaultChargerData(_locationId));
+  }, [chargers, _locationId]);
 
   const refreshGrid = useCallback(
     async (page: number) => {
@@ -71,7 +83,7 @@ export const Sessions = () => {
   );
 
   const handleClearAllClick = () => {
-    setChargerData(chargerDummyData);
+    setChargerData(getDefaultChargerData(_locationId));
     setFilter({
       ...filter,
       charger: [],
@@ -79,7 +91,7 @@ export const Sessions = () => {
   };
 
   const renderClearAllButton = () => {
-    const foundSelectedCharger = chargerData.find(
+    const foundSelectedCharger = chargerData.some(
       (charger) => charger.selected,
     );
     if (foundSelectedCharger) {
@@ -102,6 +114,14 @@ export const Sessions = () => {
       }
       return cd;
     });
+    setFilter({
+      ...filter,
+      charger: newChargerList
+        .filter((data: any) => data.selected)
+        .map((selectedData: any) => {
+          return chargers.find((charger) => charger.id === selectedData.id);
+        }),
+    });
     setChargerData(newChargerList);
   };
 
@@ -112,33 +132,41 @@ export const Sessions = () => {
         return (
           <Pill
             // eslint-disable-next-line react/no-array-index-key
-            key={`${c.name}-${index}`}
+            key={`${c.label}-${index}`}
             onClick={() => handlePillClick(c)}
-            label={c.name}
+            label={c.label}
             isButton
-            width='auto'
+            autoWidth
             labelType={LabelType.PILL_DROPDOWN}
           />
         );
       });
   };
 
-  const chargerSelected = useCallback(
-    (item: any) => {
-      setFilter({
-        ...filter,
-        charger: item.filter((charger: any) => charger.selected),
-      });
-      setChargerData(item);
-    },
-    [filter],
-  );
+  const chargerSelected = (item: any) => {
+    setFilter({
+      ...filter,
+      charger: item
+        .filter((data: any) => data.selected)
+        .map((selectedData: any) => {
+          return chargers.find((charger) => charger.id === selectedData.id);
+        }),
+    });
+    setChargerData(item);
+  };
 
   const rowClick = useCallback((rowData: any) => {
-    const generateChargerStatusHistory = (status: any, startTime: any, endTime: any) => {
+    const generateChargerStatusHistory = (
+      status: any,
+      startTime: any,
+      endTime: any,
+    ) => {
       const chargerStatusHistory = [];
       if (status === 'FAILED') {
-        chargerStatusHistory.push({ title: 'Failed', date: convertToDate(startTime) });
+        chargerStatusHistory.push({
+          title: 'Failed',
+          date: convertToDate(startTime),
+        });
       } else if (status === 'PREPARING' || status === 'IN_PROGRESS') {
         chargerStatusHistory.push(
           { title: 'Charging' },
@@ -168,7 +196,11 @@ export const Sessions = () => {
       cost: rowData.billedTotalAmount,
       currency: rowData.billedCurrency,
       sessionStatus: rowData.status,
-      statusHistory: generateChargerStatusHistory(rowData.status, rowData.startTime || rowData.createTime, rowData.stopTime || rowData.completeTime),
+      statusHistory: generateChargerStatusHistory(
+        rowData.status,
+        rowData.startTime || rowData.createTime,
+        rowData.stopTime || rowData.completeTime,
+      ),
     };
     ModalForm.show({
       title: 'Session detail',
@@ -177,20 +209,44 @@ export const Sessions = () => {
   }, []);
 
   useEffect(() => {
+    if (downloadReport && transactionReport.transactionReport) {
+      downloadCSV(transactionReport.transactionReport, 'Export Transactions');
+    }
+  }, [transactionReport.transactionReport, downloadReport]);
+
+  useEffect(() => {
     refreshGrid(1);
   }, [refreshGrid]);
 
+  const handleButtonClick = () => {
+    dispatch(fetchTransactionReport({ ...filter }));
+    setDownloadReport(true);
+  };
+
+  const renderSelectedChargers = () => {
+    if (!chargerData.some((c: any) => c.selected)) {
+      return <div className='mt-5' />;
+    }
+    return (
+      <div className='gap-2 mt-5 mb-6 inline-flex flex-wrap'>
+        {renderSelectedCharger()}
+        {renderClearAllButton()}
+      </div>
+    );
+  };
+
   return (
     <Card title='Recent sessions'>
-      <div className='flex mt-3 mb-8 w-full'>
+      <div className='flex mt-3 w-full'>
         <div className='flex w-4/5'>
           <Dropdown
             title='Charger'
             headerWidth='auto'
             type={DropdownType.CHECKBOX}
-            items={chargers}
-            label='name'
+            items={chargerData}
             onItemClick={chargerSelected}
+            headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
+            inputWidth='15.3rem'
           />
           <CustomDatePicker
             format='MMM d,yyyy'
@@ -203,16 +259,13 @@ export const Sessions = () => {
             size={ButtonSize.SMALL}
             label='Export CSV'
             type={ButtonType.Cancel}
+            onClick={handleButtonClick}
           />
         </div>
       </div>
 
-      {chargerData.some((c: any) => c.selected) && (
-        <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
-          {renderSelectedCharger()}
-          {renderClearAllButton()}
-        </div>
-      )}
+      {renderSelectedChargers()}
+
       <Grid
         onRowClick={rowClick}
         pageIndex={currentPage}
@@ -237,24 +290,66 @@ export const Sessions = () => {
             key: 'createTime|startTime',
             title: 'Start Time',
             type: GridColumnType.DATETIME,
-            format: 'LLL dd, HH:mm a',
+            format: 'LLL dd, h:mm a',
           },
           {
             key: 'status',
             title: 'Status',
+            component: (row: any) => {
+              let statusIcon = '';
+              if (
+                row?.status?.toLowerCase() === 'preparing' ||
+                row?.status?.toLowerCase() === 'in_progress'
+              ) {
+                statusIcon = charging;
+              } else if (row?.status?.toLowerCase() === 'failed') {
+                statusIcon = alert;
+              } else {
+                statusIcon = completed;
+              }
+              return (
+                <Label
+                  text={(row.status || 'Completed')
+                    .replace('ENDED', 'Completed')
+                    .replace('FAILED', 'Failed')
+                    .replace('PREPARING', 'Preparing')
+                    .replace('IN_PROGRESS', 'Charging')}
+                  type={LabelType.BODY3}
+                  icon={statusIcon}
+                />
+              );
+            },
+          },
+          {
+            key: 'consumedEnergyKwh',
+            title: 'Energy used',
             component: (row: any) => (
               <Label
-                text={(row.status || 'Completed').replace('ENDED', 'Completed')}
+                text={
+                  row.consumedEnergyKwh || row.consumedEnergyKwh === 0
+                    ? `${row.consumedEnergyKwh.toFixed(1)} kWh`
+                    : ''
+                }
                 type={LabelType.BODY3}
-                icon={row.status === 'Failed' ? alert : completed}
               />
             ),
           },
-          { key: 'consumedEnergyKwh', title: 'Energy used' },
           {
             key: 'billedTotalAmount',
             title: 'Cost',
-            type: GridColumnType.CURRENCY,
+            component: (row: any) => (
+              <Label
+                text={
+                  row.billedTotalAmount || row.billedTotalAmount === 0
+                    ? `${convertToLocaleCurrency(
+                        row.billedTotalAmount,
+                        row.billedCurrency,
+                      )}`
+                    : ''
+                }
+                type={LabelType.BODY3}
+              />
+            ),
           },
         ]}
         data={recentSessions}

@@ -12,7 +12,7 @@ import {
   CheckBoxTree,
   Pill,
 } from '..';
-import { chevdown } from '../../../lib';
+import { chevdown, chevdownSelected } from '../../../lib';
 import { useOnClickOutside } from '../../../hooks';
 
 const SEARCH_BAR_DISPLAY_NUMBER = 10;
@@ -29,9 +29,10 @@ interface DropdownProps {
   onItemClick?: Function;
   type?: DropdownType;
   headerWidth?: any;
-  className?: string;
-  white?: boolean;
   label?: string;
+  headerClassName?: string;
+  headerHighLightClassName?: string;
+  inputWidth?: string;
 }
 
 export const Dropdown = memo(
@@ -41,9 +42,10 @@ export const Dropdown = memo(
     title = '',
     type = DropdownType.SELECT,
     headerWidth = 143,
-    className = '',
-    white = false,
     label = 'label',
+    headerClassName = 'bg-silver border-grey-light2 rounded',
+    headerHighLightClassName = 'bg-silver border-grey-light2 rounded',
+    inputWidth = '',
   }: DropdownProps) => {
     const [_title, setTitle] = useState(() => {
       let defaultTitle = title;
@@ -161,81 +163,111 @@ export const Dropdown = memo(
       onItemClick && onItemClick(newItems);
     };
 
-    const renderHeader = () => {
-      if (type === DropdownType.CHECKBOX_TREE) {
-        const pills: any = [];
-        _items.forEach((item, pIndex) => {
-          if (item.selected) {
-            pills.push(
-              <Pill
-                // eslint-disable-next-line react/no-array-index-key
-                key={`${item[label]}-${pIndex}`}
-                onClick={() => handleParentPillClick(item, pIndex)}
-                label={item[label]}
-                isButton
-                width='auto'
-                labelType={LabelType.PILL_DROPDOWN}
-              />,
-            );
-          } else {
-            item.children?.forEach((child: any, cIndex: number) => {
-              if (child.selected) {
-                pills.push(
-                  <Pill
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${item[label]}-${cIndex}`}
-                    onClick={() => handleChildPillClick(pIndex, cIndex)}
-                    label={child.label}
-                    isButton
-                    width='auto'
-                    labelType={LabelType.PILL_DROPDOWN}
-                  />,
-                );
-              }
-            });
-          }
-        });
-        if (pills.length > 0) {
-          return (
-            <div
-              className='bg-silver flex place-content-between px-2 py-2.5 overflow-y-auto max-h-32 rounded-lg'
-              style={{ width: headerWidth }}
-            >
-              <div className='inline-flex flex-wrap gap-1'>{pills}</div>
-              <button
-                className='justify-self-end w-10 h-10 flex-none'
-                type='button'
-                onClick={handleHeaderClick}
-              >
-                <img className='pl-4' src={chevdown} alt='' />
-              </button>
-            </div>
+    const getPills = () => {
+      const pills: any = [];
+      _items.forEach((item, pIndex) => {
+        if (item.selected) {
+          pills.push(
+            <Pill
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${item[label]}-${pIndex}`}
+              onClick={() => handleParentPillClick(item, pIndex)}
+              label={item[label]}
+              isButton
+              width='auto'
+              labelType={LabelType.PILL_DROPDOWN}
+            />,
           );
+        } else {
+          item.children?.forEach((child: any, cIndex: number) => {
+            if (child.selected) {
+              pills.push(
+                <Pill
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${item[label]}-${cIndex}`}
+                  onClick={() => handleChildPillClick(pIndex, cIndex)}
+                  label={child.label}
+                  isButton
+                  width='auto'
+                  labelType={LabelType.PILL_DROPDOWN}
+                />,
+              );
+            }
+          });
         }
+      });
+      return pills;
+    };
+    const renderCheckBoxHeader = () => {
+      const pills = getPills();
+      if (pills.length > 0) {
         return (
-          <div>
+          <div
+            className='bg-silver flex place-content-between px-2 py-2.5 overflow-y-auto max-h-32 rounded-lg'
+            style={{ width: headerWidth }}
+          >
+            <div className='inline-flex flex-wrap gap-1'>{pills}</div>
             <button
-              className='bg-silver rounded px-4 py-2.5 text-center inline-flex items-center'
+              className='justify-self-end w-10 h-10 flex-none'
               type='button'
               onClick={handleHeaderClick}
-              style={{ width: headerWidth }}
             >
-              <Label text={_title} type={LabelType.DROPDOWN_HEADER} />
+              <img className='pl-4' src={chevdown} alt='' />
             </button>
           </div>
         );
       }
       return (
+        <div>
+          <button
+            className='bg-silver rounded px-4 py-2.5 text-center inline-flex items-center'
+            type='button'
+            onClick={handleHeaderClick}
+            style={{ width: headerWidth }}
+          >
+            <Label text={_title} type={LabelType.DROPDOWN_HEADER} />
+          </button>
+        </div>
+      );
+    };
+
+    const isAnyItemSelected = () => {
+      return _items.some((_item) => _item.selected);
+    };
+
+    const renderHeader = () => {
+      if (type === DropdownType.CHECKBOX_TREE) {
+        return renderCheckBoxHeader();
+      }
+
+      return (
         <button
-          className={`${
-            white ? 'bg-white border border-solid border-silver5' : 'bg-silver'
-          } h-10 place-content-between border-grey-light2 rounded pl-4 pr-2 py-2.5 text-center inline-flex items-center ${className}`}
+          className={`
+            ${isAnyItemSelected() ? headerHighLightClassName : headerClassName}
+            `}
           type='button'
           onClick={handleHeaderClick}
           style={{ width: headerWidth }}
         >
-          <Label text={_title} type={LabelType.DROPDOWN_HEADER} />
-          <img className='pl-4' src={chevdown} alt='' />
+          <div className='h-10 place-content-between pl-4 pr-2 py-2.5 text-center inline-flex items-center'>
+            <Label
+              text={_title}
+              type={
+                isAnyItemSelected() && type === DropdownType.CHECKBOX
+                  ? LabelType.DROPDOWN_HEADER_SELECTED
+                  : LabelType.DROPDOWN_HEADER
+              }
+            />
+            <img
+              className='pl-4'
+              src={
+                isAnyItemSelected() && type === DropdownType.CHECKBOX
+                  ? chevdownSelected
+                  : chevdown
+              }
+              alt=''
+            />
+          </div>
         </button>
       );
     };
@@ -245,6 +277,7 @@ export const Dropdown = memo(
         placeholder={t('search')}
         iconType={InputIconType.SEARCH}
         onChange={handleSearch}
+        props={{ style: { 'width': inputWidth } }}
       />
     );
 
@@ -261,7 +294,7 @@ export const Dropdown = memo(
     const renderItems = () => {
       switch (type) {
         case DropdownType.SELECT:
-          return [{ [label]: 'All' }].concat(items).map((item, index) => {
+          return _items.map((item, index) => {
             const key = `${item[label]}-${index}`;
             return (
               <button

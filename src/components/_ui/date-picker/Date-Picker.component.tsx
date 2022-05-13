@@ -1,7 +1,14 @@
 import React, { forwardRef, memo, useCallback, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { chevdown, chevnext, chevpre } from '../../../lib';
+import {
+  arrowLeft,
+  arrowRight,
+  chevdown,
+  chevnext,
+  chevpre,
+  close,
+} from '../../../lib';
 import {
   formatDate,
   addMonths,
@@ -20,11 +27,12 @@ export interface InputProps {
   dateRangeMove?: boolean;
   className?: string;
   defaulttext?: string;
+  maxDate?: Date | null;
 }
 
 export const DateTimePicker = memo(
   ({
-    defaultDate,
+    defaultDate = new Date(),
     onChange,
     showMonthYearPicker = false,
     format = 'MMM yyyy',
@@ -33,6 +41,7 @@ export const DateTimePicker = memo(
     dateRangeMove = false,
     className = '',
     defaulttext = 'Choose a range',
+    maxDate = null,
   }: InputProps) => {
     const [startDate, setStartDate] = useState(defaultDate);
     const [dateRangeData, setDateRange] = useState([
@@ -121,24 +130,24 @@ export const DateTimePicker = memo(
       },
     );
 
-    const DateCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
-      <button
-        className={`react-datepicker__input-container-button ${
-          white ? 'bg-white' : 'bg-silver'
-        }`}
-        onClick={onClick}
-        ref={ref}
-      >
-        <div className='block'>
-          <div className='inline-block text-grey6'>
-            {formatDate(new Date(value), format)}
+    const DateCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
+      return (
+        <button
+          className={`react-datepicker__input-container-button ${
+            white ? 'bg-white' : 'bg-silver'
+          }`}
+          onClick={onClick}
+          ref={ref}
+        >
+          <div className='block'>
+            <div className='inline-block text-grey6'>{value}</div>
+            <div className='inline-block align-middle pl-4 pr-2'>
+              <img src={chevdown} alt='' />
+            </div>
           </div>
-          <div className='inline-block align-middle pl-4 pr-2'>
-            <img src={chevdown} alt='' />
-          </div>
-        </div>
-      </button>
-    ));
+        </button>
+      );
+    });
 
     const validDateRange = (update: any) =>
       update && update.length === 2 && update[0] && update[1];
@@ -169,6 +178,21 @@ export const DateTimePicker = memo(
           endDate={endDateRange}
           onChange={(update: any) => updateDateRangeData(update)}
           customInput={<DateRangeCustomInput />}
+          useWeekdaysShort
+          previousMonthButtonLabel={() => (
+            <img
+              src={arrowLeft}
+              alt=''
+              style={{ width: '16px', height: '12px' }}
+            />
+          )}
+          nextMonthButtonLabel={() => (
+            <img
+              src={arrowRight}
+              alt=''
+              style={{ width: '16px', height: '12px' }}
+            />
+          )}
         />
       );
     }
@@ -180,6 +204,21 @@ export const DateTimePicker = memo(
         showMonthYearPicker={showMonthYearPicker}
         selectsRange={dateRange}
         customInput={<DateCustomInput />}
+        maxDate={maxDate}
+        previousYearButtonLabel={() => (
+          <img
+            src={arrowLeft}
+            alt=''
+            style={{ width: '16px', height: '12px' }}
+          />
+        )}
+        nextYearButtonLabel={() => (
+          <img
+            src={arrowRight}
+            alt=''
+            style={{ width: '16px', height: '12px' }}
+          />
+        )}
       />
     );
   },

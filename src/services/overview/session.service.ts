@@ -4,7 +4,7 @@ import { getUserScope } from '../authenticate/authenticate.service';
 
 export const getRecentSessions = async (filter: any): Promise<any[]> => {
     let transactionsQuery = `historical/transactions?scope=${getUserScope()}`;
-    let sessionsQuery = `sessions?scope=${getUserScope()}`;
+    let sessionsQuery = `sessions?scope=${getUserScope()}&filter_hasCompletedTx=false`;
 
     if (filter?.locations?.id) {
         transactionsQuery += `&filter_eq%5BlocationId%5D=${filter?.locations?.id}`;
@@ -18,9 +18,11 @@ export const getRecentSessions = async (filter: any): Promise<any[]> => {
 
     if (filter?.dateRange) {
         transactionsQuery += `&filter_ge%5BstartTime%5D=${formatIso(filter?.dateRange[0])}&filter_lt%5BstartTime%5D=${formatIso(filter?.dateRange[1])}`;
+        sessionsQuery += `&filter_ge%5BcreateTime%5D=${formatIso(filter?.dateRange[0])}&filter_lt%5BcreateTime%5D=${formatIso(filter?.dateRange[1])}`;
     } else {
         const lastWeek = getLastWeek();
         transactionsQuery += `&filter_ge%5BstartTime%5D=${formatIso(lastWeek[0])}&filter_lt%5BstartTime%5D=${formatIso(lastWeek[1])}`;
+        sessionsQuery += `&filter_ge%5BcreateTime%5D=${formatIso(lastWeek[0])}&filter_lt%5BcreateTime%5D=${formatIso(lastWeek[1])}`;
     }
 
     const { entities } = await get(sessionsQuery);
