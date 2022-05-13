@@ -10,48 +10,55 @@ import { getTransactionReport } from '../../stores/selectors/transactionReport.s
 import { convertToDate } from '../../utils/Date.Util';
 import {
   Button,
-  ButtonType, Card, CustomDatePicker, Dropdown, DropdownType, Grid, Label,
-  LabelType, ModalForm, Pill,
+  ButtonType,
+  Card,
+  CustomDatePicker,
+  Dropdown,
+  DropdownType,
+  Grid,
+  Label,
+  LabelType,
+  ModalForm,
+  Pill,
   PILL_BG_COLOR,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
 
-export const Sessions = () => {
-  const chargerDummyData = [
-    { label: 'AD-21', selected: false },
-    { label: 'AD-22', selected: false },
-    { label: 'AD-23', selected: false },
-    { label: 'AD-24', selected: false },
-    { label: 'AD-25', selected: false },
-    { label: 'AD-26', selected: false },
-    { label: 'AD-27', selected: false },
-    { label: 'AD-28', selected: false },
-    { label: 'AD-29', selected: false },
-    { label: 'AD-30', selected: false },
-    { label: 'AD-31', selected: false },
-    { label: 'AD-32', selected: false },
-    { label: 'AD-25', selected: false },
-    { label: 'AD-26', selected: false },
-    { label: 'AD-27', selected: false },
-    { label: 'AD-28', selected: false },
-    { label: 'AD-29', selected: false },
-    { label: 'AD-30', selected: false },
-    { label: 'AD-31', selected: false },
-    { label: 'AD-32', selected: false },
-    { label: 'AD-33', selected: false },
-    { label: 'AD-34', selected: false },
-    { label: 'AD-35', selected: false },
-  ];
+interface SessionsProps {
+  locationId?: string | undefined;
+}
+
+export const Sessions = ({ locationId }: SessionsProps) => {
   const dispatch = useDispatch();
   const recentSessions = useSelector(selectRecentSessions);
   const chargers = useSelector(selectChargers);
   const transactionReport = useSelector(getTransactionReport);
   const [filter, setFilter] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [chargerData, setChargerData] = useState(chargerDummyData);
   const [downloadReport, setDownloadReport] = useState(false);
+
+  const [chargerData, setChargerData] = useState<
+    { id: string; label: string | undefined; selected: boolean }[]
+  >([]);
+  const [_locationId, setLocationId] = useState(locationId);
+  useEffect(() => {
+    setLocationId(locationId);
+  }, [locationId]);
+  const getDefaultChargerData = (_id: any) => {
+    return chargers
+      .filter((charger) => !_id || charger.location?.id === _id)
+      .map((charger: any) => ({
+        id: charger.id,
+        label: charger.name,
+        selected: false,
+      }));
+  };
+
+  useEffect(() => {
+    setChargerData(getDefaultChargerData(_locationId));
+  }, [chargers, _locationId]);
 
   const refreshGrid = useCallback(
     async (page: number) => {
@@ -75,7 +82,7 @@ export const Sessions = () => {
   );
 
   const handleClearAllClick = () => {
-    setChargerData(chargerDummyData);
+    setChargerData(getDefaultChargerData(_locationId));
     setFilter({
       ...filter,
       charger: [],
@@ -83,7 +90,7 @@ export const Sessions = () => {
   };
 
   const renderClearAllButton = () => {
-    const foundSelectedCharger = chargerData.find(
+    const foundSelectedCharger = chargerData.some(
       (charger) => charger.selected,
     );
     if (foundSelectedCharger) {
@@ -106,6 +113,14 @@ export const Sessions = () => {
       }
       return cd;
     });
+    setFilter({
+      ...filter,
+      charger: newChargerList
+        .filter((data: any) => data.selected)
+        .map((selectedData: any) => {
+          return chargers.find((charger) => charger.id === selectedData.id);
+        }),
+    });
     setChargerData(newChargerList);
   };
 
@@ -116,33 +131,41 @@ export const Sessions = () => {
         return (
           <Pill
             // eslint-disable-next-line react/no-array-index-key
-            key={`${c.name}-${index}`}
+            key={`${c.label}-${index}`}
             onClick={() => handlePillClick(c)}
-            label={c.name}
+            label={c.label}
             isButton
-            width='auto'
+            autoWidth
             labelType={LabelType.PILL_DROPDOWN}
           />
         );
       });
   };
 
-  const chargerSelected = useCallback(
-    (item: any) => {
-      setFilter({
-        ...filter,
-        charger: item.filter((charger: any) => charger.selected),
-      });
-      setChargerData(item);
-    },
-    [filter],
-  );
+  const chargerSelected = (item: any) => {
+    setFilter({
+      ...filter,
+      charger: item
+        .filter((data: any) => data.selected)
+        .map((selectedData: any) => {
+          return chargers.find((charger) => charger.id === selectedData.id);
+        }),
+    });
+    setChargerData(item);
+  };
 
   const rowClick = useCallback((rowData: any) => {
-    const generateChargerStatusHistory = (status: any, startTime: any, endTime: any) => {
+    const generateChargerStatusHistory = (
+      status: any,
+      startTime: any,
+      endTime: any,
+    ) => {
       const chargerStatusHistory = [];
       if (status === 'FAILED') {
-        chargerStatusHistory.push({ title: 'Failed', date: convertToDate(startTime) });
+        chargerStatusHistory.push({
+          title: 'Failed',
+          date: convertToDate(startTime),
+        });
       } else if (status === 'PREPARING' || status === 'IN_PROGRESS') {
         chargerStatusHistory.push(
           { title: 'Charging' },
@@ -172,7 +195,11 @@ export const Sessions = () => {
       cost: rowData.billedTotalAmount,
       currency: rowData.billedCurrency,
       sessionStatus: rowData.status,
-      statusHistory: generateChargerStatusHistory(rowData.status, rowData.startTime || rowData.createTime, rowData.stopTime || rowData.completeTime),
+      statusHistory: generateChargerStatusHistory(
+        rowData.status,
+        rowData.startTime || rowData.createTime,
+        rowData.stopTime || rowData.completeTime,
+      ),
     };
     ModalForm.show({
       title: 'Session detail',
@@ -203,8 +230,7 @@ export const Sessions = () => {
             title='Charger'
             headerWidth='auto'
             type={DropdownType.CHECKBOX}
-            items={chargers}
-            label='name'
+            items={chargerData}
             onItemClick={chargerSelected}
           />
           <CustomDatePicker
@@ -253,7 +279,7 @@ export const Sessions = () => {
             key: 'createTime|startTime',
             title: 'Start Time',
             type: GridColumnType.DATETIME,
-            format: 'LLL dd, HH:mm a',
+            format: 'LLL dd, h:mm a',
           },
           {
             key: 'status',
@@ -266,7 +292,18 @@ export const Sessions = () => {
               />
             ),
           },
-          { key: 'consumedEnergyKwh', title: 'Energy used' },
+          {
+            key: 'consumedEnergyKwh',
+            title: 'Energy used',
+            component: (row: any) => (
+              <Label
+                text={
+                  row.consumedEnergyKwh ? `${row.consumedEnergyKwh} kWh` : ''
+                }
+                type={LabelType.BODY3}
+              />
+            ),
+          },
           {
             key: 'billedTotalAmount',
             title: 'Cost',

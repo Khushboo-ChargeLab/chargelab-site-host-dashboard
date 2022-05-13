@@ -38,7 +38,9 @@ const CheckBox = ({
     <div className='flex flex-row gap-2 items-center justify-start'>
       <input
         className={`w-4 h-4 justify-center  ${
-          singleSelection ? 'form-radio' : 'rounded-sm form-checkbox'
+          singleSelection
+            ? 'form-radio text-blue-light'
+            : 'rounded-sm form-checkbox'
         }`}
         type={singleSelection ? 'radio' : 'checkbox'}
         checked={checked}

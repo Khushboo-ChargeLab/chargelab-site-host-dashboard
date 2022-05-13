@@ -28,19 +28,27 @@ interface VerticalBarChartProps {
   className?: string;
   dateField?: string;
   valueField?: string;
-  barBgColor?:string;
+  barBgColor?: string;
+  onTickLabel?: Function;
+  onTooltipTitle?: Function;
 }
 
 const MAX_TICKS_LIMIT = 6;
 
 export const VerticalBarChart = memo(
-  ({ barBgColor = '#3DBAE3', items = [], className = 'flex w-full h-60', dateField = 'date', valueField = 'value' }: VerticalBarChartProps) => {
+  ({
+    barBgColor = '#3DBAE3',
+    items = [],
+    className = 'flex w-full h-60',
+    dateField = 'date',
+    valueField = 'value',
+    onTickLabel,
+    onTooltipTitle,
+  }: VerticalBarChartProps) => {
     const theme = useSelector(getCurrentTheme);
-    const getLabels = () => items.map((item: any) => getShortMonth(item[dateField]));
+    const getLabels = () =>
+      items.map((item: any) => getShortMonth(item[dateField]));
     const getData = () => items.map((item: any) => item[valueField]);
-    const getTickLabel = (val: number) => convertToLocaleCurrency(val);
-    const getTooltipTitle = (context: any) =>
-      convertToLocaleCurrency(context[0].raw);
 
     const getTooltipLabel = (context: any) =>
       formatDate(items[context.dataIndex][dateField], 'MMM, yyyy');
@@ -69,7 +77,8 @@ export const VerticalBarChart = memo(
                 suggestedMax: max,
                 ticks: {
                   maxTicksLimit: MAX_TICKS_LIMIT,
-                  callback: (tickValue: any) => getTickLabel(tickValue),
+                  callback: (tickValue: any) =>
+                    (onTickLabel && onTickLabel(tickValue)) || tickValue,
                 },
               },
               x: {
@@ -97,7 +106,9 @@ export const VerticalBarChart = memo(
                 titleAlign: 'center',
                 callbacks: {
                   label: (context) => getTooltipLabel(context),
-                  title: (context) => getTooltipTitle(context),
+                  title: (context) =>
+                    (onTooltipTitle && onTooltipTitle(context[0].raw)) ||
+                    context[0].raw,
                 },
               },
               legend: {

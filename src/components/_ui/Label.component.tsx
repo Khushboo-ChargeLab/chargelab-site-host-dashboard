@@ -19,7 +19,7 @@ export enum LabelType {
   LABEL_XS = 'text-xs font-semibold text-grey6',
   PILL = 'text-sm text-white font-medium font-sans pt-0.5 pb-0 pl-2 pr-2',
   PILL_DROPDOWN = 'text-sm text-grey6 font-medium font-sans pl-2 pr-2',
-  PILL_DROPDOWN_BTN = 'text-sm text-grey6 font-medium font-sans pr-2',
+  PILL_DROPDOWN_BTN = 'text-sm text-grey6 font-medium font-sans pr-1',
   BUTTON_PRIMARY = 'text-sm font-semibold font-sans text-white',
   BUTTON_CANCEL = 'text-sm font-semibold font-sans text-grey6',
   BUTTON_DISABLE = 'text-sm font-semibold font-sans text-grey-light2',

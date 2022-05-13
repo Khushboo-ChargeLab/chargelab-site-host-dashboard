@@ -27,3 +27,5 @@ chargers_grid_note,Note,Note,Note
 pricing,Pricing,Pricing,Pricing
 access,Access,Access,Access
 chargers_price_free,Free,Free,Free
+vertical_bar_chart_no_data,No Data,No Data,No Data
+vertical_bar_chart_no_data_desc,Monthly charging history will be shown here,Monthly charging history will be shown here,Monthly charging history will be shown here
