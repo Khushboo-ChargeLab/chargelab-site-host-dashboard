@@ -32,6 +32,7 @@ interface DropdownProps {
   label?: string;
   headerClassName?: string;
   headerHighLightClassName?: string;
+  isIconSvgString?: boolean;
 }
 
 export const Dropdown = memo(
@@ -44,6 +45,7 @@ export const Dropdown = memo(
     label = 'label',
     headerClassName = 'bg-silver border-grey-light2 rounded',
     headerHighLightClassName = 'bg-silver border-grey-light2 rounded',
+    isIconSvgString = false,
   }: DropdownProps) => {
     const [_title, setTitle] = useState(() => {
       let defaultTitle = title;
@@ -268,6 +270,7 @@ export const Dropdown = memo(
                   : LabelType.DROPDOWN_HEADER
               }
               icon={_icon}
+              isIconSvgString={isIconSvgString}
             />
             <img
               className='pl-4'
@@ -323,6 +326,7 @@ export const Dropdown = memo(
                   }
                   text={item[label]}
                   icon={item.icon}
+                  isIconSvgString={isIconSvgString}
                 />
               </button>
             );

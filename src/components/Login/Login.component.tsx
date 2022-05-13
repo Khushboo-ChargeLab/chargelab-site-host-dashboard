@@ -179,15 +179,15 @@ export const Login = () => {
               </div>
               <div className='pb-10 flex'>
                 {isPhoneNumber()
-                    && ( // TODO this needs improvement, currently only has Canada, US and Jamaica
+                    && (
                       <Dropdown
                         title=''
-                        headerWidth={100}
                         items={countryPhoneList}
                         onItemClick={(items: any, item: any, index: number) =>
                             setPhoneNumberCountryCode(item.label)
                         }
                         headerHighLightClassName='bg-silver border-grey-light2 rounded h-12 mr-1.5'
+                        isIconSvgString
                       />
                     )}
                 {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
