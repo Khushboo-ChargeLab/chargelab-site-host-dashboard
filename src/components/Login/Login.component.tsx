@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { parsePhoneNumber } from 'libphonenumber-js';
+// @ts-ignore
+import { getCountryListMap, getCountryFlag } from 'country-flags-dial-code/dist/index';
 import { login, resendCode, setBearerToken, setupCognito, setUserInfo, verifyCode } from '../../services/authenticate/authenticate.service';
 import { Dropdown, Label, LabelType, Snackbar } from '../_ui';
 import { getCurrentTheme } from '../../stores/selectors/theme.selector';
@@ -23,6 +25,7 @@ export const Login = () => {
   // state to check if the resend code was clicked
   const [resendOtpClicked, setResendOtpClicked] = useState<boolean>(false);
   const theme = useSelector(getCurrentTheme);
+  const [countryPhoneList, setCountryPhoneList] = useState<any[]>([]);
   // checks for 2 or more consecutive numeric characters
   const isPhoneNumber = () => {
     return /^\d{2,}$/.test(email);
@@ -41,6 +44,7 @@ export const Login = () => {
         position: AlertPosition.BOTTOM,
         alertType: AlertType.ERROR,
       });
+      setOtp('');
       return;
     }
     setBearerToken(session.signInUserSession?.accessToken?.jwtToken);
@@ -81,6 +85,7 @@ export const Login = () => {
           "The code is no longer valid. Please click the 'Send new code' and try again.",
         position: AlertPosition.BOTTOM,
       });
+      setOtp('');
     } else {
       setCurrentUser(session);
     }
@@ -130,9 +135,17 @@ export const Login = () => {
       }, 1000);
     }
   };
+  // @ts-ignore
   useEffect(() => {
     (async () => {
       await setupCognito();
+      const list: any[] = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(getCountryListMap())) {
+        // @ts-ignore
+        list.push({ icon: value.flag, label: value.dialCode, selected: value.code === 'CA' });
+      }
+      setCountryPhoneList(list);
     })();
   }, []);
   // this is used to monitor if the resend OTP link was clicked
@@ -170,11 +183,7 @@ export const Login = () => {
                       <Dropdown
                         title=''
                         headerWidth={100}
-                        items={[
-                          { icon: 'http://purecatamphetamine.github.io/country-flag-icons/3x2/CA.svg', label: '+1', selected: true },
-                          { icon: 'http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg', label: '+1' },
-                          { icon: 'http://purecatamphetamine.github.io/country-flag-icons/3x2/JM.svg', label: '+1' },
-                        ]}
+                        items={countryPhoneList}
                         onItemClick={(items: any, item: any, index: number) =>
                             setPhoneNumberCountryCode(item.label)
                         }
@@ -201,6 +210,7 @@ export const Login = () => {
                   <span className='text-blue2'>
                     {!isPhoneNumber() ? ` ${email}. ` : ` ${formatPhoneNumberNational()}. `}
                   </span>
+                  <br />
                   Code expires in 1 minute.
                 </div>
               </div>
