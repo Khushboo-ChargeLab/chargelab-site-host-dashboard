@@ -20,6 +20,7 @@ import {
 import { selectChargerStatuses } from '../../stores/selectors/charger.selector';
 import { fetchStatistics } from '../../stores/reducers/stats.reducer';
 import { getLocation } from '../../stores/selectors/location.selector';
+import { addFilterForExportTransaction } from '../../stores/reducers/transactionReport.reducer';
 
 export const Overview = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ export const Overview = () => {
     dispatch(fetchSessions({ locations: location }));
     dispatch(fetchSimpleStat({ locations: location }));
     dispatch(fetchStatistics({ locationId: location?.id, currency: 'CAD' }));
+    dispatch(addFilterForExportTransaction({ locations: location }));
     setlocationsDropdown(
       locationsDropdown?.map((data) => {
         return {

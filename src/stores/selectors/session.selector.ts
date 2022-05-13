@@ -19,7 +19,8 @@ export const getSortedRecentSessions = createSelector(
             const startTimeB = b.startTime || b.createTime;
             if (!startTimeA) return 1;
             if (!startTimeB) return -1;
-            return startTimeA < startTimeB ? 1 : -1;
+            // BE uses a ISO/W3C date format on response, javascript can't compare it directly.
+            return new Date(startTimeA) < new Date(startTimeB) ? 1 : -1;
         });
         return sortedArray;
     },

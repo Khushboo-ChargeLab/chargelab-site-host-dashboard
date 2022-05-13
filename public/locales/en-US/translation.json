@@ -33,5 +33,6 @@
   "overview_charger_status": "Charger status",
   "date_picker_last_week": "Last week",
   "date_picker_last_month": "Last month",
-  "date_picker_custom_range": "Custom range"
+  "date_picker_custom_range": "Custom range",
+  "chargers_price_paid": "Paid"
 }

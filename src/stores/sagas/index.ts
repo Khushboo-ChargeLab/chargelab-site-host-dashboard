@@ -4,6 +4,7 @@ import transactionsSaga from './transactions.saga';
 import chargersSaga from './charger.saga';
 import locationSaga from './location.saga';
 import statsSaga from './stats.saga';
+import transactionReportSaga from './transactionReport.saga';
 
 export function* rootSaga() {
   yield all([
@@ -12,5 +13,6 @@ export function* rootSaga() {
     fork(transactionsSaga),
     fork(chargersSaga),
     fork(statsSaga),
+    fork(transactionReportSaga),
   ]);
 }

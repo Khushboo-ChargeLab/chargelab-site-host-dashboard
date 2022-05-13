@@ -32,6 +32,7 @@ interface DropdownProps {
   label?: string;
   headerClassName?: string;
   headerHighLightClassName?: string;
+  inputWidth?: string;
   isIconSvgString?: boolean;
 }
 
@@ -45,6 +46,7 @@ export const Dropdown = memo(
     label = 'label',
     headerClassName = 'bg-silver border-grey-light2 rounded',
     headerHighLightClassName = 'bg-silver border-grey-light2 rounded',
+    inputWidth = '',
     isIconSvgString = false,
   }: DropdownProps) => {
     const [_title, setTitle] = useState(() => {
@@ -291,6 +293,7 @@ export const Dropdown = memo(
         placeholder={t('search')}
         iconType={InputIconType.SEARCH}
         onChange={handleSearch}
+        props={{ style: { 'width': inputWidth } }}
       />
     );
 
