@@ -20,8 +20,6 @@ import {
 import { selectChargerStatuses } from '../../stores/selectors/charger.selector';
 import { fetchStatistics } from '../../stores/reducers/stats.reducer';
 import { getLocation } from '../../stores/selectors/location.selector';
-import { Sessions } from '../Session';
-import { Dropdown } from '../_ui';
 import { addFilterForExportTransaction } from '../../stores/reducers/transactionReport.reducer';
 
 export const Overview = () => {
