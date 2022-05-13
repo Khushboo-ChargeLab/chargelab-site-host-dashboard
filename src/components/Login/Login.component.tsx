@@ -37,7 +37,7 @@ export const Login = () => {
     if (!session) {
       Snackbar.show({
         message:
-          "The one time code is no longer valid. Please click the 'RESEND CODE' and try again.",
+          "The code is no longer valid. Please click the 'Send new code' and try again.",
         position: AlertPosition.BOTTOM,
         alertType: AlertType.ERROR,
       });
