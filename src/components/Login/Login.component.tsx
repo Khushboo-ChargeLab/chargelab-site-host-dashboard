@@ -143,8 +143,10 @@ export const Login = () => {
         timer(60);
         // eslint-disable-next-line no-promise-executor-return
         await new Promise((resolve) => setTimeout(resolve, 60000));
-        console.log('Resetting resend OTP link state');
-        setResendOtpClicked(false);
+        if (otpTimer && otpTimer === '0:00') {
+          console.log('Resetting resend OTP link state');
+          setResendOtpClicked(false);
+        }
       }
     })();
   }, [resendOtpClicked]);
