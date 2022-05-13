@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { alert, completed } from '../../lib';
 import { downloadCSV } from '../../services/utils';
+import { alert, charging, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
 import { fetchTransactionReport } from '../../stores/reducers/transactionReport.reducer';
 import { selectChargers } from '../../stores/selectors/charger.selector';
-import { selectRecentSessions } from '../../stores/selectors/session.selector';
 import { getTransactionReport } from '../../stores/selectors/transactionReport.selector';
+import { getSortedRecentSessions } from '../../stores/selectors/session.selector';
+import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import { convertToDate } from '../../utils/Date.Util';
 import {
   Button,
@@ -32,7 +33,7 @@ interface SessionsProps {
 
 export const Sessions = ({ locationId }: SessionsProps) => {
   const dispatch = useDispatch();
-  const recentSessions = useSelector(selectRecentSessions);
+  const recentSessions = useSelector(getSortedRecentSessions);
   const chargers = useSelector(selectChargers);
   const transactionReport = useSelector(getTransactionReport);
   const [filter, setFilter] = useState({});
@@ -222,9 +223,21 @@ export const Sessions = ({ locationId }: SessionsProps) => {
     setDownloadReport(true);
   };
 
+  const renderSelectedChargers = () => {
+    if (!chargerData.some((c: any) => c.selected)) {
+      return <div className='mt-5' />;
+    }
+    return (
+      <div className='gap-2 mt-5 mb-6 inline-flex flex-wrap'>
+        {renderSelectedCharger()}
+        {renderClearAllButton()}
+      </div>
+    );
+  };
+
   return (
     <Card title='Recent sessions'>
-      <div className='flex mt-3 mb-8 w-full'>
+      <div className='flex mt-3 w-full'>
         <div className='flex w-4/5'>
           <Dropdown
             title='Charger'
@@ -232,6 +245,8 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             type={DropdownType.CHECKBOX}
             items={chargerData}
             onItemClick={chargerSelected}
+            headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
+            inputWidth='15.3rem'
           />
           <CustomDatePicker
             format='MMM d,yyyy'
@@ -249,12 +264,8 @@ export const Sessions = ({ locationId }: SessionsProps) => {
         </div>
       </div>
 
-      {chargerData.some((c: any) => c.selected) && (
-        <div className='mt-3 mb-8 inline-flex flex-wrap gap-1'>
-          {renderSelectedCharger()}
-          {renderClearAllButton()}
-        </div>
-      )}
+      {renderSelectedChargers()}
+
       <Grid
         onRowClick={rowClick}
         pageIndex={currentPage}
@@ -284,13 +295,30 @@ export const Sessions = ({ locationId }: SessionsProps) => {
           {
             key: 'status',
             title: 'Status',
-            component: (row: any) => (
-              <Label
-                text={(row.status || 'Completed').replace('ENDED', 'Completed')}
-                type={LabelType.BODY3}
-                icon={row.status === 'Failed' ? alert : completed}
-              />
-            ),
+            component: (row: any) => {
+              let statusIcon = '';
+              if (
+                row?.status?.toLowerCase() === 'preparing' ||
+                row?.status?.toLowerCase() === 'in_progress'
+              ) {
+                statusIcon = charging;
+              } else if (row?.status?.toLowerCase() === 'failed') {
+                statusIcon = alert;
+              } else {
+                statusIcon = completed;
+              }
+              return (
+                <Label
+                  text={(row.status || 'Completed')
+                    .replace('ENDED', 'Completed')
+                    .replace('FAILED', 'Failed')
+                    .replace('PREPARING', 'Preparing')
+                    .replace('IN_PROGRESS', 'Charging')}
+                  type={LabelType.BODY3}
+                  icon={statusIcon}
+                />
+              );
+            },
           },
           {
             key: 'consumedEnergyKwh',
@@ -298,7 +326,9 @@ export const Sessions = ({ locationId }: SessionsProps) => {
             component: (row: any) => (
               <Label
                 text={
-                  row.consumedEnergyKwh ? `${row.consumedEnergyKwh} kWh` : ''
+                  row.consumedEnergyKwh || row.consumedEnergyKwh === 0
+                    ? `${row.consumedEnergyKwh.toFixed(1)} kWh`
+                    : ''
                 }
                 type={LabelType.BODY3}
               />
@@ -307,7 +337,19 @@ export const Sessions = ({ locationId }: SessionsProps) => {
           {
             key: 'billedTotalAmount',
             title: 'Cost',
-            type: GridColumnType.CURRENCY,
+            component: (row: any) => (
+              <Label
+                text={
+                  row.billedTotalAmount || row.billedTotalAmount === 0
+                    ? `${convertToLocaleCurrency(
+                        row.billedTotalAmount,
+                        row.billedCurrency,
+                      )}`
+                    : ''
+                }
+                type={LabelType.BODY3}
+              />
+            ),
           },
         ]}
         data={recentSessions}

@@ -14,7 +14,7 @@ interface CheckBoxGroupProps {
   singleSelection?: boolean;
   onChange: Function;
   filterStr?: string;
-  label?:string;
+  label?: string;
 }
 
 const CheckBoxGroup = ({
@@ -46,15 +46,27 @@ const CheckBoxGroup = ({
   };
 
   return (
-    <div className={`flex ${direction === GroupDirection.Vertical ? 'flex-col' : 'flex-row gap-4'}`}>
-      {items.map((rowData:any, index) => {
+    <div
+      className={`flex ${
+        direction === GroupDirection.Vertical ? 'flex-col' : 'flex-row gap-4'
+      }`}
+    >
+      {items.map((rowData: any, index) => {
         const item = rowData[label] as string;
-        if (filterStr && !item.toLowerCase().includes(filterStr.toLowerCase())) {
+        if (
+          filterStr &&
+          !item.toLowerCase().includes(filterStr.toLowerCase())
+        ) {
           return null;
         }
         return (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={`${item}-${index}`} className={`flex hover:bg-silver h-12 ${direction === GroupDirection.Vertical && 'pl-2 pr-12'} `}>
+          <div
+            // eslint-disable-next-line react/no-array-index-key
+            key={`${item}-${index}`}
+            className={`flex h-9 ${
+              direction === GroupDirection.Vertical && 'pl-2 pr-12'
+            } `}
+          >
             <CheckBox
               index={index}
               name={name}

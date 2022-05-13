@@ -44,11 +44,6 @@ export const GridBody = memo(
         }
       }
 
-      if (col.component) {
-        const Component = col.component;
-        return <Component {...dataRow} />;
-      }
-
       return currentData;
     };
 
@@ -59,8 +54,22 @@ export const GridBody = memo(
       [onRowClick],
     );
 
+    const renderRows = (col: any, dataRow: any) => {
+      if (col.component) {
+        const Component = col.component;
+        return <Component {...dataRow} />;
+      }
+      return (
+        <Label
+          className='pt-2 pb-2'
+          type={LabelType.BODY3}
+          text={formatData(col, dataRow)}
+        />
+      );
+    };
+
     return (
-      <div className='tbody'>
+      <tbody>
         {(local
           ? (data || []).filter(
               (d: any, index) =>
@@ -69,7 +78,7 @@ export const GridBody = memo(
             )
           : data || []
         ).map((dataRow: any) => (
-          <div
+          <tr
             onClick={() => rowClicked(dataRow)}
             key={dataRow[primaryKey]}
             className={`row ${
@@ -77,14 +86,12 @@ export const GridBody = memo(
             }`}
           >
             {columns.map((col: GridColumn) => (
-              <div key={col.key} className='th pt-2 pb-2 pl-3'>
-                <Label type={LabelType.BODY3} text={formatData(col, dataRow)} />
-              </div>
+              <td key={col.key}>{renderRows(col, dataRow)}</td>
             ))}
-          </div>
+          </tr>
         ))}
         <div className='row footer'>&nbsp;</div>
-      </div>
+      </tbody>
     );
   },
 );

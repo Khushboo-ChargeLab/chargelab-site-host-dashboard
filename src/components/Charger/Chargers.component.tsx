@@ -101,7 +101,6 @@ export const Chargers = () => {
       troubleCount === 0
         ? t('chargers_status_all_online')
         : `${troubleCount} ${t('chargers_status_has_trouble')}`;
-    const icon = troubleCount > 0 ? infoRed : completed;
     return (
       <div>
         <Card
@@ -109,16 +108,20 @@ export const Chargers = () => {
           title={t('chargers_overview')}
           titleType={LabelType.H7}
         >
-          {chargers && (
+          {chargers && troubleCount !== undefined && (
             <div className='flex flex-col gap-3'>
               <div className='flex flex-row items-center gap-2'>
-                <img className='w-8 h-8' src={icon} alt='' />
+                <img
+                  className='w-7 h-7'
+                  src={troubleCount > 0 ? infoRed : completed}
+                  alt=''
+                />
                 <Label text={text} type={LabelType.H4} />
               </div>
               {troubleCount > 0 && (
                 <Label
                   text={t('chargers_trouble_desc')}
-                  type={LabelType.BODY3}
+                  type={LabelType.BODY3_GREY6}
                 />
               )}
               {troubleCount > 0 && (
@@ -126,13 +129,19 @@ export const Chargers = () => {
                   <li>
                     <Label
                       text={t('chargers_trouble_solution_1')}
-                      type={LabelType.BODY3}
+                      type={LabelType.BODY3_GREY6}
                     />
                   </li>
                   <li>
                     <Label
                       text={t('chargers_trouble_solition_2')}
-                      type={LabelType.BODY3}
+                      type={LabelType.BODY3_GREY6}
+                    />
+                  </li>
+                  <li>
+                    <Label
+                      text={t('chargers_trouble_solution_3')}
+                      type={LabelType.BODY3_GREY6}
                     />
                   </li>
                 </ul>
@@ -225,12 +234,7 @@ export const Chargers = () => {
   };
 
   const getPrice = (charger: any) => {
-    return charger.currentPrice.ratePerKilowattHour === 0
-      ? t('chargers_price_free')
-      : convertToLocaleCurrency(
-          charger.currentPrice.ratePerKilowattHour,
-          charger.currentPrice.currency,
-        );
+    return charger.isFree ? t('chargers_price_free') : t('chargers_price_paid');
   };
 
   const getGridData = () =>
@@ -260,43 +264,48 @@ export const Chargers = () => {
   };
 
   const renderSelectedStatus = () => {
-    return statusList
-      .filter((item) => item.selected)
-      .map((item) => {
-        return (
-          <Pill
-            key={item.label}
-            label={item.label}
-            labelType={LabelType.PILL_DROPDOWN}
-            isButton
-            onClick={() => handlePillClick(item)}
-            autoWidth
-          />
-        );
-      });
+    if (!statusList.some((item) => item.selected)) {
+      return <div className='mt-5' />;
+    }
+    return (
+      <div className='flex flex-row gap-2 mt-5 mb-6'>
+        {statusList
+          .filter((item) => item.selected)
+          .map((item) => {
+            return (
+              <Pill
+                key={item.label}
+                label={item.label}
+                labelType={LabelType.PILL_DROPDOWN}
+                isButton
+                onClick={() => handlePillClick(item)}
+                autoWidth
+              />
+            );
+          })}
+      </div>
+    );
   };
 
   const renderDropdown = () => {
     return (
-      <div className='flex flex-col gap-5'>
-        <div className='flex gap-3'>
-          {locations && (
-            <Dropdown
-              title={t('location')}
-              headerWidth='auto'
-              items={locationsDropdown}
-              onItemClick={handleLocationSelected}
-            />
-          )}
+      <div className='flex gap-3'>
+        {locations && (
           <Dropdown
-            title={t('status')}
-            type={DropdownType.CHECKBOX}
+            title={t('location')}
             headerWidth='auto'
-            items={statusList}
-            onItemClick={(items: any) => setStatusList(items)}
+            items={locationsDropdown}
+            onItemClick={handleLocationSelected}
           />
-        </div>
-        <div className='flex flex-row gap-5'>{renderSelectedStatus()}</div>
+        )}
+        <Dropdown
+          title={t('status')}
+          type={DropdownType.CHECKBOX}
+          headerWidth='auto'
+          items={statusList}
+          onItemClick={(items: any) => setStatusList(items)}
+          headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
+        />
       </div>
     );
   };
@@ -305,8 +314,9 @@ export const Chargers = () => {
     return (
       <div>
         {chargers && (
-          <div className='flex flex-col gap-6 mt-6'>
-            <div className='flex gap-3'>{renderDropdown()}</div>
+          <div className='flex flex-col mt-6'>
+            {renderDropdown()}
+            {renderSelectedStatus()}
             <Grid
               onRowClick={rowClick}
               pageIndex={currentPage}
@@ -323,9 +333,11 @@ export const Chargers = () => {
   };
 
   return (
-    <Card>
-      {renderChargerOverview()}
-      {renderChargerTable()}
-    </Card>
+    <div className='pb-12'>
+      <Card>
+        {renderChargerOverview()}
+        {renderChargerTable()}
+      </Card>
+    </div>
   );
 };
