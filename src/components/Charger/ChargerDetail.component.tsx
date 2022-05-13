@@ -5,7 +5,11 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 // Selectors
 import { getChargerDetail } from '../../stores/selectors/charger.selector';
-import { Label, LabelType } from '../_ui';
+import { Label, LabelType, Button, ButtonType } from '../_ui';
+// Components
+import { ChargerStatus } from './ChargerStatus.component';
+// assets
+import { start, stop, reset } from '../../lib';
 
 interface ChargerDetailProps {
   chargerId: string;
@@ -62,7 +66,7 @@ export const ChargerDetail = memo(({ chargerId }: ChargerDetailProps) => {
               type={LabelType.H7}
               className='basis-1/2'
             />
-            <Label text='' type={LabelType.BODY3} />
+            <Label text={charger?.location?.name} type={LabelType.BODY3} />
           </div>
           <div className='flex flex-row'>
             <Label
@@ -70,7 +74,10 @@ export const ChargerDetail = memo(({ chargerId }: ChargerDetailProps) => {
               type={LabelType.H7}
               className='basis-1/2'
             />
-            <Label text='' type={LabelType.BODY3} />
+            <Label
+              text={charger?.location?.streetAddress}
+              type={LabelType.BODY3}
+            />
           </div>
           <div className='flex flex-row'>
             <Label
@@ -78,7 +85,7 @@ export const ChargerDetail = memo(({ chargerId }: ChargerDetailProps) => {
               type={LabelType.H7}
               className='basis-1/2'
             />
-            <Label text='' type={LabelType.BODY3} />
+            <ChargerStatus status={charger?.status} />
           </div>
           <div className='flex flex-row'>
             <Label
@@ -94,7 +101,11 @@ export const ChargerDetail = memo(({ chargerId }: ChargerDetailProps) => {
               type={LabelType.H7}
               className='basis-1/2'
             />
-            <Label text='' type={LabelType.BODY3} />
+            <div className='flex flex-row gap-2'>
+              <Button label='Start' type={ButtonType.Icon} icon={start} />
+              <Button label='Start' type={ButtonType.Icon} icon={stop} />
+              <Button label='Start' type={ButtonType.Icon} icon={reset} />
+            </div>
           </div>
         </div>
       </div>
