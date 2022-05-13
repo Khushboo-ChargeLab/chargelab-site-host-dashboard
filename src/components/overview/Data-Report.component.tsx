@@ -88,7 +88,7 @@ export const DataReport = () => {
       return (
         <VerticalBarChart
           items={stats}
-          className='flex h-52 w-full'
+          className='flex h-60 w-full'
           dateField='date'
           valueField={valueField}
           onTickLabel={onTickLabel}
