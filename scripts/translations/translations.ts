@@ -15,6 +15,8 @@ const CSV_PATH = path.join(
   'scripts/translations/translations.csv',
 );
 
+const DELIMITER = '|';
+
 function formatJsonObject(data) {
   const result = {};
 
@@ -70,7 +72,7 @@ async function readCSVFile() {
   return new Promise((resolve) => {
     try {
       fs.createReadStream(CSV_PATH)
-        .pipe(csv.parse({ delimiter: ',' }))
+        .pipe(csv.parse({ delimiter: DELIMITER }))
         .on('data', (row) => {
           // set langs from the 1st line
           if (!langs) {
@@ -102,14 +104,14 @@ function exportCSV(data) {
   // format
   const translations = [];
   const keys = Object.keys(data);
-  const header = `key,${LANGUAGES.join(',')}`;
+  const header = `key${DELIMITER}${LANGUAGES.join(DELIMITER)}`;
   translations.push(header);
   for (const key of keys) {
     const vals = [key];
     for (const lang of LANGUAGES) {
       vals.push(data[key][lang]);
     }
-    translations.push(vals.join(','));
+    translations.push(vals.join(DELIMITER));
   }
 
   fs.writeFileSync(path.join(CSV_PATH), translations.join('\n'));
