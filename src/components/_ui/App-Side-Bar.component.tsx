@@ -83,16 +83,10 @@ export const AppSideBar = () => {
   );
 
   const renderItem = (item: any) => {
-    console.log(
-      'item :',
-      item.path,
-      routes.find((route) => route.path === item.path),
-    );
     const title = t(
       routes.find((route) => route.path === item.path)?.name || '',
     );
     const isSelected = getBaseRoute(currentLocation.pathname) === item.path;
-    console.log('item 1:', title, isSelected);
     return (
       <div
         key={item.path}

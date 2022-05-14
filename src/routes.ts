@@ -82,9 +82,7 @@ export const getBaseRoute = (fullPath:string) => {
 };
 
 export const getRouteTitle = (fullpath:string) => {
-  console.log('fullpath:', fullpath);
   const baseRoute = getBaseRoute(fullpath);
-  console.log('baseRoute:', baseRoute);
 
   return routes.find((route) => route.path === baseRoute)?.name || '';
 };

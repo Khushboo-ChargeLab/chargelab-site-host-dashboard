@@ -4,7 +4,6 @@ import { getBlob } from '../http/http.service';
 
 export const getTransactionReport = async (filter: any): Promise<any> => {
     let transactionReportQuery = `historical/reports/transactions?scope=${getUserScope()}`;
-    console.log('filter in getTransactionReport:>> ', filter);
     if (filter?.locations?.id) {
         transactionReportQuery += `&filter_eq%5BlocationId%5D=${filter?.locations?.id}`;
     }
