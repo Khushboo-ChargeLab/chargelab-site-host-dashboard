@@ -1,5 +1,4 @@
 key,en-US,es,fr
-hello_world,hello world,Hola Mundo,Bonjour le monde
 dashboard_title,ChargeLab Dashboard,ChargeLab Dashboard,ChargeLab Dashboard
 export_csv,Export CSV,Export CSV,Export CSV
 export_pdf,Export PDF,Export PDF,Export PDF
@@ -15,9 +14,10 @@ search,Search,Search,Search
 chargers_overview,CHARGER OVERVIEW,CHARGER OVERVIEW,CHARGER OVERVIEW
 chargers_status_all_online,All Chargers are online,All Chargers are online,All Chargers are online
 chargers_status_has_trouble,chargers may need your attention,chargers may need your attention,chargers may need your attention
-chargers_trouble_desc,The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:,We are looking into the issue. Here is what you can do in the meantime,We are looking into the issue. Here is what you can do in the meantime
-chargers_trouble_solution_1,Confirm that the charger that needs attention is powered on,Check if your WiFi got disconnected,Check if your WiFi got disconnected
-chargers_trouble_solition_2,If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router,Try rebooting your Wi-Fi router,Try rebooting your Wi-Fi router
+chargers_trouble_desc,The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:,The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:,The issue has been reported and is being investigated. In the meantime, the following steps often resolve common problems:
+chargers_trouble_solution_1,Confirm that the charger that needs attention is powered on,Confirm that the charger that needs attention is powered on,Confirm that the charger that needs attention is powered on
+chargers_trouble_solition_2,If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router,If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router,If the charger that needs attention is connected to the Internet via WiFi, try rebooting your WiFi router
+chargers_trouble_solution_3,Try rebooting your charger,Try rebooting your charger,Try rebooting your charger
 location,Location,Location,Location
 status,Status,Status,Status
 all_location,All Locations,All Locations,All Locations
@@ -33,3 +33,11 @@ overview_charger_status,Charger status,Charger status,Charger status
 date_picker_last_week,Last week,Last week,Last week
 date_picker_last_month,Last month,Last month,Last month
 date_picker_custom_range,Custom range,Custom range,Custom range
+chargers_price_paid,Paid,Paid,Paid
+overview,Overview,Overview,Overview
+chargers,Chargers,Chargers,Chargers
+company,Company,Company,Company
+payout,payout,payout,payout
+rfid,rfid,rfid,rfid
+learning,learning,learning,learning
+help,help,help,help

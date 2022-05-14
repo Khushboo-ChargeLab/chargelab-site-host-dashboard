@@ -2,11 +2,11 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable no-restricted-syntax */
 // Utils
+
 const path = require('path');
 const fs = require('fs');
 const csv = require('csv');
 const _ = require('lodash');
-
 // Constants
 const LANGUAGES = ['en-US', 'es', 'fr'];
 const JSON_PATH = path.join(path.resolve('./'), 'public/locales/');
@@ -42,11 +42,17 @@ function readJsonFiles() {
   try {
     // Get translation files
     for (const lang of LANGUAGES) {
-      const translations =
-        require(path.join(JSON_PATH, lang, 'translation.json')) || {};
+      const filename = path.join(JSON_PATH, lang, 'translation.json');
+      let translations;
+      if (fs.existsSync(filename)) {
+        translations = require(filename);
+      } else {
+        fs.writeFileSync(filename, '{}');
+        translations = {};
+      }
+
       data[lang] = translations;
     }
-
     return formatJsonObject(data);
   } catch (error) {
     console.log(`Error - readJsonFiles ${error}`);
@@ -58,6 +64,9 @@ async function readCSVFile() {
   // console.log('readCSVFile: Reading data from csv file.')
   const data = {};
   let langs;
+  if (!fs.existsSync(CSV_PATH)) {
+    fs.writeFileSync(CSV_PATH, '');
+  }
   return new Promise((resolve) => {
     try {
       fs.createReadStream(CSV_PATH)
@@ -130,6 +139,7 @@ function exportJSON(data) {
 async function translationMain() {
   // read json files
   const jsonObject = readJsonFiles();
+
   // render CSV files
   const csvObject = await readCSVFile();
 
