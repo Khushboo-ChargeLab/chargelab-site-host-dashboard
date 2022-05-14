@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes, Outlet } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   getBearerToken,
@@ -15,6 +15,8 @@ import {
   refreshToken,
   setupCognito,
 } from './services/authenticate/authenticate.service';
+import { NoMatch } from './components/NoMatch/NoMath.component';
+import { routes } from './routes';
 
 function App() {
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -54,28 +56,48 @@ function App() {
   if (!loaded || getBearerToken() === '') {
     return null;
   }
-  return (
-    <div className='App'>
-      <AppSideBar />
-      <AppHeader />
-      <div className='absolute left-60 right-0 top-16  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
-        <Route exact path='/'>
-          <Overview />
-        </Route>
-        <Route exact path='/chargers'>
-          <Chargers />
-        </Route>
-        <Route exact path='/wiki'>
-          <Wiki />
-        </Route>
 
-        <div className='fixed right-5 bottom-2'>
-          <Link to='/wiki'>
-            <Label text='wiki' />
-          </Link>
+  const Layout = () => {
+    return (
+      <div>
+        <AppSideBar />
+        <AppHeader />
+        <div className='absolute left-60 right-0 top-16  pl-10 pr-10 pt-10 bottom-0 overflow-auto bg-dashboard'>
+          <Outlet />
         </div>
       </div>
-    </div>
+    );
+  };
+
+  return (
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<Overview />} />
+        {routes.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<route.component />}
+          />
+        ))}
+      </Route>
+      <Route path='*' element={<NoMatch />} />
+    </Routes>
+    // <div className='App'>
+    //
+    //   <AppHeader />
+    //   <div className='absolute left-60 right-0 top-16  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
+    //     <Routes>
+    //       <Route path='/login' element={<Login />} />
+    //       <Route path='/' element={} />
+    //     </Routes>
+    //     <Routes>
+    //       <Route path='/' element={<Overview />} />
+    //       <Route path='/chargers' element={<Chargers />} />
+    //       <Route path='/wiki' element={<Wiki />} />
+    //     </Routes>
+    //   </div>
+    // </div>
   );
 }
 

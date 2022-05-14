@@ -90,7 +90,6 @@ export const GridBody = memo(
             ))}
           </tr>
         ))}
-        <div className='row footer'>&nbsp;</div>
       </tbody>
     );
   },

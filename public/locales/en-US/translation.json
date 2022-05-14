@@ -34,5 +34,12 @@
   "date_picker_last_week": "Last week",
   "date_picker_last_month": "Last month",
   "date_picker_custom_range": "Custom range",
-  "chargers_price_paid": "Paid"
+  "chargers_price_paid": "Paid",
+  "overview": "Overview",
+  "chargers": "Chargers",
+  "company": "Company",
+  "payout": "payout",
+  "rfid": "rfid",
+  "learning": "learning",
+  "help": "help"
 }
