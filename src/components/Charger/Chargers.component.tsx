@@ -242,10 +242,7 @@ export const Chargers = () => {
       charger: charger.name,
       location: charger.location?.name,
       status: charger.status,
-      lastUsed:
-        transactions?.entries.find(
-          (transaction) => transaction.port.charger.id === charger.id,
-        )?.startTime || '',
+      lastUsed: charger.lastUsed,
       pricing: getPrice(charger),
       access: charger.access,
       note: charger.usageNotes,
