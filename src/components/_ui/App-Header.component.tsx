@@ -8,12 +8,12 @@ import { routes, getBaseRoute, RoutePath, getRouteTitle } from '../../routes';
 
 export const AppHeader = () => {
   const currentLocation = useLocation();
-
+  const { t } = useTranslation();
   return (
     <div className='bg-dashboard h-20 border-b border-silver5 pt-6 pb-6 pl-10 left-60 right-0 flex z-50 absolute'>
       <div className='inline-block w-1/2'>
         <Label
-          text={getRouteTitle(currentLocation.pathname)}
+          text={t(getRouteTitle(currentLocation.pathname))}
           type={LabelType.H3}
         />
       </div>
