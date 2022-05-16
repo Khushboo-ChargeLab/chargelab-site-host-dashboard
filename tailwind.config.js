@@ -44,7 +44,8 @@ module.exports = {
       mainColor: '#18A0D7',
       secondaryColor: '#E8F7FC',
     },
-    extend: {},
+    extend: {
+    },
   },
   // eslint-disable-next-line global-require
   plugins: [require('@tailwindcss/forms')],

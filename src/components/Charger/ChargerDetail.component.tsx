@@ -4,9 +4,9 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 // Hooks
 import { useTranslation } from 'react-i18next';
 // Selectors
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { getChargerDetail } from '../../stores/selectors/charger.selector';
-import { Label, LabelType, Button, ButtonType } from '../_ui';
+import { Label, LabelType, Button, ButtonType, Card } from '../_ui';
 // Components
 import { ChargerStatus } from './ChargerStatus.component';
 // assets
@@ -15,7 +15,9 @@ import { start, stop, reset } from '../../lib';
 export const ChargerDetail = () => {
   const { t } = useTranslation();
   const { chargerId } = useParams();
-  console.log('chargerId:', chargerId);
+  const currentLocation = useLocation();
+
+  console.log('chargerId:', chargerId, currentLocation);
   const charger = useSelector(getChargerDetail(chargerId));
 
   const renderImage = () => {
@@ -196,10 +198,12 @@ export const ChargerDetail = () => {
     );
   };
   return (
-    <div className='flex flex-col gap-6 divide-y divide-grey2'>
-      {renderInfo()}
-      {renderAdditionalInfo()}
-      {renderSettings()}
+    <div className='w-[28.3rem]'>
+      <Card>
+        {renderInfo()}
+        {renderAdditionalInfo()}
+        {renderSettings()}
+      </Card>
     </div>
   );
 };
