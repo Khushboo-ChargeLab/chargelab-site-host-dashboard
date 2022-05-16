@@ -1,24 +1,37 @@
 // React
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 // Hooks
 import { useTranslation } from 'react-i18next';
 // Selectors
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useSearchParams } from 'react-router-dom';
+import { Location } from 'history';
 import { getChargerDetail } from '../../stores/selectors/charger.selector';
 import { Label, LabelType, Button, ButtonType, Card } from '../_ui';
 // Components
 import { ChargerStatus } from './ChargerStatus.component';
 // assets
 import { start, stop, reset } from '../../lib';
+import { fetchChargerDetail } from '../../stores/reducers/charger.reducer';
+
+interface LocationState {
+  state: any;
+  pathname: string;
+}
 
 export const ChargerDetail = () => {
   const { t } = useTranslation();
-  const { chargerId } = useParams();
-  const currentLocation = useLocation();
+  const distpach = useDispatch();
 
-  console.log('chargerId:', chargerId, currentLocation);
-  const charger = useSelector(getChargerDetail(chargerId));
+  const currentLocation = useLocation();
+  const { state } = currentLocation;
+  const { id } = state as any;
+
+  const charger = useSelector(getChargerDetail(id));
+
+  useEffect(() => {
+    distpach(fetchChargerDetail({ id }));
+  });
 
   const renderImage = () => {
     return (

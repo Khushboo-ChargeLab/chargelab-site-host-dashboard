@@ -8,7 +8,7 @@ export enum RoutePath {
   LOGIN = '/login',
   OVERVIEW = 'overview',
   CHARGERS = 'chargers',
-  CHARGER_DETAIL = 'chargers/:chargerId',
+  CHARGER_DETAIL = 'chargerdetail',
   PRICING = 'pricing',
   ACCESS = 'access',
   COMPANY = 'company',

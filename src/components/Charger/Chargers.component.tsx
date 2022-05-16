@@ -6,7 +6,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import {
   Label,
   Card,
@@ -164,7 +164,10 @@ export const Chargers = () => {
   };
 
   const rowClick = (rowData: any) => {
-    navigate(`${rowData.id}`);
+    navigate(`../${RoutePath.CHARGER_DETAIL}`, {
+      state: { id: rowData.id },
+      replace: true,
+    });
   };
 
   const handleLoadPage = (page: number) => {
