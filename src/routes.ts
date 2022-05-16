@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import { Chargers } from './components/Charger';
 import { Login } from './components/Login/Login.component';
 import { Overview } from './components/overview';
+import { Wiki } from './components/_ui';
 
 export enum RoutePath {
   LOGIN = '/login',
@@ -24,11 +25,6 @@ export interface Route {
 }
 
 export const routes: Route[] = [
-  {
-    name: 'login',
-    path: RoutePath.LOGIN,
-    component: Login,
-  },
   {
     name: 'overview',
     path: RoutePath.OVERVIEW,

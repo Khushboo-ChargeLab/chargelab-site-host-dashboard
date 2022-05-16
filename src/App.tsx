@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Link, Route, Routes, Outlet } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Routes,
+  Outlet,
+  NavLink,
+  useNavigate,
+  useLocation,
+  Navigate,
+} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   getBearerToken,
@@ -16,12 +26,14 @@ import {
   setupCognito,
 } from './services/authenticate/authenticate.service';
 import { NoMatch } from './components/NoMatch/NoMath.component';
-import { routes } from './routes';
+import { RoutePath, routes } from './routes';
+import { Login } from './components/Login/Login.component';
 
 function App() {
   const [loaded, setLoaded] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   const distpach = useDispatch();
+  const currentLocation = useLocation();
 
   useEffect(() => {
     (async () => {
@@ -34,12 +46,10 @@ function App() {
       // eg: ./add-given-family-name.sh 11-jer Jerome Dogillo 'email = "jerome.dogillo@chargelab.co"'
       // 3. Try logging in again
       await setupCognito();
-
-      if (document.location.href.indexOf('/login') === -1) {
+      if (currentLocation.pathname !== RoutePath.LOGIN) {
         const validToken = await refreshToken();
-
         if (!validToken) {
-          document.location.href = '/login';
+          navigate(RoutePath.LOGIN, { replace: true });
         } else {
           // when running locally, please update the .env file to point it to the stack you want
           // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
@@ -47,15 +57,15 @@ function App() {
 
           setApiPrefix(apiPrefix.apiUrlPrefix);
           distpach(fetchLocations());
+          if (currentLocation.pathname === '/') {
+            navigate(RoutePath.OVERVIEW, { replace: true });
+          }
+          console.log('currentLocation:', currentLocation);
         }
       }
       setLoaded(true);
     })();
   }, [distpach]);
-
-  if (!loaded || getBearerToken() === '') {
-    return null;
-  }
 
   const Layout = () => {
     return (
@@ -71,6 +81,9 @@ function App() {
 
   return (
     <Routes>
+      <Route index element={<div />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/wiki' element={<Wiki />} />
       <Route path='/' element={<Layout />}>
         <Route index element={<Overview />} />
         {routes.map((route) => (
@@ -88,7 +101,7 @@ function App() {
     //   <AppHeader />
     //   <div className='absolute left-60 right-0 top-16  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
     //     <Routes>
-    //       <Route path='/login' element={<Login />} />
+    //
     //       <Route path='/' element={} />
     //     </Routes>
     //     <Routes>

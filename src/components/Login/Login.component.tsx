@@ -1,7 +1,16 @@
 import { Auth } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import {
+  Link,
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+  NavLink,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import {
   login,
   resendCode,
@@ -14,6 +23,7 @@ import { Button, ButtonType, FormInput, Label, Snackbar } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { getCurrentTheme } from '../../stores/selectors/theme.selector';
 import { AlertPosition, AlertType } from '../_ui/snack-bar/Snack-Bar.component';
+import { RoutePath } from '../../routes';
 
 export const Login = () => {
   const [step, setStep] = useState<number>(0);
@@ -21,6 +31,7 @@ export const Login = () => {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [email, setEmail] = useState<string>('');
   const theme = useSelector(getCurrentTheme);
+  const navigate = useNavigate();
 
   const codeVerification = async (loginString: string) => {
     const session = await verifyCode(currentUser, loginString);
@@ -38,6 +49,7 @@ export const Login = () => {
     const userInfo = await Auth.currentUserInfo();
     setUserInfo(userInfo);
     document.location.href = '/';
+    navigate('/', { replace: true });
   };
 
   const emailChanged = async (evt: any) => {
