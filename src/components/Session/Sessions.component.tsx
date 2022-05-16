@@ -1,3 +1,4 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { downloadCSV } from '../../services/utils';
@@ -193,8 +194,9 @@ export const Sessions = ({
     };
 
     const SessionDetailInfo = {
-      startTime: convertToDate(rowData.startTime || rowData.createTime),
-      endTime: convertToDate(rowData.stopTime || rowData.completeTime),
+      startTime: rowData.startTime || rowData.createTime,
+      endTime: rowData.stopTime || rowData.completeTime,
+      timeZone: rowData.port?.charger?.location?.timeZone,
       authenticationType: 'N/A',
       charger: rowData.port?.charger?.name,
       connector: rowData.port?.charger?.type,
@@ -263,8 +265,14 @@ export const Sessions = ({
     {
       key: 'createTime|startTime',
       title: 'Start Time',
-      type: GridColumnType.DATETIME,
-      format: 'LLL dd, h:mm a',
+      component: (row: any) => {
+        return (
+          <Label
+            text={formatInTimeZone(row?.createTime || row?.startTime || '', row.port.charger.location.timeZone, 'LLL dd, h:mm a')}
+            type={LabelType.BODY3}
+          />
+        );
+      },
     },
     {
       key: 'status',

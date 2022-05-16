@@ -1,7 +1,8 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import React, { memo } from 'react';
 import { alert, charging, completed, connector, startGreen } from '../../lib';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
-import { formatDateTime, getDifferenceInMinutes } from '../../utils/Date.Util';
+import { convertToDate, formatDateTime, getDifferenceInMinutes } from '../../utils/Date.Util';
 import { convertToThousandSeperator } from '../../utils/Number.Util';
 import { Label, LabelType, Pill, Timeline } from '../_ui';
 import { SessionDetailData } from './SessionDetail.interface';
@@ -55,24 +56,24 @@ const checkSessionStatusForDivVisiblity = (status: any) => {
   return true;
 };
 
-const renderStartTimeDiv = (startTime: any) => {
+const renderStartTimeDiv = (startTime: any, timeZone: any) => {
   return (
     <div className='flex flex-row'>
       <Label text='Start time' type={LabelType.H7} className='basis-2/6' />
       <Label
-        text={startTime ? formatDateTime(startTime, 'LLL dd, yyyy h:mm a') : ''}
+        text={startTime && timeZone ? formatInTimeZone(startTime, timeZone, 'LLL dd, yyyy h:mm a') : ''}
         type={LabelType.BODY3}
       />
     </div>
   );
 };
 
-const renderEndTimeDiv = (endTime: any) => {
+const renderEndTimeDiv = (endTime: any, timeZone: any) => {
   return (
     <div className='flex flex-row'>
       <Label text='End time' type={LabelType.H7} className='basis-2/6' />
       <Label
-        text={endTime ? formatDateTime(endTime, 'LLL dd, yyyy h:mm a') : ''}
+        text={endTime && timeZone ? formatInTimeZone(endTime, timeZone, 'LLL dd, yyyy h:mm a') : ''}
         type={LabelType.BODY3}
       />
     </div>
@@ -80,7 +81,7 @@ const renderEndTimeDiv = (endTime: any) => {
 };
 
 const renderDurationDiv = (endTime: any, startTime: any) => {
-  const mins = getDifferenceInMinutes(endTime, startTime);
+  const mins = getDifferenceInMinutes(convertToDate(endTime), convertToDate(startTime));
   const unit = mins > 1 ? 'mins' : 'min';
   return (
     <div className='flex flex-row'>
@@ -120,9 +121,9 @@ const renderCostDiv = (amount: any, currency: any) => {
 export const SessionDetail = memo(({ sessionData }: SessionDetailProps) => (
   <div className='flex flex-col py-2 gap-5'>
     {sessionData.sessionStatus !== 'FAILED' &&
-      renderStartTimeDiv(sessionData.startTime)}
+      renderStartTimeDiv(sessionData.startTime, sessionData.timeZone)}
     {checkSessionStatusForDivVisiblity(sessionData.sessionStatus) &&
-      renderEndTimeDiv(sessionData.endTime)}
+      renderEndTimeDiv(sessionData.endTime, sessionData.timeZone)}
     {checkSessionStatusForDivVisiblity(sessionData.sessionStatus) &&
       renderDurationDiv(sessionData.endTime, sessionData.startTime)}
     <div className='flex flex-row'>
