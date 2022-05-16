@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { subYears, subMonths } from 'date-fns';
 import { noData } from '../../lib';
 import { downloadCSV } from '../../services/utils';
-import { subYears, subMonths } from 'date-fns';
 import { fetchSimpleStat } from '../../stores/reducers/sessons.reducer';
 import { fetchStatisticsCSVRequest } from '../../stores/reducers/stats.reducer';
-import { getFormattedSimpleStats } from '../../stores/selectors/session.selector';
+import { getFormattedSimpleStats, selectSimpleStats } from '../../stores/selectors/session.selector';
 import { selectRecentStats } from '../../stores/selectors/stats.selector';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import {
@@ -32,6 +32,7 @@ export const DataReport = () => {
     new Date(),
   ]);
   const stats = useSelector(getFormattedSimpleStats(selectedRange));
+  const simpleStats = useSelector(selectSimpleStats);
 
   const switchChanges = (checked: string) => {
     switch (checked) {
@@ -67,7 +68,7 @@ export const DataReport = () => {
   };
 
   const renderExportCSVButton = () => {
-    if (stats?.length > 0) {
+    if (simpleStats?.length > 0) {
       return (
         <Button
           size={ButtonSize.SMALL}
