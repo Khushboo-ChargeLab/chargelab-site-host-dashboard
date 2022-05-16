@@ -179,6 +179,7 @@ export const Login = () => {
                 {isPhoneNumber()
                     && (
                       <Dropdown
+                        headerWidth={82}
                         title=''
                         items={countryPhoneList}
                         onItemClick={(items: any, item: any, index: number) =>
