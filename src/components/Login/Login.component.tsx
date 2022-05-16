@@ -14,10 +14,7 @@ import {
 import OtpInput from 'react-otp-input';
 import { parsePhoneNumber } from 'libphonenumber-js';
 // @ts-ignore
-import {
-  getCountryListMap,
-  getCountryFlag,
-} from 'country-flags-dial-code/dist/index';
+import { getCountryListMap, getCountryFlag } from 'country-flags-dial-code';
 import { ButtonSize } from '../_ui/Button.component';
 import {
   login,
@@ -83,8 +80,7 @@ export const Login = () => {
     setBearerToken(session.signInUserSession?.accessToken?.jwtToken);
     const userInfo = await Auth.currentUserInfo();
     setUserInfo(userInfo);
-    document.location.href = '/';
-    navigate('/', { replace: true });
+    navigate(`../${RoutePath.OVERVIEW}`, { replace: true });
   };
 
   const emailChanged = async (evt: any) => {
