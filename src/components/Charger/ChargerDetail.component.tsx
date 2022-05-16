@@ -42,81 +42,97 @@ export const ChargerDetail = () => {
 
   const renderInfo = () => {
     return (
-      <div className='flex flex-col pt-2'>
+      <div className='flex flex-col mt-4'>
         {renderImage()}
         <div className='flex gap-4 flex-col pt-4'>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_make')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <Label text={charger?.model} type={LabelType.BODY3} />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_serial_number')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <Label text='' type={LabelType.BODY3} />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_connectors')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <Label
               text={charger?.ports[0]?.connectorTypes[0]}
               type={LabelType.BODY3}
             />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_location')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <Label text={charger?.location?.name} type={LabelType.BODY3} />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_address')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <Label
               text={charger?.location?.streetAddress}
               type={LabelType.BODY3}
             />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_status')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <ChargerStatus status={charger?.status} />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_last_used')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
             <Label text='' type={LabelType.BODY3} />
           </div>
-          <div className='flex flex-row'>
+          <div className='flex flex-row gap-3'>
             <Label
               text={t('charger_actions')}
               type={LabelType.H7}
-              className='basis-1/2'
+              className='w-[9.25rem]'
             />
-            <div className='flex flex-row gap-2'>
-              <Button label='Start' type={ButtonType.Icon} icon={start} />
-              <Button label='Stop' type={ButtonType.Icon} icon={stop} />
-              <Button label='Reset' type={ButtonType.Icon} icon={reset} />
+            <div className='flex flex-row gap-2 ml-3 h-8 w-[16.56rem]'>
+              <Button
+                label='Start'
+                type={ButtonType.Icon}
+                icon={start}
+                size={ButtonSize.FULL}
+                iconGap='gap-1'
+              />
+              <Button
+                label='Stop'
+                type={ButtonType.Icon}
+                icon={stop}
+                size={ButtonSize.FULL}
+              />
+              <Button
+                label='Reset'
+                type={ButtonType.Icon}
+                icon={reset}
+                size={ButtonSize.FULL}
+              />
             </div>
           </div>
         </div>
@@ -127,43 +143,43 @@ export const ChargerDetail = () => {
   const renderAdditionalInfo = () => {
     return (
       <div className='flex gap-4 flex-col pt-4'>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_additional_info')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_directions')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_parking_space')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_unit')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_internal_note')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
@@ -174,35 +190,35 @@ export const ChargerDetail = () => {
   const renderSettings = () => {
     return (
       <div className='flex gap-4 flex-col pt-4'>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_settings')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_pricing')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_access')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_auto_start')}
             type={LabelType.H7}
-            className='basis-1/2'
+            className='w-[9.25rem]'
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
@@ -262,7 +278,7 @@ export const ChargerDetail = () => {
 
   const renderDetail = () => (
     <div className='w-[28.3rem]'>
-      <Card>
+      <Card padding='p-5'>
         {renderError()}
         {renderInfo()}
         {renderAdditionalInfo()}
