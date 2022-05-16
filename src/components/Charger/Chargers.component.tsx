@@ -166,7 +166,6 @@ export const Chargers = () => {
   const rowClick = (rowData: any) => {
     navigate(`../${RoutePath.CHARGER_DETAIL}`, {
       state: { id: rowData.id },
-      replace: true,
     });
   };
 

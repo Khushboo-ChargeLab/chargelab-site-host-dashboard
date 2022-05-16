@@ -3,34 +3,31 @@ import React, { memo, useEffect } from 'react';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 // Hooks
 import { useTranslation } from 'react-i18next';
-// Selectors
-import { useParams, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Location } from 'history';
+// Selectors
 import { getChargerDetail } from '../../stores/selectors/charger.selector';
-import { Label, LabelType, Button, ButtonType, Card } from '../_ui';
 // Components
+import { Label, LabelType, Button, ButtonType, Card } from '../_ui';
 import { ChargerStatus } from './ChargerStatus.component';
+import { Sessions } from '../Session/Sessions.component';
 // assets
 import { start, stop, reset } from '../../lib';
 import { fetchChargerDetail } from '../../stores/reducers/charger.reducer';
 
-interface LocationState {
-  state: any;
-  pathname: string;
-}
-
 export const ChargerDetail = () => {
   const { t } = useTranslation();
   const distpach = useDispatch();
-
+  const navigate = useNavigate();
   const currentLocation = useLocation();
   const { state } = currentLocation;
-  const { id } = state as any;
-
+  const id = (state as any)?.id;
   const charger = useSelector(getChargerDetail(id));
 
   useEffect(() => {
-    distpach(fetchChargerDetail({ id }));
+    if (id) {
+      distpach(fetchChargerDetail({ id }));
+    }
   });
 
   const renderImage = () => {
@@ -210,13 +207,48 @@ export const ChargerDetail = () => {
       </div>
     );
   };
-  return (
+
+  const renderNav = (parent: string, name?: string) => (
+    <div className='flex flex-row gap-1'>
+      <Link to={-1 as any}>
+        <Label text={parent} type={LabelType.LABEL_M_LINK} />
+      </Link>
+      <Label text={`/ ${name}`} type={LabelType.LABEL_M_GREY} />
+    </div>
+  );
+
+  const renderDetail = () => (
     <div className='w-[28.3rem]'>
       <Card>
         {renderInfo()}
         {renderAdditionalInfo()}
         {renderSettings()}
       </Card>
+    </div>
+  );
+
+  const renderSessions = () => (
+    <div className='flex flex-grow'>
+      <Sessions
+        enableFilterLocation={false}
+        enableExportCSV={false}
+        dataMap={[
+          'createTime|startTime',
+          'status',
+          'consumedEnergyKwh',
+          'billedTotalAmount',
+        ]}
+      />
+    </div>
+  );
+
+  return (
+    <div className='flex flex-col gap-6'>
+      {renderNav(t('Chargers'), charger?.name)}
+      <div className='flex flex-row gap-6'>
+        {renderDetail()}
+        {renderSessions()}
+      </div>
     </div>
   );
 };

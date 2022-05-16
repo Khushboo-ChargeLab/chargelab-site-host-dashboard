@@ -20,7 +20,8 @@ function* watchFetchChargerDetail(action:any): any {
 function* chargersSaga() {
     yield takeEvery(fetchChargers, watchFetchAllChargers);
     yield takeEvery(fetchTroubleChargers, watchFetchTroubleChargers);
-    yield takeEvery(fetchChargerDetail, watchFetchChargerDetail);
+    // TODO: CB use BE data from API
+    // yield takeEvery(fetchChargerDetail, watchFetchChargerDetail);
 }
 
 export default chargersSaga;
