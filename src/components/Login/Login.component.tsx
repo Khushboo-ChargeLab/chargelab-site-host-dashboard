@@ -80,8 +80,7 @@ export const Login = () => {
     setBearerToken(session.signInUserSession?.accessToken?.jwtToken);
     const userInfo = await Auth.currentUserInfo();
     setUserInfo(userInfo);
-    document.location.href = '/';
-    navigate('/', { replace: true });
+    navigate(`../${RoutePath.OVERVIEW}`, { replace: true });
   };
 
   const emailChanged = async (evt: any) => {
