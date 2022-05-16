@@ -2,11 +2,11 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable no-restricted-syntax */
 // Utils
+
 const path = require('path');
 const fs = require('fs');
 const csv = require('csv');
 const _ = require('lodash');
-
 // Constants
 const LANGUAGES = ['en-US', 'es', 'fr'];
 const JSON_PATH = path.join(path.resolve('./'), 'public/locales/');
@@ -14,6 +14,8 @@ const CSV_PATH = path.join(
   path.resolve('./'),
   'scripts/translations/translations.csv',
 );
+
+const DELIMITER = '|';
 
 function formatJsonObject(data) {
   const result = {};
@@ -42,11 +44,17 @@ function readJsonFiles() {
   try {
     // Get translation files
     for (const lang of LANGUAGES) {
-      const translations =
-        require(path.join(JSON_PATH, lang, 'translation.json')) || {};
+      const filename = path.join(JSON_PATH, lang, 'translation.json');
+      let translations;
+      if (fs.existsSync(filename)) {
+        translations = require(filename);
+      } else {
+        fs.writeFileSync(filename, '{}');
+        translations = {};
+      }
+
       data[lang] = translations;
     }
-
     return formatJsonObject(data);
   } catch (error) {
     console.log(`Error - readJsonFiles ${error}`);
@@ -58,10 +66,13 @@ async function readCSVFile() {
   // console.log('readCSVFile: Reading data from csv file.')
   const data = {};
   let langs;
+  if (!fs.existsSync(CSV_PATH)) {
+    fs.writeFileSync(CSV_PATH, '');
+  }
   return new Promise((resolve) => {
     try {
       fs.createReadStream(CSV_PATH)
-        .pipe(csv.parse({ delimiter: ',' }))
+        .pipe(csv.parse({ delimiter: DELIMITER }))
         .on('data', (row) => {
           // set langs from the 1st line
           if (!langs) {
@@ -93,14 +104,14 @@ function exportCSV(data) {
   // format
   const translations = [];
   const keys = Object.keys(data);
-  const header = `key,${LANGUAGES.join(',')}`;
+  const header = `key${DELIMITER}${LANGUAGES.join(DELIMITER)}`;
   translations.push(header);
   for (const key of keys) {
     const vals = [key];
     for (const lang of LANGUAGES) {
       vals.push(data[key][lang]);
     }
-    translations.push(vals.join(','));
+    translations.push(vals.join(DELIMITER));
   }
 
   fs.writeFileSync(path.join(CSV_PATH), translations.join('\n'));
@@ -130,6 +141,7 @@ function exportJSON(data) {
 async function translationMain() {
   // read json files
   const jsonObject = readJsonFiles();
+
   // render CSV files
   const csvObject = await readCSVFile();
 
