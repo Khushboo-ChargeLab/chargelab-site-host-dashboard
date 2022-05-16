@@ -1,15 +1,7 @@
 import { memo } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  chargers,
-  chargerSelected,
-  overview,
-  overviewSelected,
-} from '../../lib';
-import { setCurrentNavigation } from '../../stores/reducers/app-navigation.reducer';
-import { AppNavigator } from '../../stores/types/App-Navigator.interface';
+
 import {
   Card,
   DoughnutChart,
@@ -20,6 +12,7 @@ import {
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { ChartData } from '../_ui/chart/types/Chart-Data.interface';
+import { RoutePath } from '../../routes';
 
 interface InputProps {
   data?: ChartData[];
@@ -28,18 +21,10 @@ interface InputProps {
 export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const chargerPageNavigation: AppNavigator = {
-    selectedIcon: chargerSelected,
-    header: 'CHARGER MANAGEMENT',
-    path: '/chargers',
-    title: 'Chargers',
-    icon: chargers,
-  };
+  const navigate = useNavigate();
+
   const handleViewChargersClick = () => {
-    dispatch(setCurrentNavigation(chargerPageNavigation));
-    history.push(chargerPageNavigation.path || '/');
+    navigate(`../${RoutePath.CHARGERS}`, { replace: true });
   };
   return (
     <Card className='h-full'>
