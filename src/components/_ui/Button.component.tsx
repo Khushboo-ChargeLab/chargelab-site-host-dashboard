@@ -17,6 +17,7 @@ export enum ButtonSize {
   NORMAL = 'w-48',
   SMALL = 'h-10 pl-4 pr-4 pt-2.5 pb-2.5',
   ICON = 'h-8 pr-3 pl-4',
+  ERROR = 'w-[15.4rem] h-10 py-2.5 px-4',
 }
 
 interface InputProps {
@@ -26,6 +27,7 @@ interface InputProps {
   type?: ButtonType;
   className?: string;
   icon?: any;
+  iconRightAlign?: boolean;
 }
 
 const getLabelType = (buttonType: ButtonType) => {
@@ -55,6 +57,7 @@ export const Button = memo(
     type = ButtonType.Primary,
     className = '',
     icon = null,
+    iconRightAlign = false,
   }: InputProps) => {
     const theme = useSelector(getCurrentTheme);
     const [style, setStyle] = useState({});
@@ -75,9 +78,15 @@ export const Button = memo(
         onMouseEnter={setHoverStyle}
         onMouseLeave={() => setStyle({})}
       >
-        {icon && <img src={icon} alt='' className='pr-2' />}
+        <div
+          className={`flex ${
+            iconRightAlign ? 'flex-row-reverse' : 'flex-row'
+          } gap-2`}
+        >
+          {icon && <img src={icon} alt='' />}
 
-        <Label text={label} type={labelType} />
+          <Label text={label} type={labelType} />
+        </div>
       </button>
     );
   },

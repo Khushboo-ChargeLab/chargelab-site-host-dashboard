@@ -6,6 +6,8 @@ interface InputProps {
   titleType?: LabelType;
   className?: string;
   children?: any;
+  bg?: string;
+  padding?: string;
 }
 
 export const Card = memo(
@@ -14,10 +16,10 @@ export const Card = memo(
     titleType = LabelType.H4,
     className = '',
     children,
+    bg = 'bg-white',
+    padding = 'pl-5 pr-5 pt-6 pb-4',
   }: InputProps) => (
-    <div
-      className={`bg-white rounded-lg pl-5 pr-5 pt-6 pb-4 w-full ${className}`}
-    >
+    <div className={`rounded-lg ${padding} w-full ${bg} ${className}`}>
       {title && <Label type={titleType} text={title} className='pb-4' />}
       {children}
     </div>

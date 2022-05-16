@@ -58,5 +58,7 @@
   "payout": "payout",
   "rfid": "rfid",
   "learning": "learning",
-  "help": "help"
+  "help": "help",
+  "charger_detail_error": "This charger is currently out of order",
+  "charger_detail_err_button": "View troubleshooting guide"
 }
