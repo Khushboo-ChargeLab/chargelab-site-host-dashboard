@@ -52,6 +52,7 @@ export interface Charger {
   associatedBuildingUnit?: string;
   description?: string;
   isFree?: boolean;
+  lastUsed?: number;
 }
 
 export interface ChargerStatus {

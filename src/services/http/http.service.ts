@@ -95,3 +95,28 @@ export const get = async (url: string): Promise<any> => {
     return Promise.reject(err);
   }
 };
+
+export const getBlob = async (url: string, extraHeader?: {}): Promise<any> => {
+  try {
+    const request = await fetch(new URL(url, await baseUrl()).href, {
+      method: 'GET',
+      headers: {
+        ...header,
+        ...extraHeader,
+        Authorization: `Bearer ${getBearerToken()}`,
+      },
+    });
+
+    if (+request.status === 401) {
+      return null;
+    }
+
+    if (request.ok) {
+      return request.blob();
+    }
+    throw new Error('Something went wrong');
+  } catch (err) {
+    console.log('err - ', err);
+    return Promise.reject(err);
+  }
+};

@@ -59,13 +59,7 @@ export const GridBody = memo(
         const Component = col.component;
         return <Component {...dataRow} />;
       }
-      return (
-        <Label
-          className='pt-2 pb-2'
-          type={LabelType.BODY3}
-          text={formatData(col, dataRow)}
-        />
-      );
+      return <Label type={LabelType.BODY3} text={formatData(col, dataRow)} />;
     };
 
     return (
@@ -86,7 +80,9 @@ export const GridBody = memo(
             }`}
           >
             {columns.map((col: GridColumn) => (
-              <td key={col.key}>{renderRows(col, dataRow)}</td>
+              <td className='pl-3 py-2.5' key={col.key}>
+                {renderRows(col, dataRow)}
+              </td>
             ))}
           </tr>
         ))}

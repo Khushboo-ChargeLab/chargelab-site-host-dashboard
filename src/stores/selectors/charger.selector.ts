@@ -114,3 +114,8 @@ export const getFilteredChargers = (statusFilter: any[], locationFilter?: string
         count: totalCount,
     };
   });
+
+  export const getChargerDetail = (chargerId: string | undefined) =>
+  createSelector(selectChargers, (chargers) => {
+    return chargerId ? chargers.find((charger) => charger.id === chargerId) : null;
+  });

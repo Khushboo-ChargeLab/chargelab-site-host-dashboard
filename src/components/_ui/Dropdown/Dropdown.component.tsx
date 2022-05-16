@@ -33,6 +33,7 @@ interface DropdownProps {
   headerClassName?: string;
   headerHighLightClassName?: string;
   inputWidth?: string;
+  isIconSvgString?: boolean;
 }
 
 export const Dropdown = memo(
@@ -46,6 +47,7 @@ export const Dropdown = memo(
     headerClassName = 'bg-silver border-grey-light2 rounded',
     headerHighLightClassName = 'bg-grey6 border-grey-light2 rounded',
     inputWidth = '',
+    isIconSvgString = false,
   }: DropdownProps) => {
     const [_title, setTitle] = useState(() => {
       let defaultTitle = title;
@@ -57,6 +59,17 @@ export const Dropdown = memo(
         });
       }
       return defaultTitle;
+    });
+    const [_icon, setIcon] = useState(() => {
+      let defaultIcon = null;
+      if (type === DropdownType.SELECT) {
+        items.forEach((item) => {
+          if (item.selected) {
+            defaultIcon = item.icon;
+          }
+        });
+      }
+      return defaultIcon;
     });
     const { t } = useTranslation();
     const [_items, setItems] = useState(_.cloneDeep(items));
@@ -81,6 +94,7 @@ export const Dropdown = memo(
       }));
       setItems(newItems);
       setTitle(item[label] === 'All' ? title : item[label]);
+      setIcon(item.icon || null);
 
       if (type === DropdownType.SELECT) {
         onItemClick && onItemClick(item, index);
@@ -257,6 +271,8 @@ export const Dropdown = memo(
                   ? LabelType.DROPDOWN_HEADER_SELECTED
                   : LabelType.DROPDOWN_HEADER
               }
+              icon={_icon}
+              isIconSvgString={isIconSvgString}
             />
             <img
               className='pl-4'
@@ -308,6 +324,8 @@ export const Dropdown = memo(
                       : LabelType.BODY3
                   }
                   text={item[label]}
+                  icon={item.icon}
+                  isIconSvgString={isIconSvgString}
                 />
               </button>
             );

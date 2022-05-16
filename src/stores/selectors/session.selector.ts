@@ -1,7 +1,8 @@
+import { addMonths, differenceInMonths } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { createSelector } from 'reselect';
-import { getYear, getMonth, differenceInMonths, addMonths } from 'date-fns';
-import { AppState } from '../types/App-State';
 import { formatDate } from '../../utils/Date.Util';
+import { AppState } from '../types/App-State';
 
 const SessionSelectors = (state: any) => state as AppState;
 
@@ -19,8 +20,10 @@ export const getSortedRecentSessions = createSelector(
             const startTimeB = b.startTime || b.createTime;
             if (!startTimeA) return 1;
             if (!startTimeB) return -1;
-            // BE uses a ISO/W3C date format on response, javascript can't compare it directly.
-            return new Date(startTimeA) < new Date(startTimeB) ? 1 : -1;
+            // BE uses a ISO/W3C date format on responsev & we convert it to UTC to compare
+            const formatedStartTimeA = formatInTimeZone(startTimeA, 'UTC', 'yyyy-MM-dd HH:mm:ss zzz');
+            const formatedStartTimeB = formatInTimeZone(startTimeB, 'UTC', 'yyyy-MM-dd HH:mm:ss zzz');
+            return Date.parse(formatedStartTimeA) < Date.parse(formatedStartTimeB) ? 1 : -1;
         });
         return sortedArray;
     },

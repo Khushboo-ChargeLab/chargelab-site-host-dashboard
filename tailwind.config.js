@@ -35,6 +35,8 @@ module.exports = {
       primaryblue1: '#3DBAE3',
       alerts_accent: '#039BE5',
       alerts_warning: '#FFB300',
+      alerts_negative_1: '#E53935',
+      alerts_negative_0: '#FDEDED',
       blue: {
         light: '#18A0D7',
         DEFAULT: '#276EF1',
@@ -44,7 +46,8 @@ module.exports = {
       mainColor: '#18A0D7',
       secondaryColor: '#E8F7FC',
     },
-    extend: {},
+    extend: {
+    },
   },
   // eslint-disable-next-line global-require
   plugins: [require('@tailwindcss/forms')],

@@ -12,3 +12,10 @@ export const getChargers = async (params?: any): Promise<ChargerList> => {
     const result = await get(path);
     return result;
 };
+
+export const getChargerDetail = async (id: string): Promise<ChargerList> => {
+    const path = getPath(`${API}/${id}?scope=${getUserScope()}`);
+
+    const result = await get(path);
+    return result;
+};
