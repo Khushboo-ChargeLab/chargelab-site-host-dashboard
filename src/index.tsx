@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './stores/store';
@@ -13,16 +13,9 @@ import { Login } from './components/Login/Login.component';
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Router>
-        <Switch>
-          <Route exact path='/login'>
-            <Login />
-          </Route>
-          <Route path='/'>
-            <App />
-          </Route>
-        </Switch>
-      </Router>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </React.StrictMode>
     <ModalForm />
     <Snackbar />
