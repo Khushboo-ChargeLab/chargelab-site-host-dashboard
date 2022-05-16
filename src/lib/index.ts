@@ -43,6 +43,7 @@ import halfsun from '../assets/icons/halfsun.svg';
 import connector from '../assets/icons/connector.svg';
 import arrowLeft from '../assets/icons/arrow-left.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
+import coolicon from '../assets/icons/coolicon.svg';
 
 export {
   chargelab,
@@ -90,4 +91,5 @@ export {
   connector,
   arrowLeft,
   arrowRight,
+  coolicon,
 };

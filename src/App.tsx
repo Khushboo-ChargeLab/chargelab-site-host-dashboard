@@ -60,7 +60,6 @@ function App() {
           if (currentLocation.pathname === '/') {
             navigate(RoutePath.OVERVIEW, { replace: true });
           }
-          console.log('currentLocation:', currentLocation);
         }
       }
       setLoaded(true);

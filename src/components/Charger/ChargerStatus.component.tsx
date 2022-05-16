@@ -5,11 +5,11 @@ import { LabelType } from '../_ui/Label.component';
 import { CHARGER_STATUS } from './Constants';
 
 interface InputProps {
-  status: string;
+  status?: string;
   className?: string;
 }
 
-export const ChargerStatus = memo(({ status, className }: InputProps) => {
+export const ChargerStatus = memo(({ status = '', className }: InputProps) => {
   const { t } = useTranslation();
   let color;
   switch (status) {

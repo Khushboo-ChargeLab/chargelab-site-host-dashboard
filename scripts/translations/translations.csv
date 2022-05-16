@@ -41,3 +41,23 @@ payout|payout|payout|payout
 rfid|rfid|rfid|rfid
 learning|learning|learning|learning
 help|help|help|help
+charger_detail|Charger Detail|Charger Detail|Charger Detail
+charger_make|Make/Model|Make/Model|Make/Model
+charger_serial_number|Serial number|Serial number|Serial number
+charger_connectors|Connectors|Connectors|Connectors
+charger_location|Location|Location|Location
+charger_address|Address|Address|Address
+charger_status|Status|Status|Status
+charger_last_used|Last used|Last used|Last used
+charger_actions|Actions|Actions|Actions
+charger_additional_info|Additional Info|Additional Info|Additional Info
+charger_directions|Directions|Directions|Directions
+charger_parking_space|Parking space #|Parking space #|Parking space #
+charger_unit|Unit #|Unit #|Unit #
+charger_internal_note|Internal note|Internal note|Internal note
+charger_settings|Settings|Settings|Settings
+charger_pricing|Pricing|Pricing|Pricing
+charger_access|Access|Access|Access
+charger_auto_start|Auto-start|Auto-start|Auto-start
+charger_detail_error|This charger is currently out of order|This charger is currently out of order|This charger is currently out of order
+charger_detail_err_button|View troubleshooting guide|View troubleshooting guide|View troubleshooting guide
