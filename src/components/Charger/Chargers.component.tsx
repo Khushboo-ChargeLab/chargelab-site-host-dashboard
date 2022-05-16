@@ -6,6 +6,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 // Components
+import { useNavigate } from 'react-router';
 import {
   Label,
   Card,
@@ -48,10 +49,12 @@ import {
   getFilteredChargers,
 } from '../../stores/selectors/charger.selector';
 import { ChargerDetail } from './ChargerDetail.component';
+import { RoutePath } from '../../routes';
 
 const ROW_PER_PAGE = 20;
 
 export const Chargers = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
@@ -161,10 +164,7 @@ export const Chargers = () => {
   };
 
   const rowClick = (rowData: any) => {
-    ModalForm.show({
-      title: rowData.charger,
-      body: <ChargerDetail chargerId={rowData.id} />,
-    });
+    navigate(`${rowData.id}`);
   };
 
   const handleLoadPage = (page: number) => {

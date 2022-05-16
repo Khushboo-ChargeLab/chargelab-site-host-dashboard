@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
 import { Chargers } from './components/Charger';
-import { Login } from './components/Login/Login.component';
 import { Overview } from './components/overview';
-import { Wiki } from './components/_ui';
+import { ChargerDetail } from './components/Charger/ChargerDetail.component';
 
 export enum RoutePath {
   LOGIN = '/login',
   OVERVIEW = 'overview',
   CHARGERS = 'chargers',
+  CHARGER_DETAIL = 'chargers/:chargerId',
   PRICING = 'pricing',
   ACCESS = 'access',
   COMPANY = 'company',
@@ -34,6 +34,11 @@ export const routes: Route[] = [
     name: 'chargers',
     path: RoutePath.CHARGERS,
     component: Chargers,
+  },
+  {
+    name: 'charger_detail',
+    path: RoutePath.CHARGER_DETAIL,
+    component: ChargerDetail,
   },
   // {
   //   name:

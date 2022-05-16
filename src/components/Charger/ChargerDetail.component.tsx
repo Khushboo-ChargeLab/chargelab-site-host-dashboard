@@ -4,6 +4,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 // Hooks
 import { useTranslation } from 'react-i18next';
 // Selectors
+import { useParams } from 'react-router-dom';
 import { getChargerDetail } from '../../stores/selectors/charger.selector';
 import { Label, LabelType, Button, ButtonType } from '../_ui';
 // Components
@@ -11,13 +12,10 @@ import { ChargerStatus } from './ChargerStatus.component';
 // assets
 import { start, stop, reset } from '../../lib';
 
-interface ChargerDetailProps {
-  chargerId: string;
-}
-
-export const ChargerDetail = memo(({ chargerId }: ChargerDetailProps) => {
+export const ChargerDetail = () => {
   const { t } = useTranslation();
-
+  const { chargerId } = useParams();
+  console.log('chargerId:', chargerId);
   const charger = useSelector(getChargerDetail(chargerId));
 
   const renderImage = () => {
@@ -204,4 +202,4 @@ export const ChargerDetail = memo(({ chargerId }: ChargerDetailProps) => {
       {renderSettings()}
     </div>
   );
-});
+};
