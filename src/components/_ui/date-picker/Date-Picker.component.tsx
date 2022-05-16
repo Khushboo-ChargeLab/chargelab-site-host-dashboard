@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { forwardRef, memo, useCallback, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -179,20 +180,20 @@ export const DateTimePicker = memo(
           onChange={(update: any) => updateDateRangeData(update)}
           customInput={<DateRangeCustomInput />}
           useWeekdaysShort
-          previousMonthButtonLabel={() => (
+          previousMonthButtonLabel={
             <img
               src={arrowLeft}
               alt=''
               style={{ width: '16px', height: '12px' }}
             />
-          )}
-          nextMonthButtonLabel={() => (
+          }
+          nextMonthButtonLabel={
             <img
               src={arrowRight}
               alt=''
               style={{ width: '16px', height: '12px' }}
             />
-          )}
+          }
         />
       );
     }
@@ -205,20 +206,20 @@ export const DateTimePicker = memo(
         selectsRange={dateRange}
         customInput={<DateCustomInput />}
         maxDate={maxDate}
-        previousYearButtonLabel={() => (
+        previousYearButtonLabel={
           <img
             src={arrowLeft}
             alt=''
             style={{ width: '16px', height: '12px' }}
           />
-        )}
-        nextYearButtonLabel={() => (
+        }
+        nextYearButtonLabel={
           <img
             src={arrowRight}
             alt=''
             style={{ width: '16px', height: '12px' }}
           />
-        )}
+        }
       />
     );
   },
