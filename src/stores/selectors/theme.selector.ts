@@ -6,7 +6,7 @@ import { chargelab } from '../../lib';
 const ThemeSelectors = (state: any) => state.theme as AppState;
 const initStore = {
     networkLogo: chargelab,
-    chartColor: '#3DBAE3',
+    chartColor: '#18A0D7',
     navigationSelectedColor: '#18A0D7',
     btnHoverColor: '#117DB8',
     secondaryBtnBgColor: '#E8F7FC',

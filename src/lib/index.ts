@@ -17,6 +17,7 @@ import alert from '../assets/icons/alert.svg';
 import warning from '../assets/icons/warning.svg';
 import info from '../assets/icons/info.svg';
 import chevdown from '../assets/icons/chevron_down.svg';
+import chevdownSelected from '../assets/icons/chevron_down_selected.svg';
 import chevnext from '../assets/icons/chev-next.svg';
 import chevpre from '../assets/icons/chev-pre.svg';
 import bell from '../assets/icons/bell.svg';
@@ -40,6 +41,8 @@ import sun from '../assets/icons/sun.svg';
 import moon from '../assets/icons/moon.svg';
 import halfsun from '../assets/icons/halfsun.svg';
 import connector from '../assets/icons/connector.svg';
+import arrowLeft from '../assets/icons/arrow-left.svg';
+import arrowRight from '../assets/icons/arrow-right.svg';
 
 export {
   chargelab,
@@ -61,6 +64,7 @@ export {
   warning,
   info,
   chevdown,
+  chevdownSelected,
   chevnext,
   chevpre,
   bell,
@@ -84,4 +88,6 @@ export {
   moon,
   halfsun,
   connector,
+  arrowLeft,
+  arrowRight,
 };

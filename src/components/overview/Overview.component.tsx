@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
-import { Sessions } from '../Session';
+import { Sessions } from '../Session/Sessions.component';
 import { Dropdown } from '../_ui';
 
 // Actions
@@ -76,21 +76,22 @@ export const Overview = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className='pb-12'>
       <div className='block'>
         <Dropdown
           title='Location'
           headerWidth='auto'
           items={locationsDropdown}
-          white
           onItemClick={locationChanged}
+          headerClassName='bg-white border border-solid border-silver5 rounded'
+          headerHighLightClassName='bg-white border border-solid border-silver5 rounded'
         />
       </div>
-      <div className='flex w-full mt-6'>
-        <div className='inline-block w-2/5 pr-3'>
+      <div className='flex flex-row mt-6 gap-6'>
+        <div className='inline-block w-96'>
           <ChargerStatusChart data={chargerStatus} />
         </div>
-        <div className='inline-block w-3/5 pl-3'>
+        <div className='flex-grow'>
           <Summary />
         </div>
       </div>
@@ -100,6 +101,6 @@ export const Overview = () => {
       <div className='mt-6 block'>
         <Sessions locationId={locationId} />
       </div>
-    </>
+    </div>
   );
 };

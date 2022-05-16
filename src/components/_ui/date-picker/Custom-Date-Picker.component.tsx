@@ -1,91 +1,180 @@
 import { memo, useState, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { calendar } from '../../../lib';
-import { Label, LabelType, RadioGroup, GroupDirection, CheckBoxData,
-  DateTimePicker } from '../index';
+import {
+  Label,
+  LabelType,
+  RadioGroup,
+  GroupDirection,
+  CheckBoxData,
+  DateTimePicker,
+} from '../index';
 import { useOnClickOutside } from '../../../hooks';
-import { getLastMonth, getLastWeek } from '../../../utils/Date.Util';
+import {
+  getLastMonth,
+  getLastWeek,
+  formatDate,
+  formatDateRange,
+} from '../../../utils/Date.Util';
+
+export enum DATE_RANGE {
+  LAST_WEEK = 'LAST_WEEK',
+  LAST_MONTH = 'LAST_MONTH',
+  CUSTOM_RANGE = 'CUSTOM_RANGE',
+}
 
 export interface InputProps {
-    onChange?:(date:any)=>void;
-    className?:string;
-    format?:string;
+  onChange?: (date: any) => void;
+  className?: string;
+  format?: string;
+  dataRange?: boolean;
 }
 
 export const CustomDatePicker = memo(
-    ({
-        onChange,
-        className = '',
-        format,
-    }: InputProps) => {
-      const [open, isOpen] = useState(false);
-      const ref = useRef(null);
+  ({ onChange, className = '', format, dataRange = true }: InputProps) => {
+    const [open, isOpen] = useState(false);
+    const ref = useRef(null);
+    const { t } = useTranslation();
 
-      useOnClickOutside(ref, () => isOpen(false));
-
-      const [options, setOptions] = useState<CheckBoxData[]>([
-        { label: 'Last week', selected: true, id: 'LASTWEEK' },
-        { label: 'Last month', selected: false, id: 'LASTMONTH' },
-        { label: 'Custom range', selected: false, id: '' },
-      ]);
+    useOnClickOutside(ref, () => isOpen(false));
+    const [selectedRange, setSelectedRange] = useState<any>();
+    const [options, setOptions] = useState<CheckBoxData[]>([
+      {
+        label: t('date_picker_last_week'),
+        selected: true,
+        id: DATE_RANGE.LAST_WEEK,
+      },
+      {
+        label: t('date_picker_last_month'),
+        selected: false,
+        id: DATE_RANGE.LAST_MONTH,
+      },
+      {
+        label: t('date_picker_custom_range'),
+        selected: false,
+        id: DATE_RANGE.CUSTOM_RANGE,
+      },
+    ]);
 
     const toggleMenu = () => {
       isOpen(!open);
     };
 
-    const customDateChanged = useCallback((date:any) => {
-      setOptions([
-        { label: 'Last week', selected: false, id: 'LASTWEEK' },
-        { label: 'Last month', selected: false, id: 'LASTMONTH' },
-        { label: 'Custom range', selected: true, id: '' },
-      ]);
-      onChange && onChange(date);
-    }, [onChange]);
+    const customDateChanged = useCallback(
+      (date: any) => {
+        setSelectedRange(date);
+        const newOptions = options.map((option) => {
+          return {
+            ...option,
+            selected: option.id === DATE_RANGE.CUSTOM_RANGE,
+          };
+        });
+        setOptions(newOptions);
+        onChange && onChange(date);
+      },
+      [onChange],
+    );
 
-    const optionChanged = useCallback((option:CheckBoxData[]) => {
-     const op = option.find((o) => o.selected);
-     switch (op?.id) {
-       case 'LASTWEEK': {
-        onChange && onChange(getLastWeek());
-        break;
-       }
+    const optionChanged = useCallback(
+      (newOptions: CheckBoxData[]) => {
+        setOptions(newOptions);
+        const op = newOptions.find((o) => o.selected);
+        switch (op?.id) {
+          case DATE_RANGE.LAST_WEEK: {
+            onChange && onChange(getLastWeek());
+            break;
+          }
 
-       case 'LASTMONTH': {
-         onChange && onChange(getLastMonth());
-         break;
-       }
+          case DATE_RANGE.LAST_MONTH: {
+            onChange && onChange(getLastMonth());
+            break;
+          }
 
-       default:
-     }
+          default:
+        }
 
-     return '';
-    }, [onChange]);
+        return '';
+      },
+      [onChange],
+    );
 
-    return (
-      <div ref={ref}>
-        <div onClick={toggleMenu} className={`flex text-grey6 h-10 bg-silver rounded  items-center cursor-pointer ${className}`}>
-          <img src={calendar} alt='' className='pl-4' />
-          <Label text={options.find((o) => o.selected)?.label || ''} type={LabelType.DROPDOWN_HEADER} className='ml-2.5 pr-4' />
-        </div>
+    const getHeaderText = () => {
+      const selectedId = options.find((o) => o.selected)?.id;
+      switch (selectedId) {
+        case DATE_RANGE.LAST_WEEK:
+          return t('date_picker_last_week');
+        case DATE_RANGE.LAST_MONTH:
+          return t('date_picker_last_month');
+        case DATE_RANGE.CUSTOM_RANGE:
+          return selectedRange?.length > 0
+            ? formatDateRange(selectedRange)
+            : t('date_picker_custom_range');
+        default:
+          console.warn('unknown range id');
+          return '';
+      }
+    };
 
-        <div style={{ visibility: (open ? 'visible' : 'hidden') }} className='absolute block mt-3 w-52 list-shadow rounded p-2 bg-white'>
-          <RadioGroup
-            name="custom-day"
-            direction={GroupDirection.Vertical}
-            onChange={optionChanged}
-            defaultItems={options}
-          />
+    const renderDateTimePicker = () => {
+      const selectedOptionId = options.find((o) => o.selected)?.id;
+      if (selectedOptionId === DATE_RANGE.CUSTOM_RANGE) {
+        return (
           <div className='flex p-1'>
             <DateTimePicker
-              dateRange
-              className="min-width-190"
+              dateRange={dataRange}
+              className='min-width-190'
               defaulttext='Choose a range'
-              defaultDate={new Date()}
               onChange={customDateChanged}
               format={format}
             />
           </div>
+        );
+      }
+      return (
+        <div className='flex p-1'>
+          <div className="react-datepicker-wrapper">
+            <div className="react-datepicker__input-container">
+              <button className='date-range-selector bg-silver min-width-190'>
+                <div className='block'>
+                  <div className='text-left ml-2 text-grey4 text-[12px] font-normal'>
+                    Choose a range
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    return (
+      <div ref={ref}>
+        <div
+          onClick={toggleMenu}
+          className={`flex text-grey6 h-10 bg-silver rounded  items-center cursor-pointer ${className}`}
+        >
+          <img src={calendar} alt='' className='pl-4' />
+          <Label
+            text={getHeaderText()}
+            type={LabelType.DROPDOWN_HEADER}
+            className='ml-2.5 pr-4'
+          />
+        </div>
+
+        <div
+          style={{ visibility: open ? 'visible' : 'hidden' }}
+          className='absolute block mt-3 w-52 list-shadow rounded p-2 bg-white'
+        >
+          <RadioGroup
+            name='custom-day'
+            direction={GroupDirection.Vertical}
+            onChange={optionChanged}
+            defaultItems={options}
+          />
+          {renderDateTimePicker()}
         </div>
       </div>
     );
-    },
-    );
+  },
+);

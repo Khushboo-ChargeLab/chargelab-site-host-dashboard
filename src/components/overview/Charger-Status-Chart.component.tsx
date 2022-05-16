@@ -1,7 +1,13 @@
 import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { chargers, chargerSelected, overview, overviewSelected } from '../../lib';
+import { useTranslation } from 'react-i18next';
+import {
+  chargers,
+  chargerSelected,
+  overview,
+  overviewSelected,
+} from '../../lib';
 import { setCurrentNavigation } from '../../stores/reducers/app-navigation.reducer';
 import { AppNavigator } from '../../stores/types/App-Navigator.interface';
 import {
@@ -20,6 +26,8 @@ interface InputProps {
 }
 
 export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const chargerPageNavigation: AppNavigator = {
@@ -36,8 +44,12 @@ export const ChargerStatusChart = memo(({ data = [] }: InputProps) => {
   return (
     <Card className='h-full'>
       <div className='flex w-full mb-4'>
-        <div className='flex w-1/2'>
-          <Label type={LabelType.H4} text='Charger Status' className='pb-6' />
+        <div className='flex w-1/2 items-center'>
+          <Label
+            type={LabelType.H4}
+            text={t('overview_charger_status')}
+            className='pl-4'
+          />
         </div>
         <div className='flex justify-end w-1/2'>
           <Button
