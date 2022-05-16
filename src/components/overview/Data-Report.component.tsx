@@ -6,7 +6,10 @@ import { noData } from '../../lib';
 import { downloadCSV } from '../../services/utils';
 import { fetchSimpleStat } from '../../stores/reducers/sessons.reducer';
 import { fetchStatisticsCSVRequest } from '../../stores/reducers/stats.reducer';
-import { getFormattedSimpleStats, selectSimpleStats } from '../../stores/selectors/session.selector';
+import {
+  getFormattedSimpleStats,
+  selectSimpleStats,
+} from '../../stores/selectors/session.selector';
 import { selectRecentStats } from '../../stores/selectors/stats.selector';
 import { convertToLocaleCurrency } from '../../utils/Currency.Util';
 import {
@@ -61,9 +64,11 @@ export const DataReport = () => {
   }, [dispatch, selectedRange]);
 
   const handleButtonClick = () => {
-    dispatch(fetchStatisticsCSVRequest({
-      getBlob: true,
-    }));
+    dispatch(
+      fetchStatisticsCSVRequest({
+        getBlob: true,
+      }),
+    );
     setDownloadReady(true);
   };
 
@@ -86,10 +91,12 @@ export const DataReport = () => {
     }
   }, [statsObj.statsCSV, downloadReady]);
 
+  const getCurrency = () => statsObj.stats[0]?.revenueCurrency || 'USD';
+
   const getFormattedText = (val: any) => {
     switch (valueField) {
       case 'revenue': {
-        return convertToLocaleCurrency(val);
+        return convertToLocaleCurrency(val, getCurrency(), 0);
       }
       case 'energyDeliveredKWh': {
         return `${val.toFixed(1)} kWh`;
