@@ -49,6 +49,7 @@ export const DoughnutChart = memo(
             ],
           }}
           options={{
+            events: [],
             responsive: true,
             maintainAspectRatio: false,
             cutout: 40,
@@ -61,6 +62,9 @@ export const DoughnutChart = memo(
               },
             },
             plugins: {
+              tooltip: {
+                enabled: false,
+              },
               legend: {
                 onClick: (e) => {},
                 display: true,

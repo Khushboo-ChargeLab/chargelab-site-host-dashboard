@@ -41,17 +41,19 @@ interface InputProps {
   className?: string;
   icon?: any;
   style?: any;
+  isIconSvgString?: boolean;
 }
 
 export const Label = memo(
-  ({ text, type, className = '', icon = null, style = {} }: InputProps) => (
+  ({ text, type, className = '', icon = null, style = {}, isIconSvgString = false }: InputProps) => (
     <div
       style={style}
       className={`${type || LabelType.LABEL_M} ${className} ${
         icon ? 'flex items-center' : ''
       }`}
     >
-      {icon && <img src={icon} alt='' className='pr-2' />}
+      {icon && !isIconSvgString && <img src={icon} alt='' className='pr-2' />}
+      {icon && isIconSvgString && <img src={`data:image/svg+xml;utf8,${encodeURIComponent(icon)}`} alt='' className='pr-2' />}
       {text}
     </div>
   ),
