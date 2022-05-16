@@ -96,7 +96,9 @@ export const VerticalBarChart = memo(
         triangleShape.style.transform = 'rotate(-180deg)';
 
         const tooltipEl = document.createElement('div');
-        tooltipEl.style.width = '91px';
+        tooltipEl.style.minWidth = '91px';
+        tooltipEl.style.maxWidth = '200px';
+        tooltipEl.style.whiteSpace = 'nowrap';
         tooltipEl.style.height = '52px';
         tooltipEl.style.background = '#202223';
         tooltipEl.style.borderRadius = '8px';
