@@ -11,3 +11,7 @@ export const selectRecentStatsFilter = createSelector(
     [StatsSelectors],
     (state) => state?.stats?.filter || [],
 );
+export const selectStatsCSVFilter = createSelector(
+    [StatsSelectors],
+    (state) => state?.stats?.filterCSV || [],
+);

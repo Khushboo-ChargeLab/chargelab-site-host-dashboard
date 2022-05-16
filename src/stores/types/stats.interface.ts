@@ -10,4 +10,6 @@ export interface Statistics{
 export interface StatisticsObject{
     stats: Array<Statistics>,
     filter: any,
+    statsCSV: Blob,
+    filterCSV: any,
 }

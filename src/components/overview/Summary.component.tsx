@@ -11,18 +11,15 @@ export const Summary = () => {
   const dispatch = useDispatch();
   const statsSelector = useSelector(selectRecentStats);
 
-  const dateChanged = useCallback(
-    (date: any) => {
-      dispatch(
-        fetchStatistics({
-          fromDate: formatDate(date, 'yyyy-MM'),
-          toDate: formatDate(date, 'yyyy-MM'),
-          currency: 'CAD',
-        }),
-      );
-    },
-    [dispatch],
-  );
+  const dateChanged = useCallback((date:any) => {
+    dispatch(fetchStatistics(
+    {
+      fromDate: formatDate(date, 'yyyy-MM'),
+      toDate: formatDate(date, 'yyyy-MM'),
+      currency: 'CAD',
+      getBlob: false,
+    }));
+  }, [dispatch]);
 
   const handleFeesCollectedDisplay = (statsSelectorObj: any) => {
     return statsSelectorObj?.stats?.[0]
@@ -44,14 +41,14 @@ export const Summary = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      fetchStatistics({
-        fromDate: formatDate(new Date(), 'yyyy-MM'),
-        toDate: formatDate(new Date(), 'yyyy-MM'),
-        locationId: null,
-        currency: 'CAD',
-      }),
-    );
+    dispatch(fetchStatistics(
+    {
+      fromDate: formatDate(new Date(), 'yyyy-MM'),
+      toDate: formatDate(new Date(), 'yyyy-MM'),
+      locationId: null,
+      currency: 'CAD',
+      getBlob: false,
+    }));
   }, [dispatch]);
 
   return (
