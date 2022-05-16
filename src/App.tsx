@@ -25,7 +25,7 @@ import {
   refreshToken,
   setupCognito,
 } from './services/authenticate/authenticate.service';
-import { NoMatch } from './components/NoMatch/NoMath.component';
+import { NoMatch } from './components/NoMatch/NoMatch.component';
 import { RoutePath, routes } from './routes';
 import { Login } from './components/Login/Login.component';
 
