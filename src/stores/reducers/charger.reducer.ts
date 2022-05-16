@@ -10,6 +10,14 @@ export interface ChargerOptions {
   filter_hasTrouble?: boolean;
 }
 
+export const fetchChargerDetail = createAction<{id:string}>(
+  'FETCH-CHARGER-DETAIL',
+);
+
+export const fetchChargerDetailSuccess = createAction<ChargerOptions | undefined>(
+  'FETCH-CHARGER-DETAIL-SUCCESS',
+);
+
 export const fetchChargers = createAction<ChargerOptions | undefined>(
   'FETCH-CHARGERS',
 );
@@ -48,6 +56,12 @@ export const ChargerReducer = createReducer(initialState, (builder) => {
       return {
         ...state,
         troubleCount: action.payload.totalCount,
+      };
+    })
+    .addCase(fetchChargerDetailSuccess, (state, action) => {
+      return {
+        // TODO: CB update state after API ready
+        ...state,
       };
     });
 });

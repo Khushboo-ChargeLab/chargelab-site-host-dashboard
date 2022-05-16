@@ -6,6 +6,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 // Components
+import { useNavigate } from 'react-router-dom';
 import {
   Label,
   Card,
@@ -14,6 +15,7 @@ import {
   Grid,
   Pill,
   DropdownType,
+  ModalForm,
 } from '../_ui';
 import { infoRed, completed } from '../../lib';
 import { ChargerStatus } from './ChargerStatus.component';
@@ -46,10 +48,13 @@ import {
   selectChargers,
   getFilteredChargers,
 } from '../../stores/selectors/charger.selector';
+import { ChargerDetail } from './ChargerDetail.component';
+import { RoutePath } from '../../routes';
 
 const ROW_PER_PAGE = 20;
 
 export const Chargers = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
@@ -158,7 +163,11 @@ export const Chargers = () => {
     setCurrentPage(1);
   };
 
-  const rowClick = () => {};
+  const rowClick = (rowData: any) => {
+    navigate(`../${RoutePath.CHARGER_DETAIL}`, {
+      state: { id: rowData.id },
+    });
+  };
 
   const handleLoadPage = (page: number) => {
     setCurrentPage(page);
@@ -239,13 +248,11 @@ export const Chargers = () => {
 
   const getGridData = () =>
     chargers.map((charger) => ({
+      id: charger.id,
       charger: charger.name,
       location: charger.location?.name,
       status: charger.status,
-      lastUsed:
-        transactions?.entries.find(
-          (transaction) => transaction.port.charger.id === charger.id,
-        )?.startTime || '',
+      lastUsed: charger.lastUsed,
       pricing: getPrice(charger),
       access: charger.access,
       note: charger.usageNotes,
@@ -323,7 +330,7 @@ export const Chargers = () => {
               loadPage={handleLoadPage}
               columns={getColumnTitle()}
               data={getGridData()}
-              primaryKey='charger'
+              primaryKey='id'
               totalPage={Math.ceil(count / ROW_PER_PAGE)}
             />
           </div>

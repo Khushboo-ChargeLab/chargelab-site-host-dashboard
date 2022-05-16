@@ -30,9 +30,19 @@ import { SessionDetail } from './SessionDetail.component';
 
 interface SessionsProps {
   locationId?: string | undefined;
+  chargerId?: string | undefined;
+  enableFilterLocation?: boolean;
+  enableExportCSV?: boolean;
+  dataMap?: Array<string>;
 }
 
-export const Sessions = ({ locationId }: SessionsProps) => {
+export const Sessions = ({
+  locationId,
+  chargerId,
+  enableFilterLocation = true,
+  enableExportCSV = true,
+  dataMap,
+}: SessionsProps) => {
   const dispatch = useDispatch();
   const recentSessions = useSelector(getSortedRecentSessions);
   const chargers = useSelector(selectChargers);
@@ -237,33 +247,122 @@ export const Sessions = ({ locationId }: SessionsProps) => {
     );
   };
 
+  const columnsSettings = [
+    { key: 'port.charger.location.name', title: 'Location' },
+    {
+      key: 'port.charger.name',
+      title: 'Charger',
+      component: (row: any) => (
+        <Pill
+          width='200'
+          label={row.port.charger.name}
+          className='text-grey6'
+          bgColor={PILL_BG_COLOR.LIGHT}
+          labelType={LabelType.LABEL_S_G6}
+        />
+      ),
+    },
+    {
+      key: 'createTime|startTime',
+      title: 'Start Time',
+      component: (row: any) => {
+        return (
+          <Label
+            text={formatInTimeZone(row?.createTime || row?.startTime || '', row.port.charger.location.timeZone, 'LLL dd, h:mm a')}
+            type={LabelType.BODY3}
+          />
+        );
+      },
+    },
+    {
+      key: 'status',
+      title: 'Status',
+      component: (row: any) => {
+        let statusIcon = '';
+        if (
+          row?.status?.toLowerCase() === 'preparing' ||
+          row?.status?.toLowerCase() === 'in_progress'
+        ) {
+          statusIcon = charging;
+        } else if (row?.status?.toLowerCase() === 'failed') {
+          statusIcon = alert;
+        } else {
+          statusIcon = completed;
+        }
+        return (
+          <Label
+            text={(row.status || 'Completed')
+              .replace('ENDED', 'Completed')
+              .replace('FAILED', 'Failed')
+              .replace('PREPARING', 'Preparing')
+              .replace('IN_PROGRESS', 'Charging')}
+            type={LabelType.BODY3}
+            icon={statusIcon}
+          />
+        );
+      },
+    },
+    {
+      key: 'consumedEnergyKwh',
+      title: 'Energy used',
+      component: (row: any) => (
+        <Label
+          text={
+            row.consumedEnergyKwh || row.consumedEnergyKwh === 0
+              ? `${row.consumedEnergyKwh.toFixed(1)} kWh`
+              : ''
+          }
+          type={LabelType.BODY3}
+        />
+      ),
+    },
+    {
+      key: 'billedTotalAmount',
+      title: 'Cost',
+      component: (row: any) => (
+        <Label
+          text={
+            row.billedTotalAmount || row.billedTotalAmount === 0
+              ? `${convertToLocaleCurrency(
+                  row.billedTotalAmount,
+                  row.billedCurrency,
+                )}`
+              : ''
+          }
+          type={LabelType.BODY3}
+        />
+      ),
+    },
+  ];
   return (
     <Card title='Recent sessions'>
       <div className='flex mt-3 w-full'>
         <div className='flex w-4/5'>
-          <Dropdown
-            title='Charger'
-            headerWidth='auto'
-            type={DropdownType.CHECKBOX}
-            items={chargerData}
-            onItemClick={chargerSelected}
-            headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
-            inputWidth='15.3rem'
-          />
-          <CustomDatePicker
-            format='MMM d,yyyy'
-            className='ml-2'
-            onChange={dateChanged}
-          />
+          {enableFilterLocation && (
+            <div className='mr-2'>
+              <Dropdown
+                title='Charger'
+                headerWidth='auto'
+                type={DropdownType.CHECKBOX}
+                items={chargerData}
+                onItemClick={chargerSelected}
+                headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
+                inputWidth='15.3rem'
+              />
+            </div>
+          )}
+          <CustomDatePicker format='MMM d,yyyy' onChange={dateChanged} />
         </div>
-        <div className='flex justify-end w-1/5'>
-          <Button
-            size={ButtonSize.SMALL}
-            label='Export CSV'
-            type={ButtonType.Cancel}
-            onClick={handleButtonClick}
-          />
-        </div>
+        {enableExportCSV && (
+          <div className='flex justify-end w-1/5'>
+            <Button
+              size={ButtonSize.SMALL}
+              label='Export CSV'
+              type={ButtonType.Cancel}
+              onClick={handleButtonClick}
+            />
+          </div>
+        )}
       </div>
 
       {renderSelectedChargers()}
@@ -273,93 +372,9 @@ export const Sessions = ({ locationId }: SessionsProps) => {
         pageIndex={currentPage}
         loadPage={refreshGrid}
         local
-        columns={[
-          { key: 'port.charger.location.name', title: 'Location' },
-          {
-            key: 'port.charger.name',
-            title: 'Charger',
-            component: (row: any) => (
-              <Pill
-                width='200'
-                label={row.port.charger.name}
-                className='text-grey6'
-                bgColor={PILL_BG_COLOR.LIGHT}
-                labelType={LabelType.LABEL_S_G6}
-              />
-            ),
-          },
-          {
-            key: 'createTime|startTime',
-            title: 'Start Time',
-            component: (row: any) => {
-              return (
-                <Label
-                  text={formatInTimeZone(row?.createTime || row?.startTime || '', row.port.charger.location.timeZone, 'LLL dd, h:mm a')}
-                  type={LabelType.BODY3}
-                />
-              );
-            },
-          },
-          {
-            key: 'status',
-            title: 'Status',
-            component: (row: any) => {
-              let statusIcon = '';
-              if (
-                row?.status?.toLowerCase() === 'preparing' ||
-                row?.status?.toLowerCase() === 'in_progress'
-              ) {
-                statusIcon = charging;
-              } else if (row?.status?.toLowerCase() === 'failed') {
-                statusIcon = alert;
-              } else {
-                statusIcon = completed;
-              }
-              return (
-                <Label
-                  text={(row.status || 'Completed')
-                    .replace('ENDED', 'Completed')
-                    .replace('FAILED', 'Failed')
-                    .replace('PREPARING', 'Preparing')
-                    .replace('IN_PROGRESS', 'Charging')}
-                  type={LabelType.BODY3}
-                  icon={statusIcon}
-                />
-              );
-            },
-          },
-          {
-            key: 'consumedEnergyKwh',
-            title: 'Energy used',
-            component: (row: any) => (
-              <Label
-                text={
-                  row.consumedEnergyKwh || row.consumedEnergyKwh === 0
-                    ? `${row.consumedEnergyKwh.toFixed(1)} kWh`
-                    : ''
-                }
-                type={LabelType.BODY3}
-              />
-            ),
-          },
-          {
-            key: 'billedTotalAmount',
-            title: 'Cost',
-            component: (row: any) => (
-              <Label
-                text={
-                  row.billedTotalAmount || row.billedTotalAmount === 0
-                    ? `${convertToLocaleCurrency(
-                        row.billedTotalAmount,
-                        row.billedCurrency,
-                      )}`
-                    : ''
-                }
-                type={LabelType.BODY3}
-              />
-            ),
-          },
-        ]}
+        columns={columnsSettings.filter(
+          (setting) => !dataMap || dataMap?.includes(setting.key),
+        )}
         data={recentSessions}
         totalPage={Math.ceil(recentSessions.length / 20)}
         primaryKey='id'
