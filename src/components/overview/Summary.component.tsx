@@ -24,7 +24,7 @@ export const Summary = () => {
   const handleFeesCollectedDisplay = (statsSelectorObj: any) => {
     return statsSelectorObj?.stats?.[0]
       ? convertToLocaleCurrency(
-          statsSelectorObj.stats[0].revenue,
+          statsSelectorObj.stats[0].revenue.toFixed(2),
           statsSelectorObj.stats[0].revenueCurrency,
         )
       : 0;
@@ -35,7 +35,9 @@ export const Summary = () => {
     if (statsObj) {
       return statsObj.energyDeliveredKWh === 0
         ? '0.0 kWh'
-        : `${convertToThousandSeperator(statsObj.energyDeliveredKWh)} kWh`;
+        : `${convertToThousandSeperator(
+            statsObj.energyDeliveredKWh.toFixed(1),
+          )} kWh`;
     }
     return '0';
   };
