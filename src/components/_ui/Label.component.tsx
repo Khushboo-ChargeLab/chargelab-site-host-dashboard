@@ -11,6 +11,7 @@ export enum LabelType {
   H5 = 'text-lg text-black font-semibold',
   H6 = 'text-base text-black font-semibold',
   H7 = 'text-sm text-grey font-semibold',
+  TABLE_HEADER = 'text-sm text-grey6 font-semibold',
   BODY1 = 'text-lg font-normal text-grey6',
   BODY2 = 'text-base text-grey font-normal',
   BODY3 = 'text-sm text-black font-normal',
