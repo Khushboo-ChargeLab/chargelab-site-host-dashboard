@@ -28,7 +28,6 @@ export const fetchTroubleChargersSuccess = createAction<ChargerList>(
 
 const initialState = {
   totalCount: 0,
-  troubleCount: 0,
   entities: [] as Array<Charger>,
 } as ChargerList;
 
