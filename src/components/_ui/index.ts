@@ -29,6 +29,7 @@ import { SessionDetail } from '../Session/SessionDetail.component';
 import { Badge } from './Badge.component';
 import { Spinner } from './Spinner.component';
 import { DateSelector } from './date-picker/DateSelector.component';
+import { DateRangePicker } from './date-picker/Date-Range-Picker.component';
 
 export {
   AppSideBar,
@@ -65,6 +66,7 @@ export {
   Badge,
   Spinner,
   DateSelector,
+  DateRangePicker,
 };
 
 export type { CheckBoxData };

@@ -194,7 +194,6 @@ export const Login = () => {
         // 60 seconds to reset the resend OTP link
         timer(60);
         setTimeout(() => {
-          console.log('Resetting resend OTP link state');
           setResendOtpClicked(false);
         }, 60000);
       }
