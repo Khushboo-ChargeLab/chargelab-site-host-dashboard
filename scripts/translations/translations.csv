@@ -61,3 +61,4 @@ charger_access|Access|Access|Access
 charger_auto_start|Auto-start|Auto-start|Auto-start
 charger_detail_error|This charger is currently out of order|This charger is currently out of order|This charger is currently out of order
 charger_detail_err_button|View troubleshooting guide|View troubleshooting guide|View troubleshooting guide
+start_time|Start time|Start time|Start time
