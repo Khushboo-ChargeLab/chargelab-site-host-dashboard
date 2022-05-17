@@ -1,6 +1,7 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { downloadCSV } from '../../services/utils';
 import { alert, charging, completed } from '../../lib';
 import { fetchSessions } from '../../stores/reducers/sessons.reducer';
@@ -44,6 +45,8 @@ export const Sessions = ({
   dataMap,
 }: SessionsProps) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
   const recentSessions = useSelector(getSortedRecentSessions);
   const chargers = useSelector(selectChargers);
   const transactionReport = useSelector(getTransactionReport);
@@ -264,7 +267,7 @@ export const Sessions = ({
     },
     {
       key: 'createTime|startTime',
-      title: 'Start Time',
+      title: t('start_time'),
       component: (row: any) => {
         return (
           <Label
