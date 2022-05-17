@@ -1,4 +1,4 @@
-import { memo, useState, useRef, useCallback } from 'react';
+import { memo, useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DatePicker from 'react-datepicker';
@@ -45,7 +45,11 @@ export const CustomDatePicker = memo(
       setIsDropDownOpen(false);
       setIsPickerOpen(false);
     });
-    const [selectedRange, setSelectedRange] = useState(getLastWeek());
+
+    const [selectedRange, setSelectedRange] = useState<(Date | null)[]>([
+      null,
+      null,
+    ]);
     const [options, setOptions] = useState<CheckBoxData[]>([
       {
         label: t('date_picker_last_week'),
@@ -74,47 +78,46 @@ export const CustomDatePicker = memo(
       setIsPickerOpen(true);
     };
 
-    const customDateChanged = useCallback(
-      (date: any) => {
-        setSelectedRange(date);
-        const newOptions = options.map((option) => {
-          return {
-            ...option,
-            selected: option.id === DATE_RANGE.CUSTOM_RANGE,
-          };
-        });
-        setOptions(newOptions);
-        onChange && onChange(date);
-      },
-      [onChange],
-    );
+    const closePicker = () => {
+      setIsDropDownOpen(false);
+      setIsPickerOpen(false);
+    };
 
-    const optionChanged = useCallback(
-      (newOptions: CheckBoxData[]) => {
-        setOptions(newOptions);
-        const op = newOptions.find((o) => o.selected);
-        switch (op?.id) {
-          case DATE_RANGE.LAST_WEEK: {
-            onChange && onChange(getLastWeek());
-            break;
-          }
+    useEffect(() => {
+      if (selectedRange?.length === 2 && selectedRange[0] && selectedRange[1]) {
+        onChange && onChange(selectedRange);
+        closePicker();
+      }
+    }, selectedRange);
 
-          case DATE_RANGE.LAST_MONTH: {
-            onChange && onChange(getLastMonth());
-            break;
-          }
-          case DATE_RANGE.CUSTOM_RANGE: {
-            onChange && onChange(selectedRange);
-            break;
-          }
+    const customDateChanged = (date: Date[]) => {
+      setSelectedRange(date);
+    };
 
-          default:
+    const optionChanged = (newOptions: CheckBoxData[]) => {
+      setOptions(newOptions);
+      const op = newOptions.find((o) => o.selected);
+      switch (op?.id) {
+        case DATE_RANGE.LAST_WEEK: {
+          setSelectedRange(getLastWeek());
+          break;
         }
 
-        return '';
-      },
-      [onChange],
-    );
+        case DATE_RANGE.LAST_MONTH: {
+          setSelectedRange(getLastMonth());
+          break;
+        }
+        case DATE_RANGE.CUSTOM_RANGE: {
+          setSelectedRange([null, null]);
+          openPicker();
+          break;
+        }
+
+        default:
+      }
+
+      return '';
+    };
 
     const getHeaderText = () => {
       const selectedId = options.find((o) => o.selected)?.id;
@@ -144,8 +147,31 @@ export const CustomDatePicker = memo(
       openPicker();
     };
 
-    const renderDropdown = () => {
+    const renderCustomRanngeButton = () => {
       const selectedOptionId = options.find((o) => o.selected)?.id;
+      if (selectedOptionId !== DATE_RANGE.CUSTOM_RANGE) {
+        return null;
+      }
+      return (
+        <div className='flex p-1'>
+          <div className='react-datepicker-wrapper'>
+            <div className='react-datepicker__input-container'>
+              <button
+                className='date-range-selector bg-silver min-width-190'
+                onClick={onPickerClicked}
+              >
+                <div className='block'>
+                  <div className='text-left ml-2 text-[12px] font-normal text-black'>
+                    {formatDateRange(selectedRange)}
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+    const renderDropdown = () => {
       return (
         <div
           className='absolute block mt-3 w-52 list-shadow rounded p-2 bg-white z-50'
@@ -157,36 +183,12 @@ export const CustomDatePicker = memo(
             onChange={optionChanged}
             defaultItems={options}
           />
-          <div className='flex p-1'>
-            <div className='react-datepicker-wrapper'>
-              <div className='react-datepicker__input-container'>
-                <button
-                  className='date-range-selector bg-silver min-width-190'
-                  onClick={onPickerClicked}
-                >
-                  <div className='block'>
-                    <div
-                      className={`text-left ml-2 text-[12px] font-normal ${
-                        selectedOptionId === DATE_RANGE.CUSTOM_RANGE
-                          ? 'text-black'
-                          : 'text-grey4'
-                      }`}
-                    >
-                      {(selectedOptionId === DATE_RANGE.CUSTOM_RANGE &&
-                        formatDateRange(selectedRange)) ||
-                        'Choose a range'}
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
+          {renderCustomRanngeButton()}
         </div>
       );
     };
 
     const renderDateRangePicker = () => {
-      const selectedOptionId = options.find((o) => o.selected)?.id;
       return (
         <div
           className='absolute py-2 -ml-4 z-50'

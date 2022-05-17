@@ -1,4 +1,10 @@
-import React, { forwardRef, memo, useCallback, useState } from 'react';
+import React, {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { subWeeks, subMonths } from 'date-fns';
@@ -19,7 +25,7 @@ import {
 import './Date-Picker.component.scss';
 
 export interface InputProps {
-  defaultRange?: Date[];
+  defaultRange?: (Date | null)[];
   format?: string;
   onChange?: (date: any) => void;
   inputBG?: string;
@@ -73,15 +79,10 @@ export const DateRangePicker = memo(
       },
     );
 
-    const validDateRange = (update: any) =>
-      update && update.length === 2 && update[0] && update[1];
-
     const onDateRangeChange = useCallback(
       (newDateRange: any) => {
         setDateRange(newDateRange);
-        if (validDateRange(newDateRange)) {
-          onChange && onChange(newDateRange);
-        }
+        onChange && onChange(newDateRange);
       },
       [setDateRange, onChange],
     );

@@ -17,8 +17,10 @@ export const getRecentSessions = async (filter: any): Promise<any[]> => {
     }
 
     if (filter?.dateRange) {
-        transactionsQuery += `&filter_ge%5BstartTime%5D=${formatIso(filter?.dateRange[0])}&filter_lt%5BstartTime%5D=${formatIso(filter?.dateRange[1])}`;
-        sessionsQuery += `&filter_ge%5BcreateTime%5D=${formatIso(filter?.dateRange[0])}&filter_lt%5BcreateTime%5D=${formatIso(filter?.dateRange[1])}`;
+        const startDate = new Date(filter?.dateRange[0]);
+        const endDate = new Date(filter?.dateRange[1]);
+        transactionsQuery += `&filter_ge%5BstartTime%5D=${formatIso(startDate)}&filter_lt%5BstartTime%5D=${formatIso(endDate)}`;
+        sessionsQuery += `&filter_ge%5BcreateTime%5D=${formatIso(startDate)}&filter_lt%5BcreateTime%5D=${formatIso(endDate)}`;
     } else {
         const lastWeek = getLastWeek();
         transactionsQuery += `&filter_ge%5BstartTime%5D=${formatIso(lastWeek[0])}&filter_lt%5BstartTime%5D=${formatIso(lastWeek[1])}`;

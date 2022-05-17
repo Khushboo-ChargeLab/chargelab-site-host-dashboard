@@ -84,7 +84,7 @@ export const Sessions = ({
   );
 
   const dateChanged = useCallback(
-    (selectedDate: any) => {
+    (selectedDate: Date[]) => {
       setFilter({
         ...filter,
         dateRange: selectedDate,
@@ -268,7 +268,11 @@ export const Sessions = ({
       component: (row: any) => {
         return (
           <Label
-            text={formatInTimeZone(row?.createTime || row?.startTime || '', row.port.charger.location.timeZone, 'LLL dd, h:mm a')}
+            text={formatInTimeZone(
+              row?.createTime || row?.startTime || '',
+              row.port.charger.location.timeZone,
+              'LLL dd, h:mm a',
+            )}
             type={LabelType.BODY3}
           />
         );
@@ -334,6 +338,7 @@ export const Sessions = ({
       ),
     },
   ];
+
   return (
     <Card title='Recent sessions'>
       <div className='flex mt-3 w-full'>
