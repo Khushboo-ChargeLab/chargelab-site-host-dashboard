@@ -10,6 +10,22 @@ export interface ChargerOptions {
   filter_hasTrouble?: boolean;
 }
 
+export interface AutoStartConfig {
+  // TODO: Type value can be ENUM?
+  type : string;
+  email: string;
+}
+
+export interface UpdateChargerInformation {
+  id: string;
+  directions?: string;
+  parkingSpot?: string;
+  associatedBuildingUnit?: string;
+  description?: string;
+  internalNote?: string;
+  autoStartConfig?: AutoStartConfig;
+}
+
 export const fetchChargerDetail = createAction<{id:string}>(
   'FETCH-CHARGER-DETAIL',
 );
@@ -32,6 +48,14 @@ export const fetchTroubleChargers = createAction<ChargerOptions>(
 
 export const fetchTroubleChargersSuccess = createAction<ChargerList>(
   'FETCH-TROUBLE-CHARGERS-SUCCESS',
+);
+
+export const updateChargerInformation = createAction<UpdateChargerInformation>(
+  'UPDATE-CHARGER',
+);
+
+export const updateChargerInformationSuccess = createAction<any>(
+  'UPDATE-CHARGER-SUCCESS',
 );
 
 const initialState = {
@@ -69,6 +93,11 @@ export const ChargerReducer = createReducer(initialState, (builder) => {
           }
           return charger;
         }),
+      };
+    })
+    .addCase(updateChargerInformationSuccess, (state, action) => {
+      return {
+        ...state,
       };
     });
 });

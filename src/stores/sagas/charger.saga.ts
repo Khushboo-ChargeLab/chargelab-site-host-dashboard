@@ -16,12 +16,17 @@ function* watchFetchChargerDetail(action:any): any {
     const response = yield call(getChargerDetail, action.payload.id);
     yield put(fetchChargerDetailSuccess(response));
 }
+function* watchUpdateChargerInformation(action: any): any {
+    const response = yield call(updateCharger, action.payload.id, action.payload);
+    yield put(updateChargerInformationSuccess(response));
+}
 
 function* chargersSaga() {
     yield takeEvery(fetchChargers, watchFetchAllChargers);
     yield takeEvery(fetchTroubleChargers, watchFetchTroubleChargers);
     // TODO: CB use BE data from API
     yield takeEvery(fetchChargerDetail, watchFetchChargerDetail);
+    yield takeEvery(updateChargerInformation, watchUpdateChargerInformation);
 }
 
 export default chargersSaga;
