@@ -138,7 +138,7 @@ export const patch = async (url: string, body: any): Promise<any> => {
     }
 
     if (request.ok) {
-      return request.json();
+      return request;
     }
     throw new Error('Something went wrong');
   } catch (err) {
