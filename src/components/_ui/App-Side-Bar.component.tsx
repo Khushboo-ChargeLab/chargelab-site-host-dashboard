@@ -19,6 +19,7 @@ import {
   overview,
   pricingS,
   accessS,
+  cooliconGrey4,
 } from '../../lib';
 import { getCurrentTheme } from '../../stores/selectors/theme.selector';
 import { RoutePath, getBaseRoute, routes } from '../../routes';
@@ -126,86 +127,50 @@ export const AppSideBar = () => {
       return divs;
     });
 
+  const handleTempLinkClick = (item: any) => {
+    window.open(item.path);
+  };
+  const renderTempLinks = () => {
+    const data = [
+      {
+        name: 'Pricing',
+        path: 'https://dashboard-v8.uat.chargelab.io/reports',
+        icon: pricing,
+      },
+      {
+        name: 'Payouts',
+        path: 'https://dashboard-v8.uat.chargelab.io/stations',
+        icon: payout,
+      },
+    ];
+    return data.map((item: any) => (
+      <div
+        key={item.path}
+        onClick={() => handleTempLinkClick(item)}
+        className='flex items-center cursor-pointer rounded mt-2 justify-between'
+      >
+        <div className='flex flex-row items-center '>
+          <img src={item.icon} alt='' className='pt-2 pb-2 pl-4 pr-4' />
+          <Label
+            text={item.name}
+            type={LabelType.LABEL_S_G6}
+            className='whitespace-pre text-grey6'
+          />
+        </div>
+
+        <img
+          src={cooliconGrey4}
+          alt=''
+          className='pt-2 pb-2 pl-4 pr-4 justify-end'
+        />
+      </div>
+    ));
+  };
   return (
     <div className='w-60 bg-white h-full block pl-5 pr-5 absolute'>
       {renderLogo()}
       {renderMenu()}
-      {/* {Object.keys(groupBy(menu, 'header')).map((key: any, index: number) =>
-        index === 0 ? (
-          <div
-            key={`menu-item-${key}`}
-            onClick={() => handleMenuClick(menu[0])}
-            className={`flex items-center w-50 pr-20 cursor-pointer rounded mb-4 ${
-              currentLocation.pathname === menu[0].path ? 'bg-silver' : ''
-            }`}
-          >
-            <img
-              src={
-                currentLocation.pathname === menu[0].path
-                  ? overviewSelected
-                  : overview
-              }
-              alt=''
-              className='pt-2 pb-2 pl-3 pr-4'
-            />
-            <Label
-              text='Overview'
-              type={LabelType.LABEL_S}
-              className={
-                currentLocation.pathname === menu[0].path
-                  ? 'text-blue2'
-                  : 'text-grey6'
-              }
-              style={
-                currentLocation.pathname === menu[0].path
-                  ? { color: theme.navigationSelectedColor }
-                  : {}
-              }
-            />
-          </div>
-        ) : (
-          <React.Fragment key={`item-row-${key}`}>
-            <div className='block pl-3 mt-4' key={`sub-menu-item-${key}`}>
-              <Label text={key} type={LabelType.LABEL_XS} />
-            </div>
-            {menu
-              .filter((m) => m.header === key)
-              .map((item) => (
-                <div
-                  key={`sub-action-menu-${item.title}`}
-                  onClick={() => handleMenuClick(item)}
-                  className={`flex items-center w-50 pr-20 cursor-pointer rounded mt-2 ${
-                    currentLocation.pathname === item.path ? 'bg-silver' : ''
-                  }`}
-                >
-                  <img
-                    src={
-                      currentLocation.pathname === item.path
-                        ? item.selectedIcon
-                        : item.icon
-                    }
-                    alt=''
-                    className='pt-2 pb-2 pl-4 pr-4'
-                  />
-                  <Label
-                    text={item.title}
-                    type={LabelType.LABEL_S_G6}
-                    className={
-                      currentLocation.pathname === item.path
-                        ? 'whitespace-pre text-blue2'
-                        : 'whitespace-pre text-grey6'
-                    }
-                    style={
-                      currentLocation.pathname === item.path
-                        ? { color: theme.navigationSelectedColor }
-                        : {}
-                    }
-                  />
-                </div>
-              ))}
-          </React.Fragment>
-        ),
-      )} */}
+      {renderTempLinks()}
     </div>
   );
 };
