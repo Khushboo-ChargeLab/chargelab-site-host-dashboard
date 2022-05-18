@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // Hooks
 import { useTranslation } from 'react-i18next';
+import { useUserPreference } from '../../hooks/useUserPreference';
 
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
 import { Sessions } from '../Session/Sessions.component';
-import { Dropdown } from '../_ui';
+import { Dropdown, ModalForm } from '../_ui';
+import { Welcome } from './Welcome.component';
 
 // Actions
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
@@ -26,6 +28,20 @@ export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
   const { t } = useTranslation();
+  const [storedValue, setValue] = useUserPreference('show_old_dashboard', true);
+
+  console.log('storedValue:', storedValue);
+
+  useEffect(() => {
+    if (storedValue) {
+      // ModalForm.show({
+      //   title: 'Session detail',
+      //   small: false,
+      //   body: <Welcome />,
+      // });
+    }
+  }, [storedValue]);
+
   const [locationsDropdown, setlocationsDropdown] = useState<
     {
       id?: string;
