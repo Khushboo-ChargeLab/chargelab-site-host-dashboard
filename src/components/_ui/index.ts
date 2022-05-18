@@ -8,7 +8,6 @@ import { Wiki } from './Wiki.component';
 import { Timeline } from './time-line/Timeline.component';
 import { Button, ButtonType } from './Button.component';
 import { Switch } from './Switch.component';
-import { ModalForm } from './Modal.component';
 import { Snackbar } from './snack-bar/Snack-Bar.component';
 import { DateTimePicker } from './date-picker/Date-Picker.component';
 import CheckBoxTree from './checkbox/CheckBoxTree.component';
@@ -29,6 +28,7 @@ import { SessionDetail } from '../Session/SessionDetail.component';
 import { Badge } from './Badge.component';
 import { Spinner } from './Spinner.component';
 import { DateSelector } from './date-picker/DateSelector.component';
+import { useGlobalModalContext, MODAL_TYPES } from './modal';
 
 export {
   AppSideBar,
@@ -45,7 +45,6 @@ export {
   Switch,
   Button,
   ButtonType,
-  ModalForm,
   Snackbar,
   DateTimePicker,
   CheckBox,
@@ -65,6 +64,8 @@ export {
   Badge,
   Spinner,
   DateSelector,
+  useGlobalModalContext,
+  MODAL_TYPES,
 };
 
 export type { CheckBoxData };

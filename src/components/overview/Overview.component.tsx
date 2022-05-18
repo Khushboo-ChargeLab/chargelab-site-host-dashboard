@@ -4,12 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 // Hooks
 import { useTranslation } from 'react-i18next';
 import { useUserPreference } from '../../hooks/useUserPreference';
+import {
+  useGlobalModalContext,
+  MODAL_TYPES,
+} from '../_ui/modal/GlobalModal.component';
 
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
 import { Sessions } from '../Session/Sessions.component';
-import { Dropdown, ModalForm } from '../_ui';
-import { Welcome } from './Welcome.component';
+import { ButtonType, Dropdown } from '../_ui';
+import { ButtonSize } from '../_ui/Button.component';
+import { boltCharging } from '../../lib';
 
 // Actions
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
@@ -28,17 +33,36 @@ export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
   const { t } = useTranslation();
-  const [storedValue, setValue] = useUserPreference('show_old_dashboard', true);
+  const [storedValue, setValue] = useUserPreference('show_welcome', true);
+  const { showModal } = useGlobalModalContext();
 
   console.log('storedValue:', storedValue);
 
+  const handleGetStarted = () => [];
+
+  const renderWelcomeBody = () => {
+    console.log('renderWelcomeBody:', renderWelcomeBody);
+    return (
+      <div className='ml-14 mt-2 mr-14 text-grey6'>{t('welcome_content')}</div>
+    );
+  };
+
   useEffect(() => {
     if (storedValue) {
-      // ModalForm.show({
-      //   title: 'Session detail',
-      //   small: false,
-      //   body: <Welcome />,
-      // });
+      showModal(MODAL_TYPES.ALERT_MODAL, {
+        title: t('welcome_title'),
+        width: '400px',
+        height: '400px',
+        onRenderBody: renderWelcomeBody,
+        buttons: [
+          {
+            label: 'Get started',
+            icon: boltCharging,
+            onclick: handleGetStarted,
+            size: ButtonSize.WELCOME,
+          },
+        ],
+      });
     }
   }, [storedValue]);
 

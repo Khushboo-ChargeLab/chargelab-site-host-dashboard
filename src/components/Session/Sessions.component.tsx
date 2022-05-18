@@ -21,13 +21,16 @@ import {
   Grid,
   Label,
   LabelType,
-  ModalForm,
   Pill,
   PILL_BG_COLOR,
 } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { GridColumnType } from '../_ui/grid/enums/Grid-Column-Type.enum';
 import { SessionDetail } from './SessionDetail.component';
+import {
+  useGlobalModalContext,
+  MODAL_TYPES,
+} from '../_ui/modal/GlobalModal.component';
 
 interface SessionsProps {
   locationId?: string | undefined;
@@ -46,6 +49,7 @@ export const Sessions = ({
 }: SessionsProps) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { showModal } = useGlobalModalContext();
 
   const recentSessions = useSelector(getSortedRecentSessions);
   const chargers = useSelector(selectChargers);
@@ -169,7 +173,7 @@ export const Sessions = ({
     setChargerData(item);
   };
 
-  const rowClick = useCallback((rowData: any) => {
+  const renderSessionDetail = (rowData: any) => {
     const generateChargerStatusHistory = (
       status: any,
       startTime: any,
@@ -217,9 +221,13 @@ export const Sessions = ({
         rowData.stopTime || rowData.completeTime,
       ),
     };
-    ModalForm.show({
+    return <SessionDetail sessionData={SessionDetailInfo} />;
+  };
+
+  const rowClick = useCallback((rowData: any) => {
+    showModal(MODAL_TYPES.INFO_MODAL, {
       title: 'Session detail',
-      body: <SessionDetail sessionData={SessionDetailInfo} />,
+      onRenderBody: () => renderSessionDetail(rowData),
     });
   }, []);
 

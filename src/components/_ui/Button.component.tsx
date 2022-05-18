@@ -18,6 +18,8 @@ export enum ButtonSize {
   NORMAL = 'w-48',
   SMALL = 'h-10 pl-4 pr-4 pt-2.5 pb-2.5',
   ERROR = 'w-[15.4rem] h-10 py-2.5 px-4',
+  ALERT = 'w-20 h-10 pl-4 pr-4 pt-2.5 pb-2.5',
+  WELCOME = 'py-2.5 px-4 whitespace-nowrap',
 }
 
 interface InputProps {

@@ -8,18 +8,20 @@ import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './stores/store';
 import './index.css';
 import './services/translation/i18n';
-import { ModalForm, Snackbar } from './components/_ui';
+import { Snackbar } from './components/_ui';
 import { Login } from './components/Login/Login.component';
+import { GlobalModal } from './components/_ui/modal/GlobalModal.component';
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <React.StrictMode>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <GlobalModal>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </GlobalModal>
       </React.StrictMode>
-      <ModalForm />
       <Snackbar />
     </PersistGate>
   </Provider>,
