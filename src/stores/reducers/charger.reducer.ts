@@ -14,7 +14,7 @@ export const fetchChargerDetail = createAction<{id:string}>(
   'FETCH-CHARGER-DETAIL',
 );
 
-export const fetchChargerDetailSuccess = createAction<ChargerOptions | undefined>(
+export const fetchChargerDetailSuccess = createAction<any>(
   'FETCH-CHARGER-DETAIL-SUCCESS',
 );
 
@@ -59,9 +59,16 @@ export const ChargerReducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(fetchChargerDetailSuccess, (state, action) => {
+      const fetchedCharger = action.payload;
+      const chargers = state.entities;
       return {
-        // TODO: CB update state after API ready
         ...state,
+        entities: chargers?.map((charger, index) => {
+          if (charger.id === fetchedCharger.id) {
+            return fetchedCharger;
+          }
+          return charger;
+        }),
       };
     });
 });
