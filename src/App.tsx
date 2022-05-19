@@ -38,6 +38,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
+      const { hostname } = window.location;
       /*
       {
         "companyName":"ChargeLab",
@@ -47,9 +48,9 @@ function App() {
         "supportEmailAddress":"support@chargelab.co"
       }
       */
-      const receiptSettingResponse = await httpRawGet(`/assets?resourceId=receipt-settings&domainName=${window.location.hostname}`).catch((e) => e);
+      const receiptSettingResponse = await httpRawGet(`/assets?resourceId=receipt-settings&domainName=${hostname}`).catch((e) => e);
       // favicon will be determined based on the domain
-      (document.getElementById('favicon') as any).href = `/assets?resourceId=favicon&domainName=${window.location.hostname}`;
+      (document.getElementById('favicon') as any).href = `/assets?resourceId=favicon&domainName=${hostname}`;
       if (receiptSettingResponse) {
         // tab title will be determined based on the domain
         document.title = receiptSettingResponse.companyName;
@@ -60,10 +61,10 @@ function App() {
         "secondary_color": "#E3F4FA"
       }
       */
-      const themeResponse = await httpRawGet(`/assets?resourceId=theme&domainName=${window.location.hostname}`).catch((e) => e);
+      const themeResponse = await httpRawGet(`/assets?resourceId=theme&domainName=${hostname}`).catch((e) => e);
       distpach(setCurrentTheme({
         // logo will be determined based on the domain
-        networkLogo: `/assets?resourceId=logo-svg&domainName=${window.location.hostname}`,
+        networkLogo: `/assets?resourceId=logo-svg&domainName=${hostname}`,
         chartColor: '#18A0D7',
         navigationSelectedColor: '#18A0D7',
         btnHoverColor: '#117DB8',
@@ -96,7 +97,7 @@ function App() {
             "oldDashboardUrl": "https://"
           }
           */
-          const apiPrefix = await httpRawGet(`/deployment/api?hostname=${window.location.hostname}`);
+          const apiPrefix = await httpRawGet(`/deployment/api?hostname=${hostname}`);
           setApiPrefix(apiPrefix.apiUrlPrefix);
           distpach(fetchLocations());
           if (currentLocation.pathname === '/') {
