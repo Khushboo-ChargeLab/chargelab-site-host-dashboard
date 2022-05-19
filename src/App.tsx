@@ -30,7 +30,7 @@ import { RoutePath, routes } from './routes';
 import { Login } from './components/Login/Login.component';
 
 function App() {
-  const [loaded, setLoaded] = useState<boolean>(false);
+  // const [loaded, setLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const distpach = useDispatch();
   const currentLocation = useLocation();
@@ -62,7 +62,7 @@ function App() {
           }
         }
       }
-      setLoaded(true);
+      // setLoaded(true);
     })();
   }, [distpach]);
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 // React
@@ -39,12 +41,6 @@ export const Overview = () => {
   const { t } = useTranslation();
   const [storedValue, setValue] = useUserPreference('show_welcome', true);
   const { showModal } = useGlobalModalContext();
-  const [oldDashboardUrl, setOldDashboardUrl] = useState('');
-
-  const getOldDashboardUrl = useCallback(async () => {
-    const api = await getApiPrefix();
-    setOldDashboardUrl(api.oldDashboardUrl);
-  }, []);
 
   const handleWelcomeCheckBoxSelected = (checked: boolean) => {
     setValue(!checked);
@@ -54,7 +50,15 @@ export const Overview = () => {
     return (
       <div className='w-full h-full pl-14 pt-2 pr-5 text-grey6 whitespace-pre-line text-sm leading-5 font-normal'>
         <Trans
-          i18nKey='welcome_content'
+          defaults="We've redesigned the Chargelab dashboard experience to be more
+          powerful and intuitive.<br/><br/>Some parts of the new experience are still
+          under construction, so if you need to access <strong>Pricing</strong>
+          or <strong>export PDF reports</strong>, you can do so in the
+          <strong>
+            <customLink>previous version of the dashboard</customLink>
+          </strong>
+          .<br/><br/>These features will be available in the new dashboard experience
+          soon."
           components={{
             italic: <i />,
             bold: <strong />,
@@ -66,12 +70,13 @@ export const Overview = () => {
                 style={{ color: '#18A0D7' }}
               />
             ),
+            br: <br />,
           }}
         />
 
         <div className='mt-6'>
           <CheckBox
-            label={t('dont_show_me_again')}
+            label="Don't show me this again"
             onChange={(checked: boolean) =>
               handleWelcomeCheckBoxSelected(checked)
             }
@@ -82,26 +87,28 @@ export const Overview = () => {
   };
 
   useEffect(() => {
-    getOldDashboardUrl();
-  });
-
-  useEffect(() => {
-    if (storedValue && oldDashboardUrl) {
-      showModal(MODAL_TYPES.ALERT_MODAL, {
-        title: t('welcome_title'),
-        icon: boltCharging,
-        width: '400px',
-        height: '400px',
-        onRenderBody: () => renderWelcomeBody(oldDashboardUrl),
-        buttons: [
-          {
-            label: 'Get started',
-            size: ButtonSize.WELCOME,
-          },
-        ],
-      });
+    const ac = new AbortController();
+    if (storedValue) {
+      getApiPrefix()
+        .then((api) => {
+          showModal(MODAL_TYPES.ALERT_MODAL, {
+            title: 'Welcome to new dashboard',
+            icon: boltCharging,
+            width: '400px',
+            height: '400px',
+            onRenderBody: () => renderWelcomeBody(api.oldDashboardUrl),
+            buttons: [
+              {
+                label: 'Get started',
+                size: ButtonSize.WELCOME,
+              },
+            ],
+          });
+        })
+        .catch((e) => console.error(e));
     }
-  }, [storedValue, oldDashboardUrl]);
+    return () => ac.abort();
+  }, [storedValue]);
 
   const [locationsDropdown, setlocationsDropdown] = useState<
     {
@@ -109,7 +116,7 @@ export const Overview = () => {
       label: string;
       selected: Boolean;
     }[]
-  >();
+  >([]);
 
   useEffect(() => {
     const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
