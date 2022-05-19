@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { getUserInfo } from '../services/authenticate/authenticate.service';
 
-export const useUserPreference = (key:string, initialValue:any) => {
+export const useUserPreference = (key: string, initialValue: any) => {
   const userInfo = getUserInfo();
-  const saveKey = `${userInfo.attributes.sub}-${key}`;
+  const saveKey = `${userInfo.attributes?.preferred_username}-${key}`;
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
@@ -23,7 +23,7 @@ export const useUserPreference = (key:string, initialValue:any) => {
   });
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = (value:any) => {
+  const setValue = (value: any) => {
     try {
       // Allow value to be a function so we have same API as useState
       const valueToStore =

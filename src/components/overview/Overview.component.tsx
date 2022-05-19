@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 // React
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 // Hooks
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useUserPreference } from '../../hooks/useUserPreference';
 import {
   useGlobalModalContext,
@@ -12,9 +15,10 @@ import {
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
 import { Sessions } from '../Session/Sessions.component';
-import { ButtonType, Dropdown } from '../_ui';
+import { ButtonType, Dropdown, Label, LabelType, CheckBox } from '../_ui';
 import { ButtonSize } from '../_ui/Button.component';
 import { boltCharging } from '../../lib';
+import { getApiPrefix } from '../../services/http/http.service';
 
 // Actions
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
@@ -35,36 +39,69 @@ export const Overview = () => {
   const { t } = useTranslation();
   const [storedValue, setValue] = useUserPreference('show_welcome', true);
   const { showModal } = useGlobalModalContext();
+  const [oldDashboardUrl, setOldDashboardUrl] = useState('');
 
-  console.log('storedValue:', storedValue);
+  const getOldDashboardUrl = useCallback(async () => {
+    const api = await getApiPrefix();
+    setOldDashboardUrl(api.oldDashboardUrl);
+  }, []);
 
-  const handleGetStarted = () => [];
+  const handleWelcomeCheckBoxSelected = (checked: boolean) => {
+    setValue(!checked);
+  };
 
-  const renderWelcomeBody = () => {
-    console.log('renderWelcomeBody:', renderWelcomeBody);
+  const renderWelcomeBody = (url: string) => {
     return (
-      <div className='ml-14 mt-2 mr-14 text-grey6'>{t('welcome_content')}</div>
+      <div className='w-full h-full pl-14 pt-2 pr-5 text-grey6 whitespace-pre-line text-sm leading-5 font-normal'>
+        <Trans
+          i18nKey='welcome_content'
+          components={{
+            italic: <i />,
+            bold: <strong />,
+            customLink: (
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href={url}
+                style={{ color: '#18A0D7' }}
+              />
+            ),
+          }}
+        />
+
+        <div className='mt-6'>
+          <CheckBox
+            label={t('dont_show_me_again')}
+            onChange={(checked: boolean) =>
+              handleWelcomeCheckBoxSelected(checked)
+            }
+          />
+        </div>
+      </div>
     );
   };
 
   useEffect(() => {
-    if (storedValue) {
+    getOldDashboardUrl();
+  });
+
+  useEffect(() => {
+    if (storedValue && oldDashboardUrl) {
       showModal(MODAL_TYPES.ALERT_MODAL, {
         title: t('welcome_title'),
+        icon: boltCharging,
         width: '400px',
         height: '400px',
-        onRenderBody: renderWelcomeBody,
+        onRenderBody: () => renderWelcomeBody(oldDashboardUrl),
         buttons: [
           {
             label: 'Get started',
-            icon: boltCharging,
-            onclick: handleGetStarted,
             size: ButtonSize.WELCOME,
           },
         ],
       });
     }
-  }, [storedValue]);
+  }, [storedValue, oldDashboardUrl]);
 
   const [locationsDropdown, setlocationsDropdown] = useState<
     {

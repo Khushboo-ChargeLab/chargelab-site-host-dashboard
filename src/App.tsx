@@ -55,7 +55,7 @@ function App() {
           // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
           const apiPrefix = await httpRawGet('/deployment/api');
 
-          setApiPrefix(apiPrefix.apiUrlPrefix);
+          setApiPrefix(apiPrefix);
           distpach(fetchLocations());
           if (currentLocation.pathname === '/') {
             navigate(RoutePath.OVERVIEW, { replace: true });

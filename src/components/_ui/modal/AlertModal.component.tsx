@@ -57,10 +57,11 @@ export const AlertModal = () => {
 
   const renderFooter = () => {
     return (
-      <div className='flex mt-6 pr-5 justify-end gap-2'>
+      <div className='flex mt-6 pr-5 justify-end gap-2 mb-5'>
         {buttons.map((button: any) => {
           return (
             <Button
+              key={button.label}
               label={button.label || ''}
               type={button.type || ButtonType.Primary}
               size={button.size || ButtonSize.ALERT}
@@ -87,7 +88,9 @@ export const AlertModal = () => {
           height,
           transform: 'translate(-50%, -50%)',
           padding: 0,
+          margin: 0,
           borderRadius: 10,
+          borderWidth: 0,
           overflow: 'hidden',
         },
         overlay: {
@@ -96,7 +99,7 @@ export const AlertModal = () => {
         },
       }}
     >
-      <div className='flex flex-col'>
+      <div className='flex flex-col justify justify-between w-full h-full'>
         {renderHeader()}
         {onRenderBody ? onRenderBody() : renderBody()}
         {renderFooter()}

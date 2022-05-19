@@ -23,6 +23,7 @@ import {
 } from '../../lib';
 import { getCurrentTheme } from '../../stores/selectors/theme.selector';
 import { RoutePath, getBaseRoute, routes } from '../../routes';
+import { getApiPrefix } from '../../services/http/http.service';
 
 export const AppSideBar = () => {
   const theme = useSelector(getCurrentTheme);
@@ -127,19 +128,21 @@ export const AppSideBar = () => {
       return divs;
     });
 
-  const handleTempLinkClick = (item: any) => {
-    window.open(item.path);
+  const handleTempLinkClick = async (item: any) => {
+    const api = await getApiPrefix();
+    const url = api.oldDashboardUrl + item.path;
+    window.open(url);
   };
   const renderTempLinks = () => {
     const data = [
       {
         name: 'Pricing',
-        path: 'https://dashboard-v8.uat.chargelab.io/reports',
+        path: '/reports',
         icon: pricing,
       },
       {
         name: 'Payouts',
-        path: 'https://dashboard-v8.uat.chargelab.io/stations',
+        path: '/stations',
         icon: payout,
       },
     ];

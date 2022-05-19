@@ -62,6 +62,7 @@
   "charger_detail_error": "This charger is currently out of order",
   "charger_detail_err_button": "View troubleshooting guide",
   "start_time": "Start time",
-  "welcome_content": "We've redesigned the Chargelab dashboard experience to be more powerful and intuitive.\n\n Some parts of the new experience are still under construction, so if you need to access Pricing or  export PDF reports, you can do so in the previous version of the dashboard. These features will be available in the new dashboard experience soon.",
-  "welcome_title": "Welcome to new dashboard"
+  "welcome_content": "We've redesigned the Chargelab dashboard experience to be more powerful and intuitive.\n\nSome parts of the new experience are still under construction, so if you need to access <strong>Pricing</strong> or  <strong>export PDF reports</strong>, you can do so in the  <strong><customLink>previous version of the dashboard</customLink></strong>.\n\nThese features will be available in the new dashboard experience soon.",
+  "welcome_title": "Welcome to new dashboard",
+  "dont_show_me_again": "Don't show me this again"
 }
