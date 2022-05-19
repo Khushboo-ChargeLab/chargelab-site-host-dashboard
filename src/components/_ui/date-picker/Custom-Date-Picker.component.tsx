@@ -1,7 +1,8 @@
-import { memo, useState, useRef, useCallback } from 'react';
+import { memo, useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { calendar } from '../../../lib';
+import DatePicker from 'react-datepicker';
+import { calendar, calendarSelected } from '../../../lib';
 import {
   Label,
   LabelType,
@@ -9,7 +10,9 @@ import {
   GroupDirection,
   CheckBoxData,
   DateTimePicker,
+  DateRangePicker,
 } from '../index';
+
 import { useOnClickOutside } from '../../../hooks';
 import {
   getLastMonth,
@@ -26,19 +29,27 @@ export enum DATE_RANGE {
 
 export interface InputProps {
   onChange?: (date: any) => void;
-  className?: string;
   format?: string;
-  dataRange?: boolean;
+  highLightBGColor?: string;
 }
 
 export const CustomDatePicker = memo(
-  ({ onChange, className = '', format, dataRange = true }: InputProps) => {
-    const [open, isOpen] = useState(false);
+  ({ onChange, format, highLightBGColor = 'bg-grey6' }: InputProps) => {
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const [isPickerOpen, setIsPickerOpen] = useState(false);
+
     const ref = useRef(null);
     const { t } = useTranslation();
 
-    useOnClickOutside(ref, () => isOpen(false));
-    const [selectedRange, setSelectedRange] = useState<any>();
+    useOnClickOutside(ref, () => {
+      setIsDropDownOpen(false);
+      setIsPickerOpen(false);
+    });
+
+    const [selectedRange, setSelectedRange] = useState<(Date | null)[]>([
+      null,
+      null,
+    ]);
     const [options, setOptions] = useState<CheckBoxData[]>([
       {
         label: t('date_picker_last_week'),
@@ -58,46 +69,55 @@ export const CustomDatePicker = memo(
     ]);
 
     const toggleMenu = () => {
-      isOpen(!open);
+      setIsDropDownOpen(!isDropDownOpen);
+      setIsPickerOpen(false);
     };
 
-    const customDateChanged = useCallback(
-      (date: any) => {
-        setSelectedRange(date);
-        const newOptions = options.map((option) => {
-          return {
-            ...option,
-            selected: option.id === DATE_RANGE.CUSTOM_RANGE,
-          };
-        });
-        setOptions(newOptions);
-        onChange && onChange(date);
-      },
-      [onChange],
-    );
+    const openPicker = () => {
+      setIsDropDownOpen(false);
+      setIsPickerOpen(true);
+    };
 
-    const optionChanged = useCallback(
-      (newOptions: CheckBoxData[]) => {
-        setOptions(newOptions);
-        const op = newOptions.find((o) => o.selected);
-        switch (op?.id) {
-          case DATE_RANGE.LAST_WEEK: {
-            onChange && onChange(getLastWeek());
-            break;
-          }
+    const closePicker = () => {
+      setIsDropDownOpen(false);
+      setIsPickerOpen(false);
+    };
 
-          case DATE_RANGE.LAST_MONTH: {
-            onChange && onChange(getLastMonth());
-            break;
-          }
+    useEffect(() => {
+      if (selectedRange?.length === 2 && selectedRange[0] && selectedRange[1]) {
+        onChange && onChange(selectedRange);
+        closePicker();
+      }
+    }, selectedRange);
 
-          default:
+    const customDateChanged = (date: Date[]) => {
+      setSelectedRange(date);
+    };
+
+    const optionChanged = (newOptions: CheckBoxData[]) => {
+      setOptions(newOptions);
+      const op = newOptions.find((o) => o.selected);
+      switch (op?.id) {
+        case DATE_RANGE.LAST_WEEK: {
+          setSelectedRange(getLastWeek());
+          break;
         }
 
-        return '';
-      },
-      [onChange],
-    );
+        case DATE_RANGE.LAST_MONTH: {
+          setSelectedRange(getLastMonth());
+          break;
+        }
+        case DATE_RANGE.CUSTOM_RANGE: {
+          setSelectedRange([null, null]);
+          openPicker();
+          break;
+        }
+
+        default:
+      }
+
+      return '';
+    };
 
     const getHeaderText = () => {
       const selectedId = options.find((o) => o.selected)?.id;
@@ -116,29 +136,33 @@ export const CustomDatePicker = memo(
       }
     };
 
-    const renderDateTimePicker = () => {
+    const onPickerClicked = () => {
+      const newOptions = options.map((option) => {
+        return {
+          ...option,
+          selected: option.id === DATE_RANGE.CUSTOM_RANGE,
+        };
+      });
+      setOptions(newOptions);
+      openPicker();
+    };
+
+    const renderCustomRanngeButton = () => {
       const selectedOptionId = options.find((o) => o.selected)?.id;
-      if (selectedOptionId === DATE_RANGE.CUSTOM_RANGE) {
-        return (
-          <div className='flex p-1'>
-            <DateTimePicker
-              dateRange={dataRange}
-              className='min-width-190'
-              defaulttext='Choose a range'
-              onChange={customDateChanged}
-              format={format}
-            />
-          </div>
-        );
+      if (selectedOptionId !== DATE_RANGE.CUSTOM_RANGE) {
+        return null;
       }
       return (
         <div className='flex p-1'>
-          <div className="react-datepicker-wrapper">
-            <div className="react-datepicker__input-container">
-              <button className='date-range-selector bg-silver min-width-190'>
+          <div className='react-datepicker-wrapper'>
+            <div className='react-datepicker__input-container'>
+              <button
+                className='date-range-selector bg-silver min-width-190'
+                onClick={onPickerClicked}
+              >
                 <div className='block'>
-                  <div className='text-left ml-2 text-grey4 text-[12px] font-normal'>
-                    Choose a range
+                  <div className='text-left ml-2 text-[12px] font-normal text-black'>
+                    {formatDateRange(selectedRange)}
                   </div>
                 </div>
               </button>
@@ -147,24 +171,11 @@ export const CustomDatePicker = memo(
         </div>
       );
     };
-
-    return (
-      <div ref={ref}>
+    const renderDropdown = () => {
+      return (
         <div
-          onClick={toggleMenu}
-          className={`flex text-grey6 h-10 bg-silver rounded  items-center cursor-pointer ${className}`}
-        >
-          <img src={calendar} alt='' className='pl-4' />
-          <Label
-            text={getHeaderText()}
-            type={LabelType.DROPDOWN_HEADER}
-            className='ml-2.5 pr-4'
-          />
-        </div>
-
-        <div
-          style={{ visibility: open ? 'visible' : 'hidden' }}
-          className='absolute block mt-3 w-52 list-shadow rounded p-2 bg-white'
+          className='absolute block mt-3 w-52 list-shadow rounded p-2 bg-white z-50'
+          style={{ visibility: isDropDownOpen ? 'visible' : 'hidden' }}
         >
           <RadioGroup
             name='custom-day'
@@ -172,8 +183,63 @@ export const CustomDatePicker = memo(
             onChange={optionChanged}
             defaultItems={options}
           />
-          {renderDateTimePicker()}
+          {renderCustomRanngeButton()}
         </div>
+      );
+    };
+
+    const renderDateRangePicker = () => {
+      return (
+        <div
+          className='absolute py-2 -ml-4 z-50'
+          style={{ visibility: isPickerOpen ? 'visible' : 'hidden' }}
+        >
+          <DateRangePicker
+            defaultRange={selectedRange}
+            onChange={customDateChanged}
+            format={format}
+            monthsShown={2}
+            inline
+          />
+        </div>
+      );
+    };
+
+    const renderHeaderInput = () => {
+      const selectedOptionId = options.find((o) => o.selected)?.id;
+      const isHighLight =
+        selectedOptionId === DATE_RANGE.CUSTOM_RANGE ||
+        selectedOptionId === DATE_RANGE.LAST_MONTH;
+      return (
+        <div
+          onClick={toggleMenu}
+          className={`flex text-grey6 h-10 rounded  items-center cursor-pointer ${
+            isHighLight ? highLightBGColor : 'bg-silver'
+          }`}
+        >
+          <img
+            src={isHighLight ? calendarSelected : calendar}
+            alt=''
+            className='pl-4'
+          />
+          <Label
+            text={getHeaderText()}
+            type={
+              isHighLight
+                ? LabelType.DROPDOWN_HEADER_SELECTED
+                : LabelType.DROPDOWN_HEADER
+            }
+            className='ml-2.5 pr-4'
+          />
+        </div>
+      );
+    };
+
+    return (
+      <div ref={ref}>
+        {renderHeaderInput()}
+        {renderDropdown()}
+        {renderDateRangePicker()}
       </div>
     );
   },

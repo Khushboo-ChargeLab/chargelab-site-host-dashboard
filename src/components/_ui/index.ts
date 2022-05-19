@@ -29,6 +29,7 @@ import { Badge } from './Badge.component';
 import { Spinner } from './Spinner.component';
 import { DateSelector } from './date-picker/DateSelector.component';
 import { useGlobalModalContext, MODAL_TYPES } from './modal';
+import { DateRangePicker } from './date-picker/Date-Range-Picker.component';
 
 export {
   AppSideBar,
@@ -66,6 +67,7 @@ export {
   DateSelector,
   useGlobalModalContext,
   MODAL_TYPES,
+  DateRangePicker,
 };
 
 export type { CheckBoxData };

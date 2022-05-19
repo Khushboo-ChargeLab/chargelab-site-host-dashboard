@@ -45,7 +45,7 @@ export const Dropdown = memo(
     headerWidth = 143,
     label = 'label',
     headerClassName = 'bg-silver border-grey-light2 rounded',
-    headerHighLightClassName = 'bg-silver border-grey-light2 rounded',
+    headerHighLightClassName = 'bg-grey6 border-grey-light2 rounded',
     inputWidth = '',
     isIconSvgString = false,
   }: DropdownProps) => {
@@ -267,7 +267,7 @@ export const Dropdown = memo(
             <Label
               text={_title}
               type={
-                isAnyItemSelected() && type === DropdownType.CHECKBOX
+                isAnyItemSelected()
                   ? LabelType.DROPDOWN_HEADER_SELECTED
                   : LabelType.DROPDOWN_HEADER
               }
@@ -276,11 +276,7 @@ export const Dropdown = memo(
             />
             <img
               className='pl-4'
-              src={
-                isAnyItemSelected() && type === DropdownType.CHECKBOX
-                  ? chevdownSelected
-                  : chevdown
-              }
+              src={isAnyItemSelected() ? chevdownSelected : chevdown}
               alt=''
             />
           </div>

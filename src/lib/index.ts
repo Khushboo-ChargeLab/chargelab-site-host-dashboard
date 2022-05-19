@@ -22,6 +22,7 @@ import chevnext from '../assets/icons/chev-next.svg';
 import chevpre from '../assets/icons/chev-pre.svg';
 import bell from '../assets/icons/bell.svg';
 import calendar from '../assets/icons/calendar.svg';
+import calendarSelected from '../assets/icons/calendar_selected.svg';
 import cancel from '../assets/icons/cancel.svg';
 import charging from '../assets/icons/charging.svg';
 import infoRed from '../assets/icons/info-red.svg';
@@ -72,6 +73,7 @@ export {
   chevpre,
   bell,
   calendar,
+  calendarSelected,
   cancel,
   charging,
   infoRed,

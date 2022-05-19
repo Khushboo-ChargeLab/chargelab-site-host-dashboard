@@ -91,7 +91,7 @@ export const Sessions = ({
   );
 
   const dateChanged = useCallback(
-    (selectedDate: any) => {
+    (selectedDate: Date[]) => {
       setFilter({
         ...filter,
         dateRange: selectedDate,
@@ -349,6 +349,7 @@ export const Sessions = ({
       ),
     },
   ];
+
   return (
     <Card title='Recent sessions'>
       <div className='flex mt-3 w-full'>

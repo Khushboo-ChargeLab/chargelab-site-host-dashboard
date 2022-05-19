@@ -13,7 +13,9 @@ export const getTransactionReport = async (filter: any): Promise<any> => {
     }
 
     if (filter?.dateRange) {
-        transactionReportQuery += `&filter_ge%5BstartTime%5D=${formatIso(filter?.dateRange[0])}&filter_lt%5BstartTime%5D=${formatIso(filter?.dateRange[1])}`;
+        const startDate = new Date(filter?.dateRange[0]);
+        const endDate = new Date(filter?.dateRange[1]);
+        transactionReportQuery += `&filter_ge%5BstartTime%5D=${formatIso(startDate)}&filter_lt%5BstartTime%5D=${formatIso(endDate)}`;
     } else {
         const lastWeek = getLastWeek();
         transactionReportQuery += `&filter_ge%5BstartTime%5D=${formatIso(lastWeek[0])}&filter_lt%5BstartTime%5D=${formatIso(lastWeek[1])}`;
