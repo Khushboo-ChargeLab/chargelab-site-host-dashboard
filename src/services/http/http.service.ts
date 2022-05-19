@@ -36,7 +36,7 @@ export const getBearerToken = () => localStorage.getItem('DASHBOARD-TOKEN') || '
 
 export const getApiPrefix = async () => {
   if (!localStorage.getItem('DASHBOARD-API-PREFIX')) {
-    const apiPrefix = await httpRawGet('/deployment/api');
+    const apiPrefix = await httpRawGet(`/deployment/api?hostname=${window.location.hostname}`);
     setApiPrefix(apiPrefix.apiUrlPrefix);
     return apiPrefix.apiUrlPrefix;
   }
