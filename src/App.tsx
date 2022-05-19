@@ -28,6 +28,7 @@ import {
 import { NoMatch } from './components/NoMatch/NoMatch.component';
 import { RoutePath, routes } from './routes';
 import { Login } from './components/Login/Login.component';
+import { setCurrentTheme } from './stores/reducers/theme.reducer';
 
 function App() {
   // const [loaded, setLoaded] = useState<boolean>(false);
@@ -37,6 +38,44 @@ function App() {
 
   useEffect(() => {
     (async () => {
+      const { hostname } = window.location;
+      /*
+      {
+        "companyName":"ChargeLab",
+        "address":null,
+        "fromEmailName":"No Reply",
+        "fromEmailAddress":"noreply@dev.chargelab.io",
+        "supportEmailAddress":"support@chargelab.co"
+      }
+      */
+      const receiptSettingResponse = await httpRawGet(`/assets?resourceId=receipt-settings&domainName=${hostname}`).catch((e) => e);
+      // favicon will be determined based on the domain
+      (document.getElementById('favicon') as any).href = `/assets?resourceId=favicon&domainName=${hostname}`;
+      if (receiptSettingResponse) {
+        // tab title will be determined based on the domain
+        document.title = receiptSettingResponse.companyName;
+      }
+      /*
+      {
+        "primary_color": "#18A0D7",
+        "secondary_color": "#E3F4FA"
+      }
+      */
+      const themeResponse = await httpRawGet(`/assets?resourceId=theme&domainName=${hostname}`).catch((e) => e);
+      distpach(setCurrentTheme({
+        // logo will be determined based on the domain
+        networkLogo: `/assets?resourceId=logo-svg&domainName=${hostname}`,
+        chartColor: '#18A0D7',
+        navigationSelectedColor: '#18A0D7',
+        btnHoverColor: '#117DB8',
+        secondaryBtnBgColor: '#E8F7FC',
+        // TODO we don't have hover color yet, probably just calculate the lighter shade of the primary color??
+        // TODO we also don't have the capability to change the SVG icon colors dynamically for the navigation icons
+        // chartColor: themeResponse.primary_color,
+        // navigationSelectedColor: themeResponse.primary_color,
+        // btnHoverColor: themeResponse.primary_color,
+        // secondaryBtnBgColor: themeResponse.secondary_color,
+      }));
       // When running locally, please update the .env file to point it to the stack you want
       // will output {"region": "us-east-1", "userPoolId": "us-east-1_S1aRqShe6", "clientId": "4ahk7m1g54kodg0e3c9qedv6vg"}
       // Upon logging in and your user does not exist in the user pool, kindly do the steps (note that the stack version should match what is in .env):
@@ -52,9 +91,13 @@ function App() {
           navigate(RoutePath.LOGIN, { replace: true });
         } else {
           // when running locally, please update the .env file to point it to the stack you want
-          // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
-          const apiPrefix = await httpRawGet('/deployment/api');
-
+          /*
+          {
+            "apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io",
+            "oldDashboardUrl": "https://"
+          }
+          */
+          const apiPrefix = await httpRawGet(`/deployment/api?hostname=${hostname}`);
           setApiPrefix(apiPrefix);
           distpach(fetchLocations());
           if (currentLocation.pathname === '/') {
