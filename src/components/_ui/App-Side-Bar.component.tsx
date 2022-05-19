@@ -137,12 +137,12 @@ export const AppSideBar = () => {
     const data = [
       {
         name: 'Pricing',
-        path: '/reports',
+        path: '/stations',
         icon: pricing,
       },
       {
         name: 'Payouts',
-        path: '/stations',
+        path: '/reports',
         icon: payout,
       },
     ];
