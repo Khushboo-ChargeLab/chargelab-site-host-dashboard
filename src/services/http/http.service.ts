@@ -41,8 +41,14 @@ export const getApiPrefix = async () => {
     localStorage.setItem('DASHBOARD-API-PREFIX', JSON.stringify(apiPrefix));
     return apiPrefix;
   }
-  const api = localStorage.getItem('DASHBOARD-API-PREFIX');
-  return api ? JSON.parse(api) : {};
+  let api;
+  try {
+    const item = localStorage.getItem('DASHBOARD-API-PREFIX');
+    api = JSON.parse(item || '');
+    // eslint-disable-next-line no-empty
+  } catch (e) {}
+
+  return api || {};
 };
 
 const baseUrl = async () => {
