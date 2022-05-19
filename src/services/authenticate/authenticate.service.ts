@@ -58,7 +58,6 @@ export const getUserInfo = () => {
       family_name: '',
       given_name: '',
       phone_number: '',
-      preferred_username: '',
     },
     username: '',
   };

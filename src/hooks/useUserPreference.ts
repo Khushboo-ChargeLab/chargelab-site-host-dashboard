@@ -3,7 +3,7 @@ import { getUserInfo } from '../services/authenticate/authenticate.service';
 
 export const useUserPreference = (key: string, initialValue: any) => {
   const userInfo = getUserInfo();
-  const saveKey = `${userInfo.attributes?.preferred_username}-${key}`;
+  const saveKey = `${userInfo.attributes?.email}-${key}`;
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
