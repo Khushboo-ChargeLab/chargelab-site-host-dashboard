@@ -1,6 +1,7 @@
 // React
 import React, { memo, useEffect, useState } from 'react';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import Tippy from '@tippyjs/react';
 // Hooks
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -16,6 +17,9 @@ import { start, stop, reset, alert, coolicon, info } from '../../lib';
 import { fetchChargerDetail, UpdateChargerInformation, updateChargerInformation } from '../../stores/reducers/charger.reducer';
 import { CHARGER_STATUS } from './Constants';
 import { ButtonSize } from '../_ui/Button.component';
+// css
+import 'tippy.js/dist/tippy.css';
+import './tippy-tooltip.css';
 
 export const ChargerDetail = () => {
   const { t } = useTranslation();
@@ -152,61 +156,61 @@ export const ChargerDetail = () => {
       setEditEnabled(true);
     };
 
-  const directionsChanged = (event: any) => {
-    setDirections(event.target.value);
-  };
-
-  const parkingSpotChanged = (event: any) => {
-    setParkingSpot(event.target.value);
-  };
-
-  const associatedBuildingUnitChanged = (event: any) => {
-    setAssociatedBuildingUnit(event.target.value);
-  };
-
-  const internalNoteChanged = (event: any) => {
-    setInternalNote(event.target.value);
-  };
-
-  const handleSaveBtnClick = () => {
-    payload = {
-      ...payload,
-      directions,
-      parkingSpot,
-      associatedBuildingUnit,
-      internalNote,
+    const directionsChanged = (event: any) => {
+      setDirections(event.target.value);
     };
-    distpach(updateChargerInformation(payload));
-    setEditEnabled(false);
-  };
 
-  const handleCancelBtnClick = () => {
-    setDirections(charger?.directions);
-    setParkingSpot(charger?.parkingSpot);
-    setAssociatedBuildingUnit(charger?.associatedBuildingUnit);
-    setInternalNote(charger?.internalNote);
-    setEditEnabled(false);
-  };
-  const renderBtnDiv = () => {
-    if (editEnabled) {
-      return (
-        <div className='flex flex-row-reverse gap-2'>
-          <Button label='Save' type={ButtonType.Primary} size={ButtonSize.SMALL} onClick={handleSaveBtnClick} />
-          <Button label='Cancel' type={ButtonType.Cancel} size={ButtonSize.SMALL} onClick={handleCancelBtnClick} />
-        </div>
-      );
-    }
-  };
+    const parkingSpotChanged = (event: any) => {
+      setParkingSpot(event.target.value);
+    };
 
-  const renderEditBtnDiv = () => {
-    if (!editEnabled) {
-      return (
-        <div className='flex flex-row-reverse w-[16rem]'>
-          <Button label='Edit' type={ButtonType.Cancel} size={ButtonSize.SMALL} onClick={handleEditBtnClick} />
-        </div>
-      );
-    }
-  };
+    const associatedBuildingUnitChanged = (event: any) => {
+      setAssociatedBuildingUnit(event.target.value);
+    };
+
+    const internalNoteChanged = (event: any) => {
+      setInternalNote(event.target.value);
+    };
+
+    const handleSaveBtnClick = () => {
+      payload = {
+        ...payload,
+        directions,
+        parkingSpot,
+        associatedBuildingUnit,
+        internalNote,
+      };
+      distpach(updateChargerInformation(payload));
+      setEditEnabled(false);
+    };
+
+    const handleCancelBtnClick = () => {
+      setDirections(charger?.directions);
+      setParkingSpot(charger?.parkingSpot);
+      setAssociatedBuildingUnit(charger?.associatedBuildingUnit);
+      setInternalNote(charger?.internalNote);
+      setEditEnabled(false);
+    };
+    const renderBtnDiv = () => {
+      if (editEnabled) {
+        return (
+          <div className='flex flex-row-reverse gap-2'>
+            <Button label='Save' type={ButtonType.Primary} size={ButtonSize.SMALL} onClick={handleSaveBtnClick} />
+            <Button label='Cancel' type={ButtonType.Cancel} size={ButtonSize.SMALL} onClick={handleCancelBtnClick} />
+          </div>
+        );
+      }
+    };
+
+    const renderEditBtnDiv = () => {
+      if (!editEnabled) {
+        return (
+          <div className='flex flex-row-reverse w-[16rem]'>
+            <Button label='Edit' type={ButtonType.Cancel} size={ButtonSize.SMALL} onClick={handleEditBtnClick} />
+          </div>
+        );
+      }
+    };
     return (
       <div className='flex gap-1 flex-col pt-4'>
         <div className='flex flex-row gap-3'>
@@ -225,20 +229,37 @@ export const ChargerDetail = () => {
               type={LabelType.H7}
               className='w-auto py-2.5'
             />
-            <img src={info} alt='Info' width='16.67px' height='16.67px' onMouseEnter={() => console.log('Display tooltip here')} />
+            <Tippy
+              content={(
+                <Label
+                  text='This will appear in the app to help drivers find the charger.'
+                  type={LabelType.LABEL_S}
+                  style={{ 'color': 'rgb(255 255 255)', 'font-style': 'normal', 'font-family': 'Inter' }}
+                />
+              )}
+              allowHTML
+              arrow
+              placement='top-start'
+              interactive
+              maxWidth={300}
+              offset={[-10, 0]}
+              className='h-16 py-3 px-4'
+            >
+              <img src={info} alt='Info' width='16.67px' height='16.67px' />
+            </Tippy>
           </div>
           {!editEnabled && charger?.directions &&
-          (
-            <Label text={charger?.directions} type={LabelType.BODY3} className='py-2.5' />
-          )}
+            (
+              <Label text={charger?.directions} type={LabelType.BODY3} className='py-2.5' />
+            )}
           {editEnabled &&
-          (
-          <input
-            value={directions}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
-            onChange={directionsChanged}
-          />
-          )
+            (
+              <input
+                value={directions}
+                className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
+                onChange={directionsChanged}
+              />
+            )
           }
         </div>
         <div className='flex flex-row gap-3'>
@@ -248,17 +269,17 @@ export const ChargerDetail = () => {
             className='w-[9.25rem] py-2.5'
           />
           {!editEnabled && charger?.parkingSpot &&
-          (
-            <Label text={charger?.parkingSpot} type={LabelType.BODY3} className='py-2.5' />
-          )}
+            (
+              <Label text={charger?.parkingSpot} type={LabelType.BODY3} className='py-2.5' />
+            )}
           {editEnabled &&
-          (
-          <input
-            value={parkingSpot}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
-            onChange={parkingSpotChanged}
-          />
-          )
+            (
+              <input
+                value={parkingSpot}
+                className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
+                onChange={parkingSpotChanged}
+              />
+            )
           }
         </div>
         <div className='flex flex-row gap-3'>
@@ -268,17 +289,17 @@ export const ChargerDetail = () => {
             className='w-[9.25rem] py-2.5'
           />
           {!editEnabled && charger?.associatedBuildingUnit &&
-          (
-            <Label text={charger?.associatedBuildingUnit} type={LabelType.BODY3} className='py-2.5' />
-          )}
+            (
+              <Label text={charger?.associatedBuildingUnit} type={LabelType.BODY3} className='py-2.5' />
+            )}
           {editEnabled &&
-          (
-          <input
-            value={associatedBuildingUnit}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
-            onChange={associatedBuildingUnitChanged}
-          />
-          )
+            (
+              <input
+                value={associatedBuildingUnit}
+                className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
+                onChange={associatedBuildingUnitChanged}
+              />
+            )
           }
         </div>
         <div className='flex flex-row gap-3'>
@@ -288,17 +309,17 @@ export const ChargerDetail = () => {
             className='w-[9.25rem] py-2.5'
           />
           {!editEnabled && charger?.internalNote &&
-          (
-            <Label text={charger?.internalNote} type={LabelType.BODY3} className='py-2.5' />
-          )}
+            (
+              <Label text={charger?.internalNote} type={LabelType.BODY3} className='py-2.5' />
+            )}
           {editEnabled &&
-          (
-          <input
-            value={internalNote}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
-            onChange={internalNoteChanged}
-          />
-          )
+            (
+              <input
+                value={internalNote}
+                className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
+                onChange={internalNoteChanged}
+              />
+            )
           }
         </div>
         {renderBtnDiv()}
