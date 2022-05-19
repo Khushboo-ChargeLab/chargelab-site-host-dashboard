@@ -217,8 +217,8 @@ export const ChargerDetail = () => {
           <Label
             text={t('charger_additional_info')}
             type={LabelType.H7}
-            className='w-[9.25rem] text-grey5'
-            style={{ 'min-height': '40px' }}
+            className='w-[9.25rem]'
+            style={{ 'min-height': '40px', color: '#6B7684' }}
           />
           {renderEditBtnDiv()}
         </div>
@@ -334,7 +334,8 @@ export const ChargerDetail = () => {
           <Label
             text={t('charger_settings')}
             type={LabelType.H7}
-            className='w-[9.25rem] text-grey5'
+            className='w-[9.25rem]'
+            style={{ color: '#6B7684' }}
           />
           <Label text='' type={LabelType.BODY3} />
         </div>
