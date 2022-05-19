@@ -38,7 +38,7 @@ export const setApiPrefix = (api: any) => {
 export const getApiPrefix = async () => {
   if (!localStorage.getItem('DASHBOARD-API-PREFIX')) {
     const apiPrefix = await httpRawGet('/deployment/api');
-    localStorage.setItem('DASHBOARD-API-PREFIX', JSON.stringify(apiPrefix));
+    setApiPrefix(apiPrefix);
     return apiPrefix;
   }
   let api;
