@@ -1,38 +1,13 @@
 import { Auth } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Link,
-  BrowserRouter,
-  Route,
-  Routes,
-  Outlet,
-  NavLink,
-  useNavigate,
-  useLocation,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { parsePhoneNumber } from 'libphonenumber-js';
 // @ts-ignore
-import { getCountryListMap, getCountryFlag } from 'country-flags-dial-code';
-import { ButtonSize } from '../_ui/Button.component';
-import {
-  login,
-  resendCode,
-  setBearerToken,
-  setupCognito,
-  setUserInfo,
-  verifyCode,
-} from '../../services/authenticate/authenticate.service';
-import {
-  Button,
-  ButtonType,
-  FormInput,
-  Dropdown,
-  Label,
-  LabelType,
-  Snackbar,
-} from '../_ui';
+import { getCountryFlag, getCountryListMap } from 'country-flags-dial-code';
+import { login, resendCode, setBearerToken, setupCognito, setUserInfo, verifyCode } from '../../services/authenticate/authenticate.service';
+import { Dropdown, Label, LabelType, Snackbar } from '../_ui';
 import { getCurrentTheme } from '../../stores/selectors/theme.selector';
 import { AlertPosition, AlertType } from '../_ui/snack-bar/Snack-Bar.component';
 import { RoutePath } from '../../routes';
@@ -73,6 +48,7 @@ export const Login = () => {
           "The code is no longer valid. Please click the 'Send new code' and try again.",
         position: AlertPosition.BOTTOM,
         alertType: AlertType.ERROR,
+        duration: 3000,
       });
       setOtp('');
       return;
@@ -117,6 +93,7 @@ export const Login = () => {
         message:
           "The code is no longer valid. Please click the 'Send new code' and try again.",
         position: AlertPosition.BOTTOM,
+        duration: 3000,
       });
     } else {
       setCurrentUser(session);
@@ -131,6 +108,7 @@ export const Login = () => {
           message: 'Please enter your email or phone number.',
           position: AlertPosition.BOTTOM,
           alertType: AlertType.ERROR,
+          duration: 3000,
         });
         return;
       }
@@ -143,6 +121,7 @@ export const Login = () => {
           message: 'User does not exist.',
           position: AlertPosition.BOTTOM,
           alertType: AlertType.ERROR,
+          duration: 3000,
         });
         return;
       }
