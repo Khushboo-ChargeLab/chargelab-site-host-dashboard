@@ -96,8 +96,23 @@ export const ChargerReducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(updateChargerInformationSuccess, (state, action) => {
+      const { response, updatedChargerInfo } = action.payload;
+      const chargers = state.entities;
+      let updatedCharger;
       return {
         ...state,
+        // FIX ME : Need to fix once we start getting updated entity from BE
+        entities: chargers?.map((charger, index) => {
+          if (charger.id === updatedChargerInfo.id) {
+            updatedCharger = _.cloneDeep(charger);
+            updatedCharger.directions = updatedChargerInfo.directions;
+            updatedCharger.parkingSpot = updatedChargerInfo.parkingSpot;
+            updatedCharger.associatedBuildingUnit = updatedChargerInfo.associatedBuildingUnit;
+            updatedCharger.internalNote = updatedChargerInfo.internalNote;
+            return updatedCharger;
+          }
+          return charger;
+        }),
       };
     });
 });

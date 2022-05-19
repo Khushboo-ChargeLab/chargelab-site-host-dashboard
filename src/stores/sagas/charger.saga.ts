@@ -18,7 +18,8 @@ function* watchFetchChargerDetail(action:any): any {
 }
 function* watchUpdateChargerInformation(action: any): any {
     const response = yield call(updateCharger, action.payload.id, action.payload);
-    yield put(updateChargerInformationSuccess(response));
+    // FIX ME : Need to fix once we start getting updated entity from BE
+    yield put(updateChargerInformationSuccess({ response, updatedChargerInfo: action.payload }));
 }
 
 function* chargersSaga() {

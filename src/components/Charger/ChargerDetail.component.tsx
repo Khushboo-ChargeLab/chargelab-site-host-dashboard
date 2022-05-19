@@ -12,7 +12,7 @@ import { Label, LabelType, Button, ButtonType, Card, FormInput } from '../_ui';
 import { ChargerStatus } from './ChargerStatus.component';
 import { Sessions } from '../Session/Sessions.component';
 // assets
-import { start, stop, reset, alert, coolicon } from '../../lib';
+import { start, stop, reset, alert, coolicon, info } from '../../lib';
 import { fetchChargerDetail, UpdateChargerInformation, updateChargerInformation } from '../../stores/reducers/charger.reducer';
 import { CHARGER_STATUS } from './Constants';
 import { ButtonSize } from '../_ui/Button.component';
@@ -30,14 +30,11 @@ export const ChargerDetail = () => {
   const [parkingSpot, setParkingSpot] = useState(charger?.parkingSpot);
   const [associatedBuildingUnit, setAssociatedBuildingUnit] = useState(charger?.associatedBuildingUnit);
   const [internalNote, setInternalNote] = useState(charger?.internalNote);
-  // const [render, setRender] = useState(false);
 
   let payload: UpdateChargerInformation = { id };
 
   useEffect(() => {
-    console.log('Inside effect id ', id);
     if (id) {
-      console.log('Inside effect');
       distpach(fetchChargerDetail({ id }));
     }
   }, [distpach, id]);
@@ -152,7 +149,6 @@ export const ChargerDetail = () => {
 
   const renderAdditionalInfo = () => {
     const handleEditBtnClick = () => {
-      console.log('Edit Clicked');
       setEditEnabled(true);
     };
 
@@ -173,7 +169,6 @@ export const ChargerDetail = () => {
   };
 
   const handleSaveBtnClick = () => {
-    console.log('Save clicked');
     payload = {
       ...payload,
       directions,
@@ -183,7 +178,6 @@ export const ChargerDetail = () => {
     };
     distpach(updateChargerInformation(payload));
     setEditEnabled(false);
-    // setRender(true);
   };
 
   const handleCancelBtnClick = () => {
@@ -203,33 +197,45 @@ export const ChargerDetail = () => {
       );
     }
   };
+
+  const renderEditBtnDiv = () => {
+    if (!editEnabled) {
+      return (
+        <div className='flex flex-row-reverse w-[16rem]'>
+          <Button label='Edit' type={ButtonType.Cancel} size={ButtonSize.SMALL} onClick={handleEditBtnClick} />
+        </div>
+      );
+    }
+  };
     return (
-      <div className='flex gap-4 flex-col pt-4'>
+      <div className='flex gap-1 flex-col pt-4'>
         <div className='flex flex-row gap-3'>
           <Label
             text={t('charger_additional_info')}
             type={LabelType.H7}
             className='w-[9.25rem]'
+            style={{ 'min-height': '40px' }}
           />
-          <div className='flex justify-end'>
-            <Button label='Edit' type={ButtonType.Cancel} size={ButtonSize.SMALL} onClick={handleEditBtnClick} />
-          </div>
+          {renderEditBtnDiv()}
         </div>
         <div className='flex flex-row gap-3'>
-          <Label
-            text={t('charger_directions')}
-            type={LabelType.H7}
-            className='w-[9.25rem] py-2.5'
-          />
+          <div className='flex flex-row gap-1 w-[9.25rem]'>
+            <Label
+              text={t('charger_directions')}
+              type={LabelType.H7}
+              className='w-auto py-2.5'
+            />
+            <img src={info} alt='Info' width='16.67px' height='16.67px' onMouseEnter={() => console.log('Display tooltip here')} />
+          </div>
           {!editEnabled && charger?.directions &&
           (
-            <Label text={charger?.directions} type={LabelType.BODY3} />
+            <Label text={charger?.directions} type={LabelType.BODY3} className='py-2.5' />
           )}
           {editEnabled &&
           (
           <input
             value={directions}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9'
+            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
             onChange={directionsChanged}
           />
           )
@@ -243,13 +249,13 @@ export const ChargerDetail = () => {
           />
           {!editEnabled && charger?.parkingSpot &&
           (
-            <Label text={charger?.parkingSpot} type={LabelType.BODY3} />
+            <Label text={charger?.parkingSpot} type={LabelType.BODY3} className='py-2.5' />
           )}
           {editEnabled &&
           (
           <input
             value={parkingSpot}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9'
+            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
             onChange={parkingSpotChanged}
           />
           )
@@ -263,13 +269,13 @@ export const ChargerDetail = () => {
           />
           {!editEnabled && charger?.associatedBuildingUnit &&
           (
-            <Label text={charger?.associatedBuildingUnit} type={LabelType.BODY3} />
+            <Label text={charger?.associatedBuildingUnit} type={LabelType.BODY3} className='py-2.5' />
           )}
           {editEnabled &&
           (
           <input
             value={associatedBuildingUnit}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9'
+            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
             onChange={associatedBuildingUnitChanged}
           />
           )
@@ -283,13 +289,13 @@ export const ChargerDetail = () => {
           />
           {!editEnabled && charger?.internalNote &&
           (
-            <Label text={charger?.internalNote} type={LabelType.BODY3} />
+            <Label text={charger?.internalNote} type={LabelType.BODY3} className='py-2.5' />
           )}
           {editEnabled &&
           (
           <input
             value={internalNote}
-            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9'
+            className='rounded text-sm not-italic font-sans text-black bg-silver w-64 h-9 px-3 py-2'
             onChange={internalNoteChanged}
           />
           )
