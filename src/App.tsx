@@ -90,7 +90,12 @@ function App() {
           navigate(RoutePath.LOGIN, { replace: true });
         } else {
           // when running locally, please update the .env file to point it to the stack you want
-          // will output {"apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io"}
+          /*
+          {
+            "apiUrlPrefix": "https://api-vXX-XXX.dev.chargelab.io",
+            "oldDashboardUrl": "https://"
+          }
+          */
           const apiPrefix = await httpRawGet(`/deployment/api?hostname=${window.location.hostname}`);
           setApiPrefix(apiPrefix.apiUrlPrefix);
           distpach(fetchLocations());
