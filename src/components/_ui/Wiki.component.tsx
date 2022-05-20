@@ -8,7 +8,6 @@ import {
   Switch,
   Button,
   ButtonType,
-  ModalForm,
   Snackbar,
   DateTimePicker,
   CheckBox,
@@ -22,6 +21,8 @@ import {
   ImageViewer,
   DoughnutChart,
   VerticalBarChart,
+  useGlobalModalContext,
+  MODAL_TYPES,
   DateRangePicker,
 } from '.';
 import { start } from '../../lib';
@@ -367,6 +368,8 @@ const renderCheckBox = () => (
 );
 
 export const Wiki = () => {
+  const { showModal } = useGlobalModalContext();
+
   const history = [
     { title: 'Coming soon', date: new Date() },
     { title: 'Available', date: new Date() },
@@ -391,13 +394,26 @@ export const Wiki = () => {
   };
 
   const showConfirmModal = () => {
-    ModalForm.confirm({
+    showModal(MODAL_TYPES.ALERT_MODAL, {
       title: 'Stop session',
-      alertType: 2,
+      iconn: 2,
+      buttons: [
+        {
+          label: 'Cancel',
+          type: ButtonType.Cancel,
+          onClick: () => {},
+        },
+        {
+          label: 'Confirm',
+          type: ButtonType.Primary,
+          onClick: () => {},
+        },
+      ],
     });
   };
-  const showModal = () => {
-    ModalForm.show({
+
+  const handleShowModal = () => {
+    showModal(MODAL_TYPES.INFO_MODAL, {
       title: 'Session detail',
       small: false,
       body: <Wiki />,
@@ -572,7 +588,7 @@ export const Wiki = () => {
         <input
           className='cursor-pointer'
           type='button'
-          onClick={showModal}
+          onClick={handleShowModal}
           value='Show Modal'
         />
         <input

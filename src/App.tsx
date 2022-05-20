@@ -31,7 +31,7 @@ import { Login } from './components/Login/Login.component';
 import { setCurrentTheme } from './stores/reducers/theme.reducer';
 
 function App() {
-  const [loaded, setLoaded] = useState<boolean>(false);
+  // const [loaded, setLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const distpach = useDispatch();
   const currentLocation = useLocation();
@@ -98,14 +98,14 @@ function App() {
           }
           */
           const apiPrefix = await httpRawGet(`/deployment/api?hostname=${hostname}`);
-          setApiPrefix(apiPrefix.apiUrlPrefix);
+          setApiPrefix(apiPrefix);
           distpach(fetchLocations());
           if (currentLocation.pathname === '/') {
             navigate(RoutePath.OVERVIEW, { replace: true });
           }
         }
       }
-      setLoaded(true);
+      // setLoaded(true);
     })();
   }, [distpach]);
 
@@ -138,21 +138,6 @@ function App() {
       </Route>
       <Route path='*' element={<NoMatch />} />
     </Routes>
-    // <div className='App'>
-    //
-    //   <AppHeader />
-    //   <div className='absolute left-60 right-0 top-16  pl-10 pr-10 pt-10 bottom-0 overflow-auto'>
-    //     <Routes>
-    //
-    //       <Route path='/' element={} />
-    //     </Routes>
-    //     <Routes>
-    //       <Route path='/' element={<Overview />} />
-    //       <Route path='/chargers' element={<Chargers />} />
-    //       <Route path='/wiki' element={<Wiki />} />
-    //     </Routes>
-    //   </div>
-    // </div>
   );
 }
 

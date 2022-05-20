@@ -45,6 +45,8 @@ import connector from '../assets/icons/connector.svg';
 import arrowLeft from '../assets/icons/arrow-left.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
 import coolicon from '../assets/icons/coolicon.svg';
+import cooliconGrey4 from '../assets/icons/coolicon_grey4.svg';
+import boltCharging from '../assets/icons/bolt_charging.svg';
 
 export {
   chargelab,
@@ -94,4 +96,6 @@ export {
   arrowLeft,
   arrowRight,
   coolicon,
+  cooliconGrey4,
+  boltCharging,
 };

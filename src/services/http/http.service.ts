@@ -1,5 +1,5 @@
 const header = {
-  'Accept': 'application/json',
+  Accept: 'application/json',
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
 };
@@ -28,23 +28,35 @@ export const httpRawGet = async (url: string) => {
   }
 };
 
-export const setApiPrefix = (api: string) => {
-  localStorage.setItem('DASHBOARD-API-PREFIX', api);
-};
+export const getBearerToken = () =>
+  localStorage.getItem('DASHBOARD-TOKEN') || '';
 
-export const getBearerToken = () => localStorage.getItem('DASHBOARD-TOKEN') || '';
+export const setApiPrefix = (api: any) => {
+  localStorage.setItem('DASHBOARD-API-PREFIX', JSON.stringify(api));
+};
 
 export const getApiPrefix = async () => {
   if (!localStorage.getItem('DASHBOARD-API-PREFIX')) {
-    const apiPrefix = await httpRawGet(`/deployment/api?hostname=${window.location.hostname}`);
-    setApiPrefix(apiPrefix.apiUrlPrefix);
-    return apiPrefix.apiUrlPrefix;
+    const apiPrefix = await httpRawGet(
+      `/deployment/api?hostname=${window.location.hostname}`,
+    );
+    setApiPrefix(apiPrefix);
+    return apiPrefix;
   }
+  let api;
+  try {
+    const item = localStorage.getItem('DASHBOARD-API-PREFIX');
+    api = JSON.parse(item || '');
+    // eslint-disable-next-line no-empty
+  } catch (e) {}
 
-  return localStorage.getItem('DASHBOARD-API-PREFIX');
+  return api || {};
 };
 
-const baseUrl = async () => `${await getApiPrefix()}/internal/core/v2/`;
+const baseUrl = async () => {
+  const api = await getApiPrefix();
+  return `${api.apiUrlPrefix}/internal/core/v2/`;
+};
 
 export const post = async (url: string, body: any): Promise<any> => {
   try {

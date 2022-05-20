@@ -15,7 +15,6 @@ import {
   Grid,
   Pill,
   DropdownType,
-  ModalForm,
 } from '../_ui';
 import { infoRed, completed } from '../../lib';
 import { ChargerStatus } from './ChargerStatus.component';

@@ -1,13 +1,26 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 // React
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 // Hooks
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useUserPreference } from '../../hooks/useUserPreference';
+import {
+  useGlobalModalContext,
+  MODAL_TYPES,
+} from '../_ui/modal/GlobalModal.component';
 
 // Components
 import { ChargerStatusChart, DataReport, Summary } from '.';
 import { Sessions } from '../Session/Sessions.component';
-import { Dropdown } from '../_ui';
+import { ButtonType, Dropdown, Label, LabelType, CheckBox } from '../_ui';
+import { ButtonSize } from '../_ui/Button.component';
+import { boltCharging } from '../../lib';
+import { getApiPrefix } from '../../services/http/http.service';
 
 // Actions
 import { fetchChargers } from '../../stores/reducers/charger.reducer';
@@ -26,13 +39,84 @@ export const Overview = () => {
   const dispatch = useDispatch();
   const locations = useSelector(getLocation);
   const { t } = useTranslation();
+  const [storedValue, setValue] = useUserPreference('show_welcome', true);
+  const { showModal } = useGlobalModalContext();
+
+  const handleWelcomeCheckBoxSelected = (checked: boolean) => {
+    setValue(!checked);
+  };
+
+  const renderWelcomeBody = (url: string) => {
+    return (
+      <div className='w-full h-full pl-14 pt-2 pr-5 text-grey6 whitespace-pre-line text-sm leading-5 font-normal'>
+        <Trans
+          defaults="We've redesigned the Chargelab dashboard experience to be more
+          powerful and intuitive.<br/><br/>Some parts of the new experience are still
+          under construction, so if you need to access <strong>Pricing</strong>
+          or <strong>export PDF reports</strong>, you can do so in the
+          <strong>
+            <customLink>previous version of the dashboard</customLink>
+          </strong>
+          .<br/><br/>These features will be available in the new dashboard experience
+          soon."
+          components={{
+            italic: <i />,
+            bold: <strong />,
+            customLink: (
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href={url}
+                style={{ color: '#18A0D7' }}
+              />
+            ),
+            br: <br />,
+          }}
+        />
+
+        <div className='mt-6'>
+          <CheckBox
+            label="Don't show me this again"
+            onChange={(checked: boolean) =>
+              handleWelcomeCheckBoxSelected(checked)
+            }
+          />
+        </div>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    const ac = new AbortController();
+    if (storedValue) {
+      getApiPrefix()
+        .then((api) => {
+          showModal(MODAL_TYPES.ALERT_MODAL, {
+            title: 'Welcome to new dashboard',
+            icon: boltCharging,
+            width: '400px',
+            height: '400px',
+            onRenderBody: () => renderWelcomeBody(api.oldDashboardUrl),
+            buttons: [
+              {
+                label: 'Get started',
+                size: ButtonSize.WELCOME,
+              },
+            ],
+          });
+        })
+        .catch((e) => console.error(e));
+    }
+    return () => ac.abort();
+  }, [storedValue]);
+
   const [locationsDropdown, setlocationsDropdown] = useState<
     {
       id?: string;
       label: string;
       selected: Boolean;
     }[]
-  >();
+  >([]);
 
   useEffect(() => {
     const arr: Array<{ id?: string; label: string; selected: Boolean }> = [];
