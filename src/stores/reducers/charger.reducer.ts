@@ -10,11 +10,27 @@ export interface ChargerOptions {
   filter_hasTrouble?: boolean;
 }
 
+export interface AutoStartConfig {
+  // TODO: Type value can be ENUM?
+  type : string;
+  email: string;
+}
+
+export interface UpdateChargerInformation {
+  id: string;
+  directions?: string;
+  parkingSpot?: string;
+  associatedBuildingUnit?: string;
+  description?: string;
+  internalNote?: string;
+  autoStartConfig?: AutoStartConfig;
+}
+
 export const fetchChargerDetail = createAction<{id:string}>(
   'FETCH-CHARGER-DETAIL',
 );
 
-export const fetchChargerDetailSuccess = createAction<ChargerOptions | undefined>(
+export const fetchChargerDetailSuccess = createAction<any>(
   'FETCH-CHARGER-DETAIL-SUCCESS',
 );
 
@@ -32,6 +48,14 @@ export const fetchTroubleChargers = createAction<ChargerOptions>(
 
 export const fetchTroubleChargersSuccess = createAction<ChargerList>(
   'FETCH-TROUBLE-CHARGERS-SUCCESS',
+);
+
+export const updateChargerInformation = createAction<UpdateChargerInformation>(
+  'UPDATE-CHARGER',
+);
+
+export const updateChargerInformationSuccess = createAction<any>(
+  'UPDATE-CHARGER-SUCCESS',
 );
 
 const initialState = {
@@ -59,9 +83,36 @@ export const ChargerReducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(fetchChargerDetailSuccess, (state, action) => {
+      const fetchedCharger = action.payload;
+      const chargers = state.entities;
       return {
-        // TODO: CB update state after API ready
         ...state,
+        entities: chargers?.map((charger, index) => {
+          if (charger.id === fetchedCharger.id) {
+            return fetchedCharger;
+          }
+          return charger;
+        }),
+      };
+    })
+    .addCase(updateChargerInformationSuccess, (state, action) => {
+      const { response, updatedChargerInfo } = action.payload;
+      const chargers = state.entities;
+      let updatedCharger;
+      return {
+        ...state,
+        // FIX ME : Need to fix once we start getting updated entity from BE
+        entities: chargers?.map((charger, index) => {
+          if (charger.id === updatedChargerInfo.id) {
+            updatedCharger = _.cloneDeep(charger);
+            updatedCharger.directions = updatedChargerInfo.directions;
+            updatedCharger.parkingSpot = updatedChargerInfo.parkingSpot;
+            updatedCharger.associatedBuildingUnit = updatedChargerInfo.associatedBuildingUnit;
+            updatedCharger.internalNote = updatedChargerInfo.internalNote;
+            return updatedCharger;
+          }
+          return charger;
+        }),
       };
     });
 });
