@@ -90,7 +90,7 @@ export const Dropdown = memo(
       setOpen(!isOpen);
       const newItems: Array<any> = _items.map((_item, _index) => ({
         ..._item,
-        selected: _index === index,
+        selected: _index === index && item[label] !== 'All Locations',
       }));
       setItems(newItems);
       setTitle(item[label] === 'All' ? title : item[label]);

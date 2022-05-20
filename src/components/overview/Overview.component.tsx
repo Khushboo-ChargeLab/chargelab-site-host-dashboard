@@ -149,7 +149,7 @@ export const Overview = () => {
       locationsDropdown?.map((data) => {
         return {
           ...data,
-          selected: data.id === selectedlocation.id,
+          selected: data.id === selectedlocation.id && selectedlocation.label !== 'All Locations',
         };
       }),
     );
