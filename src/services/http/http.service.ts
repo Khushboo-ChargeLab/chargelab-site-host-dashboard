@@ -132,3 +132,29 @@ export const getBlob = async (url: string, extraHeader?: {}): Promise<any> => {
     return Promise.reject(err);
   }
 };
+
+export const patch = async (url: string, body: any): Promise<any> => {
+  try {
+    const request = await fetch(new URL(url, await baseUrl()).href, {
+      method: 'PATCH',
+      headers: {
+        ...header,
+        accept: 'application/json',
+        Authorization: `Bearer ${getBearerToken()}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (+request.status === 401) {
+      return null;
+    }
+
+    if (request.ok) {
+      return request;
+    }
+    throw new Error('Something went wrong');
+  } catch (err) {
+    console.log('err - ', err);
+    return Promise.reject(err);
+  }
+};

@@ -50,6 +50,7 @@ export interface Charger {
   directions?: string;
   parkingSpot?: string;
   associatedBuildingUnit?: string;
+  internalNote?: string;
   description?: string;
   isFree?: boolean;
   lastUsed?: number;
