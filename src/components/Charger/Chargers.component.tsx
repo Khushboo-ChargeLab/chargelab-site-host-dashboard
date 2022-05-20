@@ -311,7 +311,6 @@ export const Chargers = () => {
           headerWidth='auto'
           items={statusList}
           onItemClick={(items: any) => setStatusList(items)}
-          headerHighLightClassName='bg-grey6 border-grey-light2 rounded'
         />
       </div>
     );

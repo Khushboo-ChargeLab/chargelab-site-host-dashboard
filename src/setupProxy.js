@@ -12,6 +12,16 @@ module.exports = function (app) {
     );
 
     app.use(
+        '/assets',
+        createProxyMiddleware({
+            // When running locally, you can change this URL to point to your stack
+            // This will prevent CORS errors when running locally
+            target: process.env.REACT_APP_ENDPOINT,
+            changeOrigin: true,
+        }),
+    );
+
+    app.use(
         '/api',
         createProxyMiddleware({
             // When running locally, you can change this URL to point to your stack

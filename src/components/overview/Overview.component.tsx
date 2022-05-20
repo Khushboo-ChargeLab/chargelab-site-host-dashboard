@@ -84,7 +84,7 @@ export const Overview = () => {
           items={locationsDropdown}
           onItemClick={locationChanged}
           headerClassName='bg-white border border-solid border-silver5 rounded'
-          headerHighLightClassName='bg-white border border-solid border-silver5 rounded'
+          headerHighLightClassName='border border-solid rounded bg-grey6 border-grey-light2'
         />
       </div>
       <div className='flex flex-row mt-6 gap-6'>
