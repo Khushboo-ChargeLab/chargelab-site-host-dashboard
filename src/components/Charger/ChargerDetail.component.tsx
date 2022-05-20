@@ -218,7 +218,7 @@ export const ChargerDetail = () => {
             text={t('charger_additional_info')}
             type={LabelType.H7}
             className='w-[9.25rem]'
-            style={{ 'min-height': '40px', color: '#6B7684' }}
+            style={{ 'minHeight': '40px', color: '#6B7684' }}
           />
           {renderEditBtnDiv()}
         </div>
@@ -234,7 +234,7 @@ export const ChargerDetail = () => {
                 <Label
                   text='This will appear in the app to help drivers find the charger.'
                   type={LabelType.LABEL_S}
-                  style={{ 'color': 'rgb(255 255 255)', 'font-style': 'normal', 'font-family': 'Inter' }}
+                  style={{ 'color': 'rgb(255 255 255)', 'fontStyle': 'normal', 'fontFamily': 'Inter' }}
                 />
               )}
               allowHTML
